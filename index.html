@@ -1,154 +1,160 @@
 <!DOCTYPE html>
 <html lang="es">
-<head> 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Colmillos Del Alba | DiosesMC</title>
     <style>
-        /* Variables de colores para fácil edición */
         :root {
-            --rojo: #8B0000;
-            --naranja: #FF4500;
-            --degradado: linear-gradient(135deg, #8B0000 0%, #FF4500 100%);
-            --fondo: #0f0f0f;
-            --tarjeta: #1a1a1a;
+            --rojo: #d31027;
+            --naranja: #ea384d; /* Ajustado para un degradado más suave pero intenso */
+            --gradiente: linear-gradient(to right, #d31027, #ea384d);
+            --fondo: #0a0a0a;
+            --gris-oscuro: #151515;
+            --texto-secundario: #a0a0a0;
         }
 
         body { 
-            font-family: 'Segoe UI', Roboto, sans-serif; 
+            font-family: 'Inter', 'Segoe UI', sans-serif; 
             background-color: var(--fondo); 
             color: white; 
-            margin: 0; 
-            overflow-x: hidden;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* Cabecera con Degradado */
+        /* Cabecera Centrada */
         header { 
-            background: var(--degradado); 
-            padding: 60px 20px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-            position: relative;
+            width: 100%;
+            padding: 80px 20px;
+            text-align: center;
+            background: radial-gradient(circle at center, #250505 0%, var(--fondo) 100%);
         }
         
         h1 { 
             margin: 0; 
-            font-size: 3rem; 
-            text-transform: uppercase; 
-            letter-spacing: 5px; 
-            text-shadow: 3px 3px 0px rgba(0,0,0,0.4);
+            font-size: 3.5rem; 
+            font-weight: 800;
+            text-transform: uppercase;
+            background: linear-gradient(to bottom, #fff 30%, #ff4b2b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
         }
 
         .subtitle { 
-            color: rgba(255,255,255,0.8); 
-            margin-top: 10px; 
-            font-weight: 300;
+            color: var(--texto-secundario);
+            font-size: 1.1rem;
+            margin-top: 10px;
             letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
-        /* Contenedor de Roles */
-        .roles-container { margin: 40px auto; max-width: 1000px; }
-        .roles-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
-        
-        .btn-rol { 
-            background: transparent; 
-            color: white; 
-            border: 2px solid var(--naranja); 
-            padding: 12px 25px; 
-            border-radius: 50px; 
-            cursor: pointer; 
-            font-weight: bold;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
+        /* Navegación de Roles Centrada */
+        .roles-nav { 
+            display: flex; 
+            justify-content: center; 
+            gap: 12px; 
+            margin: 40px 0;
+            flex-wrap: wrap;
         }
         
-        .btn-rol:hover { 
-            background: var(--degradado); 
-            border-color: transparent;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 69, 0, 0.4);
+        .btn-rol { 
+            background: var(--gris-oscuro);
+            color: white;
+            border: 1px solid #333;
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        
+        .btn-rol:hover {
+            border-color: var(--rojo);
+            background: rgba(211, 16, 39, 0.1);
         }
         
         .btn-rol.active { 
-            background: white; 
-            color: var(--rojo); 
-            border-color: white; 
+            background: var(--gradiente);
+            border: none;
+            box-shadow: 0 4px 15px rgba(211, 16, 39, 0.4);
         }
 
         /* Grid de Usuarios */
         .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
-            gap: 30px; 
-            padding: 40px; 
-            max-width: 1200px; 
-            margin: 0 auto; 
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            padding: 20px;
+            max-width: 1000px;
         }
 
         .card { 
-            background: var(--tarjeta); 
-            padding: 25px; 
-            border-radius: 20px; 
-            border: 1px solid #333; 
-            position: relative;
-            transition: 0.4s;
+            background: var(--gris-oscuro);
+            width: 180px;
+            padding: 30px 10px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid #222;
+            transition: 0.3s;
         }
         
-        .card::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 20px;
-            padding: 2px; 
-            background: var(--degradado);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: destination-out;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: 0.4s;
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--rojo);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
-
-        .card:hover { transform: scale(1.05); }
-        .card:hover::before { opacity: 1; }
 
         .card img { 
-            width: 100px; 
-            height: 100px; 
+            width: 85px; 
+            height: 85px; 
             border-radius: 50%; 
-            border: 4px solid var(--rojo); 
-            margin-bottom: 15px; 
-            object-fit: cover;
+            padding: 3px;
+            background: var(--gradiente);
+            margin-bottom: 15px;
         }
 
-        /* SECCIÓN DE INFORMACIÓN (FOOTER) */
+        .card p { 
+            margin: 0; 
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        /* Sección de Información Final */
         .info-clan {
-            background: #111;
-            border-top: 3px solid var(--rojo);
-            padding: 50px 20px;
-            margin-top: 50px;
-        }
-
-        .info-container {
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.8;
+            width: 100%;
+            max-width: 700px;
+            margin: 80px auto 40px auto;
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #222;
         }
 
         .info-title {
-            font-size: 1.8rem;
-            background: var(--degradado);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
-            font-weight: bold;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 15px;
+            font-weight: 700;
         }
 
-        .info-text span { color: var(--naranja); font-weight: bold; }
+        .info-text {
+            color: var(--texto-secundario);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .info-text strong {
+            color: #fff;
+        }
 
         footer {
-            padding: 20px;
+            margin-bottom: 40px;
             font-size: 0.8rem;
-            color: #555;
+            color: #444;
         }
 
     </style>
@@ -157,49 +163,41 @@
 
     <header>
         <h1>Colmillos Del Alba</h1>
-        <div class="subtitle">Dominando DiosesMC • Servidor de Vegetta777 y Willyrex</div>
+        <div class="subtitle">Miembros del Clan</div>
     </header>
 
-    <div class="roles-container">
-        <div class="roles-nav">
-            <button class="btn-rol active" onclick="mostrarPorRol('Todos', this)">Todos</button>
-            <button class="btn-rol" onclick="mostrarPorRol('PVP', this)">⚔️ PVP</button>
-            <button class="btn-rol" onclick="mostrarPorRol('BUILDER', this)">⚒️ Builder</button>
-            <button class="btn-rol" onclick="mostrarPorRol('TECNICO', this)">⚙️ Técnico</button>
-            <button class="btn-rol" onclick="mostrarPorRol('CASUAL', this)">🏛️ Casual</button>
-        </div>
+    <div class="roles-nav">
+        <button class="btn-rol active" onclick="mostrarPorRol('Todos', this)">Todos</button>
+        <button class="btn-rol" onclick="mostrarPorRol('PVP', this)">⚔️ PVP</button>
+        <button class="btn-rol" onclick="mostrarPorRol('BUILDER', this)">⚒️ Builder</button>
+        <button class="btn-rol" onclick="mostrarPorRol('TECNICO', this)">⚙️ Técnico</button>
+        <button class="btn-rol" onclick="mostrarPorRol('CASUAL', this)">🏛️ Casual</button>
     </div>
 
     <div class="grid" id="lista-usuarios">
         <div class="card">
-            <img src="https://i.imgur.com/h2W40zo.png" alt="Avatar">
+            <img src="https://i.imgur.com/h2W40zo.png" alt="Líder">
             <p>Guepar__</p>
-            <small style="color:var(--naranja)">Líder</small>
         </div>
-        <p style="grid-column: 1/-1; opacity: 0.3; margin-top: 20px;">Esperando conexión con el bot de Discord...</p>
-    </div>
+        </div>
 
     <section class="info-clan">
-        <div class="info-container">
-            <div class="info-title">Sobre Nosotros</div>
-            <p class="info-text">
-                El clan <span>Colmillos Del Alba</span> es una organización de élite establecida en el servidor <span>DiosesMC</span> 
-                (Servidor oficial de <span>Vegetta777</span> y <span>Willyrex</span>). <br><br>
-                Fundado el <span>10 de enero de 2026</span> por <span>Guepar__</span>, nuestro clan se enfoca en la excelencia estratégica, 
-                dominio en combate y construcción avanzada técnica dentro del servidor.
-            </p>
-        </div>
+        <div class="info-title">Información del Clan</div>
+        <p class="info-text">
+            Clan <strong>Colmillos Del Alba</strong> del servidor <strong>DiosesMC</strong> (Vegetta777 y Willyrex).<br>
+            Creado por <strong>Guepar__</strong> el <strong>10 de enero de 2026</strong>.
+        </p>
     </section>
 
     <footer>
-        &copy; 2026 Colmillos Del Alba • Todos los derechos reservados.
+        © 2026 Colmillos Del Alba
     </footer>
 
     <script>
         function mostrarPorRol(rol, btn) {
             document.querySelectorAll('.btn-rol').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            // La lógica de filtrado real se activará al conectar la API de Railway
+            // Aquí se conectará el fetch del bot de Railway más adelante
         }
     </script>
 </body>
