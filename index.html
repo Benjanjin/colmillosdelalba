@@ -3,52 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Miembros | Colmillos Del Alba</title>
-    <style> 
-        /* Estilos generales */
-        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; color: white; margin: 0; text-align: center; }
-        
-        /* Cabecera */
-        header { background: #8B0000; padding: 40px 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-        h1 { margin: 0; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 3px; }
-        .subtitle { color: #ffcccc; margin-top: 10px; font-style: italic; }
+    <title>Colmillos Del Alba | DiosesMC</title>
+    <style>
+        /* Variables de colores para fácil edición */
+        :root {
+            --rojo: #8B0000;
+            --naranja: #FF4500;
+            --degradado: linear-gradient(135deg, #8B0000 0%, #FF4500 100%);
+            --fondo: #0f0f0f;
+            --tarjeta: #1a1a1a;
+        }
 
-        /* Navegación de Roles */
-        .roles-container { margin: 30px auto; max-width: 900px; padding: 10px; }
-        .roles-title { margin-bottom: 15px; font-weight: bold; color: #8B0000; text-transform: uppercase; }
-        .roles-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+        body { 
+            font-family: 'Segoe UI', Roboto, sans-serif; 
+            background-color: var(--fondo); 
+            color: white; 
+            margin: 0; 
+            overflow-x: hidden;
+        }
+
+        /* Cabecera con Degradado */
+        header { 
+            background: var(--degradado); 
+            padding: 60px 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            position: relative;
+        }
+        
+        h1 { 
+            margin: 0; 
+            font-size: 3rem; 
+            text-transform: uppercase; 
+            letter-spacing: 5px; 
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.4);
+        }
+
+        .subtitle { 
+            color: rgba(255,255,255,0.8); 
+            margin-top: 10px; 
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        /* Contenedor de Roles */
+        .roles-container { margin: 40px auto; max-width: 1000px; }
+        .roles-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
         
         .btn-rol { 
-            background: #23272a; color: white; border: 2px solid #8B0000; 
-            padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: 0.3s;
+            background: transparent; 
+            color: white; 
+            border: 2px solid var(--naranja); 
+            padding: 12px 25px; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
         }
-        .btn-rol:hover { background: #8B0000; transform: scale(1.05); }
-        .btn-rol.active { background: white; color: #8B0000; font-weight: bold; }
+        
+        .btn-rol:hover { 
+            background: var(--degradado); 
+            border-color: transparent;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 69, 0, 0.4);
+        }
+        
+        .btn-rol.active { 
+            background: white; 
+            color: var(--rojo); 
+            border-color: white; 
+        }
 
-        /* Cuadrícula de Usuarios */
+        /* Grid de Usuarios */
         .grid { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
-            gap: 25px; padding: 40px; max-width: 1100px; margin: 0 auto; 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+            gap: 30px; 
+            padding: 40px; 
+            max-width: 1200px; 
+            margin: 0 auto; 
         }
+
         .card { 
-            background: #2c2f33; padding: 20px; border-radius: 15px; 
-            border: 1px solid #444; transition: 0.3s;
+            background: var(--tarjeta); 
+            padding: 25px; 
+            border-radius: 20px; 
+            border: 1px solid #333; 
+            position: relative;
+            transition: 0.4s;
         }
-        .card:hover { border-color: #8B0000; box-shadow: 0 0 15px rgba(139, 0, 0, 0.4); }
-        .card img { width: 90px; height: 90px; border-radius: 50%; border: 3px solid #8B0000; margin-bottom: 15px; }
-        .card p { margin: 0; font-weight: bold; font-size: 1.1rem; }
+        
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 20px;
+            padding: 2px; 
+            background: var(--degradado);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: 0.4s;
+        }
+
+        .card:hover { transform: scale(1.05); }
+        .card:hover::before { opacity: 1; }
+
+        .card img { 
+            width: 100px; 
+            height: 100px; 
+            border-radius: 50%; 
+            border: 4px solid var(--rojo); 
+            margin-bottom: 15px; 
+            object-fit: cover;
+        }
+
+        /* SECCIÓN DE INFORMACIÓN (FOOTER) */
+        .info-clan {
+            background: #111;
+            border-top: 3px solid var(--rojo);
+            padding: 50px 20px;
+            margin-top: 50px;
+        }
+
+        .info-container {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .info-title {
+            font-size: 1.8rem;
+            background: var(--degradado);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .info-text span { color: var(--naranja); font-weight: bold; }
+
+        footer {
+            padding: 20px;
+            font-size: 0.8rem;
+            color: #555;
+        }
+
     </style>
 </head>
 <body>
 
     <header>
         <h1>Colmillos Del Alba</h1>
-        <div class="subtitle">Lista Oficial de Miembros</div>
+        <div class="subtitle">Dominando DiosesMC • Servidor de Vegetta777 y Willyrex</div>
     </header>
 
     <div class="roles-container">
-        <div class="roles-title">Selecciona un Rol:</div>
-        <div class="roles-nav" id="botones-roles">
+        <div class="roles-nav">
             <button class="btn-rol active" onclick="mostrarPorRol('Todos', this)">Todos</button>
             <button class="btn-rol" onclick="mostrarPorRol('PVP', this)">⚔️ PVP</button>
             <button class="btn-rol" onclick="mostrarPorRol('BUILDER', this)">⚒️ Builder</button>
@@ -58,19 +171,35 @@
     </div>
 
     <div class="grid" id="lista-usuarios">
-        <p style="grid-column: 1/-1; opacity: 0.5;">Esperando conexión con el servidor...</p>
+        <div class="card">
+            <img src="https://i.imgur.com/h2W40zo.png" alt="Avatar">
+            <p>Guepar__</p>
+            <small style="color:var(--naranja)">Líder</small>
+        </div>
+        <p style="grid-column: 1/-1; opacity: 0.3; margin-top: 20px;">Esperando conexión con el bot de Discord...</p>
     </div>
 
+    <section class="info-clan">
+        <div class="info-container">
+            <div class="info-title">Sobre Nosotros</div>
+            <p class="info-text">
+                El clan <span>Colmillos Del Alba</span> es una organización de élite establecida en el servidor <span>DiosesMC</span> 
+                (Servidor oficial de <span>Vegetta777</span> y <span>Willyrex</span>). <br><br>
+                Fundado el <span>10 de enero de 2026</span> por <span>Guepar__</span>, nuestro clan se enfoca en la excelencia estratégica, 
+                dominio en combate y construcción avanzada técnica dentro del servidor.
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 Colmillos Del Alba • Todos los derechos reservados.
+    </footer>
+
     <script>
-        // Función para cambiar de rol visualmente (por ahora)
-        function mostrarPorRol(rol, elemento) {
-            // Quitar clase activa de todos los botones
+        function mostrarPorRol(rol, btn) {
             document.querySelectorAll('.btn-rol').forEach(b => b.classList.remove('active'));
-            // Poner clase activa al botón presionado
-            elemento.classList.add('active');
-            
-            console.log("Filtrando por: " + rol);
-            // Aquí irá la lógica de filtrado cuando conectemos el bot
+            btn.classList.add('active');
+            // La lógica de filtrado real se activará al conectar la API de Railway
         }
     </script>
 </body>
