@@ -169,7 +169,7 @@
     </div>
 
     <div class="grid" id="lista-usuarios">
-        <p style="opacity: 0.5;">Iniciando conexión segura...</p>
+        <p style="opacity: 0.5;">Cargando miembros del clan...</p>
     </div>
 
     <section class="info-clan">
@@ -185,37 +185,31 @@
     </footer>
 
     <script>
-        // FORZAMOS LA URL ABSOLUTA PARA EVITAR EL ERROR 404 DE GITHUB
-        // Usamos un pequeño truco de concatenación para asegurar que no se tome como ruta local
-        const API_BASE = "https://" + "bot-discord-production-e093.up.railway.app";
-        const API_URL = API_BASE + "/miembros";
+        // Configuración de la URL del Bot (Añadimos timestamp para evitar caché)
+        const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros";
         
         let miembrosCache = [];
+
+        // Función para limpiar texto (quitar tildes y mayúsculas)
+        const limpiarTexto = (t) => t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
         async function obtenerMiembros() {
             const grid = document.getElementById('lista-usuarios');
             try {
-                // El parámetro ?v= asegura que el navegador no use el error guardado en caché
-                const respuesta = await fetch(API_URL + "?v=" + Math.random(), {
+                // Fetch con bypass de caché para asegurar datos frescos
+                const respuesta = await fetch(`${API_URL}?nocache=${Date.now()}`, {
                     method: 'GET',
-                    mode: 'cors',
-                    headers: {
-                        'Accept': 'application/json'
-                    }
+                    mode: 'cors'
                 });
 
-                if (!respuesta.ok) throw new Error("Error en la respuesta del bot");
+                if (!respuesta.ok) throw new Error("Error en servidor");
 
                 miembrosCache = await respuesta.json();
                 renderizarPantalla(miembrosCache);
 
             } catch (error) {
                 console.error("Error conectando:", error);
-                grid.innerHTML = `
-                    <div style="text-align:center;">
-                        <p style="color: var(--rojo); margin-bottom: 5px;">El servidor del clan está despertando...</p>
-                        <p style="color: gray; font-size: 0.8rem;">(Si ves esto, espera 5 segundos y recarga con Ctrl+F5)</p>
-                    </div>`;
+                grid.innerHTML = "<p style='color: var(--rojo);'>El servidor está reconectando. Espera 5 segundos...</p>";
             }
         }
 
@@ -224,7 +218,7 @@
             grid.innerHTML = ''; 
 
             if (!lista || lista.length === 0) {
-                grid.innerHTML = "<p style='opacity: 0.5;'>No se encontraron miembros activos.</p>";
+                grid.innerHTML = "<p style='opacity: 0.5;'>No se encontraron miembros activos en esta categoría.</p>";
                 return;
             }
 
@@ -240,6 +234,7 @@
         }
 
         function mostrarPorRol(rol, btn) {
+            // Manejo visual de botones
             if(btn) {
                 document.querySelectorAll('.btn-rol').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
@@ -248,14 +243,19 @@
             if (rol === 'Todos') {
                 renderizarPantalla(miembrosCache);
             } else {
-                const filtrados = miembrosCache.filter(m => 
-                    m.roles && m.roles.some(r => r.toUpperCase().includes(rol.toUpperCase()))
-                );
+                const busqueda = limpiarTexto(rol);
+                
+                const filtrados = miembrosCache.filter(m => {
+                    if (!m.roles) return false;
+                    // Comprobamos si alguno de los roles del miembro contiene la palabra clave
+                    return m.roles.some(r => limpiarTexto(r).includes(busqueda));
+                });
+
                 renderizarPantalla(filtrados);
             }
         }
 
-        // Ejecutar carga
+        // Carga inicial
         obtenerMiembros();
     </script>
 </body>
