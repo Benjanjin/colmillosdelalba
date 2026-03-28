@@ -144,16 +144,16 @@
     </header>
 
     <div class="roles-nav">
-        <button class="btn-rol active" onclick="filtrar('Todos', this)">Todos</button>
-        <button class="btn-rol" onclick="filtrar('pvp', this)">⚔️ PVP</button>
-        <button class="btn-rol" onclick="filtrar('builder', this)">⚒️ Builder</button>
-        <button class="btn-rol" onclick="filtrar('tecnico', this)">⚙️ Técnico</button>
-        <button class="btn-rol" onclick="filtrar('Farmer', this)">🌱 Farmer</button>
-        <button class="btn-rol" onclick="filtrar('Herrero', this)">🔨 Herrero</button>
+        <button class="btn-rol active" onclick="superFiltro('Todos', this)">Todos</button>
+        <button class="btn-rol" onclick="superFiltro('𝒑𝒗𝒑', this)">⚔️ PVP</button>
+        <button class="btn-rol" onclick="superFiltro('𝒃𝒖𝒊𝒍𝒅𝒆𝒓𝒔', this)">⚒️ Builder</button>
+        <button class="btn-rol" onclick="superFiltro('𝒕𝒆𝒄𝒏𝒊𝒄𝒐𝒔', this)">⚙️ Técnico</button>
+        <button class="btn-rol" onclick="superFiltro('Farmer', this)">🌱 Farmer</button>
+        <button class="btn-rol" onclick="superFiltro('Herrero', this)">🔨 Herrero</button>
     </div>
 
     <div class="grid" id="lista-usuarios">
-        <p style="opacity: 0.5; grid-column: 1/-1;">Cargando miembros...</p>
+        <p style="opacity: 0.5; grid-column: 1/-1;">Cargando guerreros...</p>
     </div>
 
     <footer>
@@ -192,27 +192,20 @@
             });
         }
 
-        // Esta versión mejorada busca si el nombre del rol CONTIENE la palabra
-        function filtrar(palabraClave, btn) {
+        // El filtro definitivo: busca el pedazo de texto sin importar la fuente
+        function superFiltro(keyword, btn) {
             document.querySelectorAll('.btn-rol').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            if (palabraClave === 'Todos') {
+            if (keyword === 'Todos') {
                 renderizarPantalla(miembrosCache);
                 return;
             }
 
             const filtrados = miembrosCache.filter(m => {
                 if (!m.roles) return false;
-                
-                return m.roles.some(rol => {
-                    // Limpiamos el rol de Discord para quitarle el formato raro
-                    const rolLimpio = rol.toLowerCase()
-                        .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                    
-                    // Buscamos si la palabra clave (pvp, builder, farmer, herrero) está adentro
-                    return rolLimpio.includes(palabraClave.toLowerCase());
-                });
+                // Comprobamos si alguno de los roles contiene la palabra clave tal cual
+                return m.roles.some(rol => rol.includes(keyword));
             });
 
             renderizarPantalla(filtrados);
