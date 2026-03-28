@@ -7,7 +7,7 @@
     <style>
         :root {
             --rojo: #d31027;
-            --naranja: #ea384d; /* Ajustado para un degradado más suave pero intenso */
+            --naranja: #ea384d;
             --gradiente: linear-gradient(to right, #d31027, #ea384d);
             --fondo: #0a0a0a;
             --gris-oscuro: #151515;
@@ -24,7 +24,6 @@
             align-items: center;
         }
 
-        /* Cabecera Centrada */
         header { 
             width: 100%;
             padding: 80px 20px;
@@ -51,7 +50,6 @@
             text-transform: uppercase;
         }
 
-        /* Navegación de Roles Centrada */
         .roles-nav { 
             display: flex; 
             justify-content: center; 
@@ -83,7 +81,6 @@
             box-shadow: 0 4px 15px rgba(211, 16, 39, 0.4);
         }
 
-        /* Grid de Usuarios */
         .grid { 
             display: flex;
             flex-wrap: wrap;
@@ -91,6 +88,7 @@
             gap: 25px;
             padding: 20px;
             max-width: 1000px;
+            min-height: 200px;
         }
 
         .card { 
@@ -124,7 +122,6 @@
             font-weight: 700;
         }
 
-        /* Sección de Información Final */
         .info-clan {
             width: 100%;
             max-width: 700px;
@@ -147,16 +144,13 @@
             font-size: 1rem;
         }
 
-        .info-text strong {
-            color: #fff;
-        }
+        .info-text strong { color: #fff; }
 
         footer {
             margin-bottom: 40px;
             font-size: 0.8rem;
             color: #444;
         }
-
     </style>
 </head>
 <body>
@@ -175,11 +169,8 @@
     </div>
 
     <div class="grid" id="lista-usuarios">
-        <div class="card">
-            <img src="https://i.imgur.com/h2W40zo.png" alt="Líder">
-            <p>Guepar__</p>
-        </div>
-        </div>
+        <p style="opacity: 0.5;">Cargando miembros desde el servidor...</p>
+    </div>
 
     <section class="info-clan">
         <div class="info-title">Información del Clan</div>
@@ -194,11 +185,59 @@
     </footer>
 
     <script>
-        function mostrarPorRol(rol, btn) {
-            document.querySelectorAll('.btn-rol').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            // Aquí se conectará el fetch del bot de Railway más adelante
+        // --- 1. CONFIGURACIÓN: PEGA AQUÍ TU URL DE RAILWAY ---
+        const API_URL = "https://TU-DOMINIO-AQUI.up.railway.app/miembros"; 
+        
+        let miembrosCache = [];
+
+        // --- 2. FUNCIÓN PARA BUSCAR LOS DATOS EN EL BOT ---
+        async function obtenerMiembros() {
+            const grid = document.getElementById('lista-usuarios');
+            try {
+                const respuesta = await fetch(API_URL);
+                miembrosCache = await respuesta.json();
+                renderizarPantalla(miembrosCache);
+            } catch (error) {
+                console.error("Error conectando al bot:", error);
+                grid.innerHTML = "<p style='color: #ff4b2b;'>El servidor del clan está desconectado. Inténtalo más tarde.</p>";
+            }
         }
+
+        // --- 3. FUNCIÓN PARA DIBUJAR LAS TARJETAS ---
+        function renderizarPantalla(lista) {
+            const grid = document.getElementById('lista-usuarios');
+            grid.innerHTML = ''; 
+
+            lista.forEach(user => {
+                grid.innerHTML += `
+                    <div class="card">
+                        <img src="${user.avatar}" alt="${user.username}">
+                        <p>${user.username}</p>
+                    </div>
+                `;
+            });
+        }
+
+        // --- 4. FILTRADO POR ROLES ---
+        function mostrarPorRol(rol, btn) {
+            // Estilo de botones
+            if(btn) {
+                document.querySelectorAll('.btn-rol').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+
+            if (rol === 'Todos') {
+                renderizarPantalla(miembrosCache);
+            } else {
+                const filtrados = miembrosCache.filter(m => 
+                    m.roles.some(r => r.includes(rol.toUpperCase()))
+                );
+                renderizarPantalla(filtrados);
+            }
+        }
+
+        // Iniciar carga al abrir la página
+        obtenerMiembros();
     </script>
 </body>
 </html>
