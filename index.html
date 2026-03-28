@@ -185,42 +185,50 @@
     </footer>
 
     <script>
-        // --- 1. CONFIGURACIÓN: PEGA AQUÍ TU URL DE RAILWAY ---
+        // URL del Bot en Railway (Aseguramos que el navegador no use caché)
         const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros"; 
         
         let miembrosCache = [];
 
-        // --- 2. FUNCIÓN PARA BUSCAR LOS DATOS EN EL BOT ---
         async function obtenerMiembros() {
             const grid = document.getElementById('lista-usuarios');
             try {
-                const respuesta = await fetch(API_URL);
+                // Forzamos al navegador a buscar fuera de GitHub agregando un timestamp al final
+                const respuesta = await fetch(`${API_URL}?t=${Date.now()}`, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+
+                if (!respuesta.ok) throw new Error("No se pudo conectar con el bot");
+
                 miembrosCache = await respuesta.json();
                 renderizarPantalla(miembrosCache);
             } catch (error) {
                 console.error("Error conectando al bot:", error);
-                grid.innerHTML = "<p style='color: #ff4b2b;'>El servidor del clan está desconectado. Inténtalo más tarde.</p>";
+                grid.innerHTML = "<p style='color: #ff4b2b;'>El servidor del clan está despertando. Recarga la página en 5 segundos.</p>";
             }
         }
 
-        // --- 3. FUNCIÓN PARA DIBUJAR LAS TARJETAS ---
         function renderizarPantalla(lista) {
             const grid = document.getElementById('lista-usuarios');
             grid.innerHTML = ''; 
 
+            if (!lista || lista.length === 0) {
+                grid.innerHTML = "<p>No hay miembros disponibles.</p>";
+                return;
+            }
+
             lista.forEach(user => {
                 grid.innerHTML += `
                     <div class="card">
-                        <img src="${user.avatar}" alt="${user.username}">
+                        <img src="${user.avatar}" alt="${user.username}" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
                         <p>${user.username}</p>
                     </div>
                 `;
             });
         }
 
-        // --- 4. FILTRADO POR ROLES ---
         function mostrarPorRol(rol, btn) {
-            // Estilo de botones
             if(btn) {
                 document.querySelectorAll('.btn-rol').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
@@ -229,14 +237,15 @@
             if (rol === 'Todos') {
                 renderizarPantalla(miembrosCache);
             } else {
+                // Filtramos comparando en mayúsculas para evitar errores de escritura
                 const filtrados = miembrosCache.filter(m => 
-                    m.roles.some(r => r.includes(rol.toUpperCase()))
+                    m.roles && m.roles.some(r => r.toUpperCase().includes(rol.toUpperCase()))
                 );
                 renderizarPantalla(filtrados);
             }
         }
 
-        // Iniciar carga al abrir la página
+        // Ejecutar al cargar
         obtenerMiembros();
     </script>
 </body>
