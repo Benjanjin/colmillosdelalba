@@ -110,22 +110,9 @@
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
+            animation: fadeIn 0.5s ease forwards;
         }
         
-        .card::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at top right, rgba(211, 16, 39, 0.1), transparent);
-            pointer-events: none;
-        }
-
-        .card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: rgba(211, 16, 39, 0.5);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-        }
-
         .card img { 
             width: 95px; 
             height: 95px; 
@@ -134,60 +121,21 @@
             background: var(--gradiente);
             margin-bottom: 20px;
             box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-            transition: 0.4s;
-        }
-
-        .card:hover img {
-            transform: rotate(5deg) scale(1.1);
         }
 
         .card p { 
             margin: 0; 
             font-size: 1.2rem;
             font-weight: 800;
-            letter-spacing: -0.5px;
             color: #f0f0f0;
         }
 
-        .info-clan {
-            width: 100%;
-            max-width: 800px;
-            margin: 100px auto 50px auto;
-            text-align: center;
-            padding: 50px 20px;
-            border-top: 1px solid var(--borde);
-        }
-
-        .info-title {
-            font-size: 1.8rem;
-            color: white;
-            margin-bottom: 20px;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-
-        .info-text {
-            color: var(--texto-secundario);
-            line-height: 1.8;
-            font-size: 1.1rem;
-        }
-
-        .info-text strong { color: var(--naranja); }
-
-        footer {
-            margin-bottom: 50px;
-            font-size: 0.9rem;
-            color: #333;
-            font-weight: 600;
-        }
-
-        /* Animación de entrada */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .card { animation: fadeIn 0.5s ease forwards; }
 
+        footer { margin: 50px 0; color: #333; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -198,28 +146,20 @@
     </header>
 
     <div class="roles-nav">
-        <button class="btn-rol active" onclick="filtrarPorID('Todos', this)">Todos</button>
-        <button class="btn-rol" onclick="filtrarPorID('1464335696390263069', this)">⚔️ PVP</button>
-        <button class="btn-rol" onclick="filtrarPorID('1464335639561506878', this)">⚒️ Builder</button>
-        <button class="btn-rol" onclick="filtrarPorID('1464335746944209161', this)">⚙️ Técnico</button>
-        <button class="btn-rol" onclick="filtrarPorID('1464335746856128737', this)">🌱 Farmer</button>
-        <button class="btn-rol" onclick="filtrarPorID('1479953030605443204', this)">🔨 Herrero</button>
+        <button class="btn-rol active" onclick="superFiltro('Todos', 'Todos', this)">Todos</button>
+        <button class="btn-rol" onclick="superFiltro('1464335696390263069', 'PVP', this)">⚔️ PVP</button>
+        <button class="btn-rol" onclick="superFiltro('1464335639561506878', 'BUILDER', this)">⚒️ Builder</button>
+        <button class="btn-rol" onclick="superFiltro('1464335746944209161', 'TECNICO', this)">⚙️ Técnico</button>
+        <button class="btn-rol" onclick="superFiltro('1464335746856128737', 'FARMER', this)">🌱 Farmer</button>
+        <button class="btn-rol" onclick="superFiltro('1479953030605443204', 'HERREROS', this)">🔨 Herrero</button>
     </div>
 
     <div class="grid" id="lista-usuarios">
-        <p style="opacity: 0.5; grid-column: 1/-1;">Conectando con el servidor...</p>
+        <p style="opacity: 0.5; grid-column: 1/-1;">Conectando...</p>
     </div>
 
-    <section class="info-clan">
-        <div class="info-title">Información del Clan</div>
-        <p class="info-text">
-            Clan <strong>Colmillos Del Alba</strong> • Servidor <strong>DiosesMC</strong><br>
-            Liderado por <strong>Guepar__</strong> • Desde el <strong>10 de enero, 2026</strong>.
-        </p>
-    </section>
-
     <footer>
-        © 2026 COLMILLOS DEL ALBA • MINAS, URUGUAY
+        © 2026 COLMILLOS DEL ALBA • URUGUAY
     </footer>
 
     <script>
@@ -230,50 +170,51 @@
             const grid = document.getElementById('lista-usuarios');
             try {
                 const respuesta = await fetch(`${API_URL}?t=${Date.now()}`);
-                if (!respuesta.ok) throw new Error("Error de red");
-                
                 miembrosCache = await respuesta.json();
+                console.log("Datos recibidos:", miembrosCache);
                 renderizarPantalla(miembrosCache);
             } catch (error) {
-                grid.innerHTML = "<p style='color: var(--rojo); grid-column: 1/-1;'>El servidor está despertando... recarga en unos segundos.</p>";
+                grid.innerHTML = "<p>Error al conectar con el clan.</p>";
             }
         }
 
         function renderizarPantalla(lista) {
             const grid = document.getElementById('lista-usuarios');
             grid.innerHTML = ''; 
-
             if (!lista || lista.length === 0) {
-                grid.innerHTML = "<p style='opacity: 0.5; grid-column: 1/-1;'>No hay miembros en esta categoría.</p>";
+                grid.innerHTML = "<p style='opacity: 0.5; grid-column: 1/-1;'>No hay miembros aquí.</p>";
                 return;
             }
-
-            lista.forEach((user, index) => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.style.animationDelay = (index * 0.05) + "s";
-                card.innerHTML = `
-                    <img src="${user.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}" alt="${user.username}">
-                    <p>${user.username}</p>
+            lista.forEach(user => {
+                grid.innerHTML += `
+                    <div class="card">
+                        <img src="${user.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}" alt="Avatar">
+                        <p>${user.username}</p>
+                    </div>
                 `;
-                grid.appendChild(card);
             });
         }
 
-        function filtrarPorID(idBuscada, btn) {
-            // Estética de botones
+        // ESTA FUNCIÓN ES LA SOLUCIÓN: Busca por ID o por Nombre al mismo tiempo
+        function superFiltro(id, nombre, btn) {
             document.querySelectorAll('.btn-rol').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            if (idBuscada === 'Todos') {
+            if (id === 'Todos') {
                 renderizarPantalla(miembrosCache);
-            } else {
-                // Filtramos comparando las IDs exactas que envía el bot
-                const filtrados = miembrosCache.filter(m => 
-                    m.roles && m.roles.includes(idBuscada)
-                );
-                renderizarPantalla(filtrados);
+                return;
             }
+
+            const filtrados = miembrosCache.filter(m => {
+                if (!m.roles) return false;
+                // Busca si en la lista de roles está la ID O si está el NOMBRE
+                return m.roles.some(rol => 
+                    rol === id || 
+                    rol.toUpperCase().includes(nombre.toUpperCase())
+                );
+            });
+
+            renderizarPantalla(filtrados);
         }
 
         obtenerMiembros();
