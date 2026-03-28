@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colmillos Del Alba | Dashboard</title>
+    <title>Colmillos Del Alba | Dashboard Supremo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     
@@ -14,7 +14,6 @@
             --gradiente-vivos: linear-gradient(135deg, #ff0022 0%, #8b0000 100%);
             --fondo-negro: #050505;
             --tarjeta: #0d0d0d;
-            --borde-glow: rgba(255, 0, 34, 0.2);
             --sidebar-width: 260px;
         }
 
@@ -27,10 +26,9 @@
             margin: 0;
             display: flex;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
-        /* --- SIDEBAR PRO --- */
+        /* --- SIDEBAR --- */
         .sidebar {
             width: var(--sidebar-width);
             background: #080808;
@@ -45,11 +43,10 @@
 
         .sidebar h2 {
             font-family: 'Syncopate', sans-serif;
-            font-size: 1rem;
-            color: white;
+            font-size: 0.9rem;
             text-align: center;
             margin-bottom: 50px;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             background: var(--gradiente-vivos);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -60,8 +57,6 @@
             color: #444; 
             text-transform: uppercase; 
             margin: 20px 0 10px 10px; 
-            display: block;
-            letter-spacing: 2px;
             font-weight: 900;
         }
 
@@ -74,7 +69,7 @@
             text-align: left;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: 0.3s;
             margin-bottom: 8px;
             font-weight: 700;
             display: flex;
@@ -82,15 +77,13 @@
             gap: 12px;
         }
 
-        .nav-btn i { font-size: 1.1rem; width: 20px; }
-
         .nav-btn:hover, .nav-btn.active {
             background: rgba(255, 0, 34, 0.05);
             color: var(--rojo-neon);
             box-shadow: inset 4px 0 0 var(--rojo-neon);
         }
 
-        /* --- MAIN CONTENT --- */
+        /* --- MAIN --- */
         .main-content {
             margin-left: var(--sidebar-width);
             flex-grow: 1;
@@ -98,44 +91,35 @@
             background: radial-gradient(circle at 10% 10%, #1a0505 0%, var(--fondo-negro) 50%);
         }
 
-        .section { display: none; animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+        .section { display: none; animation: slideUp 0.6s ease forwards; }
         .section.active { display: block; }
 
         h1 { 
             font-family: 'Syncopate', sans-serif; 
-            font-size: 1.8rem; 
+            font-size: 1.6rem; 
             margin-bottom: 40px; 
             border-left: 5px solid var(--rojo-neon);
             padding-left: 20px;
         }
 
-        /* --- INFO CARD --- */
-        .info-card {
-            background: var(--tarjeta);
-            padding: 40px;
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-
-        /* --- LIDERES (ÁRBOL CON LÍNEAS) --- */
+        /* --- ARBOL DE LIDERES --- */
         .leader-tree {
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
-            padding-bottom: 50px;
+            padding-top: 20px;
         }
 
-        /* Líneas verticales conectoras */
-        .leader-tree::before {
+        /* Línea vertical central */
+        .leader-tree::after {
             content: '';
             position: absolute;
-            top: 100px;
-            bottom: 50px;
+            top: 0;
             width: 2px;
+            height: 85%;
             background: linear-gradient(to bottom, var(--rojo-neon), transparent);
-            z-index: 0;
+            z-index: 1;
         }
 
         .leader-box {
@@ -144,54 +128,53 @@
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             text-align: center;
-            min-width: 180px;
-            transition: 0.4s;
+            min-width: 190px;
+            margin-bottom: 50px;
             position: relative;
-            z-index: 2;
-            margin-bottom: 40px;
+            z-index: 5;
+            transition: 0.3s;
         }
 
         .leader-box:hover {
-            transform: scale(1.05);
+            transform: translateY(-5px);
             border-color: var(--rojo-neon);
-            box-shadow: 0 0 20px rgba(255, 0, 34, 0.3);
+            box-shadow: 0 0 25px rgba(255, 0, 34, 0.2);
         }
 
         .leader-box img { 
-            width: 70px; height: 70px; border-radius: 50%; 
-            margin-bottom: 10px; border: 2px solid var(--rojo-neon);
-            background: #000;
+            width: 80px; height: 80px; border-radius: 50%; 
+            margin-bottom: 12px; border: 3px solid var(--rojo-neon);
+            background: #000; object-fit: cover;
         }
 
         .rank { 
-            font-size: 0.6rem; color: var(--rojo-neon); 
+            font-size: 0.65rem; color: var(--rojo-neon); 
             text-transform: uppercase; font-weight: 900; 
-            letter-spacing: 1px; margin-bottom: 5px; display: block;
+            letter-spacing: 1.5px; margin-bottom: 5px; display: block;
         }
 
-        .leader-name { font-weight: 800; font-size: 0.95rem; color: #fff; }
+        .leader-name { font-weight: 800; font-size: 1rem; color: #fff; }
 
         .leader-row { 
-            display: flex; gap: 40px; justify-content: center; width: 100%; position: relative;
+            display: flex; gap: 60px; justify-content: center; width: 100%; position: relative; z-index: 5;
         }
 
         /* --- ROLES Y GRID --- */
-        .roles-nav { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; }
+        .roles-nav { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
         .btn-rol { 
-            background: #111; color: #777; border: 1px solid rgba(255,255,255,0.05);
-            padding: 12px 24px; border-radius: 14px; cursor: pointer; transition: 0.3s;
-            font-weight: 700;
+            background: #111; color: #666; border: 1px solid rgba(255,255,255,0.05);
+            padding: 12px 20px; border-radius: 12px; cursor: pointer; font-weight: 700;
         }
         .btn-rol.active { background: var(--gradiente-vivos); color: white; border: none; }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 25px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 20px; }
         .card { 
-            background: #0f0f0f; padding: 30px 20px; border-radius: 24px; text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.03); transition: 0.3s;
+            background: #0d0d0d; padding: 25px 15px; border-radius: 20px; text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.03);
         }
-        .card img { width: 85px; height: 85px; border-radius: 50%; margin-bottom: 15px; padding: 3px; background: var(--gradiente-vivos); }
+        .card img { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 15px; background: var(--gradiente-vivos); padding: 2px; }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -199,28 +182,26 @@
     <div class="sidebar">
         <h2>COLMILLOS</h2>
         <span class="menu-label">Principal</span>
-        <button class="nav-btn active" onclick="showSection('info', this)"><i class="fas fa-info-circle"></i> Información</button>
-        <button class="nav-btn" onclick="showSection('lideres', this)"><i class="fas fa-crown"></i> Lideres</button>
-        <span class="menu-label">Usuarios</span>
-        <button class="nav-btn" onclick="showSection('roles', this)"><i class="fas fa-users-gear"></i> Miembros</button>
+        <button class="nav-btn active" onclick="showSection('info', this)"><i class="fas fa-database"></i> Información</button>
+        <button class="nav-btn" onclick="showSection('lideres', this)"><i class="fas fa-sitemap"></i> Jerarquía</button>
+        <span class="menu-label">Comunidad</span>
+        <button class="nav-btn" onclick="showSection('roles', this)"><i class="fas fa-user-group"></i> Miembros</button>
     </div>
 
     <div class="main-content">
         <div id="info" class="section active">
-            <h1>INFORMACION DEL CLAN</h1>
-            <div class="info-card">
-                <p><i class="fas fa-calendar-alt" style="color:var(--rojo-neon)"></i> <strong style="margin-left:10px">Fundación:</strong> Enero 2026</p>
-                <p><i class="fas fa-server" style="color:var(--rojo-neon)"></i> <strong style="margin-left:10px">Servidor:</strong> DiosesMC</p>
-                <p><i class="fas fa-user-shield" style="color:var(--rojo-neon)"></i> <strong style="margin-left:10px">Estado:</strong> Activo</p>
-                <hr style="border:0; border-top:1px solid rgba(255,255,255,0.05); margin:30px 0;">
-                <p style="color:#888; font-size: 1.1rem; line-height: 1.8;">Colmillos Del Alba es un clan dentro del servidor DiosesMC. Nuestro enfoque principal es ser top uno.</p>
+            <h1>SISTEMA DE GESTIÓN</h1>
+            <div style="background: var(--tarjeta); padding: 40px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.03);">
+                <p><i class="fas fa-shield-halved" style="color:var(--rojo-neon)"></i> <strong> Clan:</strong> Colmillos Del Alba</p>
+                <p><i class="fas fa-crosshairs" style="color:var(--rojo-neon)"></i> <strong> Objetivo:</strong> Dominación DiosesMC</p>
+                <p><i class="fas fa-clock" style="color:var(--rojo-neon)"></i> <strong> Desde:</strong> Enero 2026</p>
             </div>
         </div>
 
         <div id="lideres" class="section">
-            <h1>JERARQUÍA DEL ALBA</h1>
+            <h1>JERARQUÍA SUPREMA</h1>
             <div class="leader-tree" id="tree-container">
-                <p>Cargando jerarquía suprema...</p>
+                <p>Sincronizando con Discord...</p>
             </div>
         </div>
 
@@ -235,7 +216,7 @@
                 <button class="btn-rol" onclick="filtroTotal('Herrero', this)">🔨 Herrero</button>
             </div>
             <div class="grid" id="lista-usuarios">
-                <p>Consultando base de datos...</p>
+                <p>Cargando base de datos...</p>
             </div>
         </div>
     </div>
@@ -244,7 +225,7 @@
         const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros";
         let miembrosCache = [];
 
-        // Configuración de los nicks de los líderes para buscarlos
+        // Escribe aquí los nombres exactos o partes del nombre
         const JERARQUIA = [
             { nick: "guepar_3111", rango: "Líder Supremo", icono: "fa-star" },
             { nick: "nicol3_espin0za", rango: "Co-Líder", icono: "fa-crown" },
@@ -272,7 +253,7 @@
                 renderizarPantalla(miembrosCache);
                 renderizarJerarquia();
             } catch (error) {
-                console.error(error);
+                console.error("Error API:", error);
             }
         }
 
@@ -293,20 +274,23 @@
         }
 
         function crearCardLider(info) {
-            // Buscamos al usuario en la caché por nombre o nick
-            const user = miembrosCache.find(m => 
-                m.username.toLowerCase() === info.nick.toLowerCase() || 
-                (m.nickname && m.nickname.toLowerCase() === info.nick.toLowerCase())
-            );
+            // BUSCADOR INTELIGENTE: Ignora puntos, mayúsculas y espacios
+            const user = miembrosCache.find(m => {
+                const buscar = info.nick.toLowerCase().trim();
+                const u = (m.username || "").toLowerCase();
+                const n = (m.nickname || "").toLowerCase();
+                const g = (m.globalName || "").toLowerCase();
+                return u.includes(buscar) || n.includes(buscar) || g.includes(buscar) || buscar.includes(u);
+            });
 
             const foto = user ? user.avatar : 'https://cdn.discordapp.com/embed/avatars/0.png';
-            const nombreMostrar = user ? (user.nickname || user.username) : info.nick;
+            const nombreFinal = user ? (user.nickname || user.username) : info.nick;
 
             return `
                 <div class="leader-box">
                     <span class="rank">${info.icono ? `<i class="fas ${info.icono}"></i> ` : ''}${info.rango}</span>
-                    <img src="${foto}" alt="Lider">
-                    <div class="leader-name">${nombreMostrar}</div>
+                    <img src="${foto}" alt="Lider" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                    <div class="leader-name">${nombreFinal}</div>
                 </div>
             `;
         }
@@ -318,7 +302,7 @@
                 grid.innerHTML += `
                     <div class="card">
                         <img src="${user.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}" alt="Avatar">
-                        <p style="font-weight:800; margin:0;">${user.nickname || user.username}</p>
+                        <p style="font-weight:800; margin:0; font-size:0.9rem;">${user.nickname || user.username}</p>
                     </div>
                 `;
             });
