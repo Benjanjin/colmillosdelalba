@@ -169,7 +169,7 @@
     </div>
 
     <div class="grid" id="lista-usuarios">
-        <p style="opacity: 0.5;">Cargando miembros desde el servidor...</p>
+        <p style="opacity: 0.5;">Iniciando conexión segura...</p>
     </div>
 
     <section class="info-clan">
@@ -185,27 +185,37 @@
     </footer>
 
     <script>
-        // URL del Bot en Railway (Aseguramos que el navegador no use caché)
-        const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros"; 
+        // FORZAMOS LA URL ABSOLUTA PARA EVITAR EL ERROR 404 DE GITHUB
+        // Usamos un pequeño truco de concatenación para asegurar que no se tome como ruta local
+        const API_BASE = "https://" + "bot-discord-production-e093.up.railway.app";
+        const API_URL = API_BASE + "/miembros";
         
         let miembrosCache = [];
 
         async function obtenerMiembros() {
             const grid = document.getElementById('lista-usuarios');
             try {
-                // Forzamos al navegador a buscar fuera de GitHub agregando un timestamp al final
-                const respuesta = await fetch(`${API_URL}?t=${Date.now()}`, {
+                // El parámetro ?v= asegura que el navegador no use el error guardado en caché
+                const respuesta = await fetch(API_URL + "?v=" + Math.random(), {
                     method: 'GET',
-                    mode: 'cors'
+                    mode: 'cors',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
                 });
 
-                if (!respuesta.ok) throw new Error("No se pudo conectar con el bot");
+                if (!respuesta.ok) throw new Error("Error en la respuesta del bot");
 
                 miembrosCache = await respuesta.json();
                 renderizarPantalla(miembrosCache);
+
             } catch (error) {
-                console.error("Error conectando al bot:", error);
-                grid.innerHTML = "<p style='color: #ff4b2b;'>El servidor del clan está despertando. Recarga la página en 5 segundos.</p>";
+                console.error("Error conectando:", error);
+                grid.innerHTML = `
+                    <div style="text-align:center;">
+                        <p style="color: var(--rojo); margin-bottom: 5px;">El servidor del clan está despertando...</p>
+                        <p style="color: gray; font-size: 0.8rem;">(Si ves esto, espera 5 segundos y recarga con Ctrl+F5)</p>
+                    </div>`;
             }
         }
 
@@ -214,17 +224,18 @@
             grid.innerHTML = ''; 
 
             if (!lista || lista.length === 0) {
-                grid.innerHTML = "<p>No hay miembros disponibles.</p>";
+                grid.innerHTML = "<p style='opacity: 0.5;'>No se encontraron miembros activos.</p>";
                 return;
             }
 
             lista.forEach(user => {
-                grid.innerHTML += `
-                    <div class="card">
-                        <img src="${user.avatar}" alt="${user.username}" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
-                        <p>${user.username}</p>
-                    </div>
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <img src="${user.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}" alt="${user.username}">
+                    <p>${user.username}</p>
                 `;
+                grid.appendChild(card);
             });
         }
 
@@ -237,7 +248,6 @@
             if (rol === 'Todos') {
                 renderizarPantalla(miembrosCache);
             } else {
-                // Filtramos comparando en mayúsculas para evitar errores de escritura
                 const filtrados = miembrosCache.filter(m => 
                     m.roles && m.roles.some(r => r.toUpperCase().includes(rol.toUpperCase()))
                 );
@@ -245,7 +255,7 @@
             }
         }
 
-        // Ejecutar al cargar
+        // Ejecutar carga
         obtenerMiembros();
     </script>
 </body>
