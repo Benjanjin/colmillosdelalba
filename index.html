@@ -3,139 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colmillos Del Alba | Gestion</title>
+    <title>Colmillos Del Alba | Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    
     <style> 
         :root {
-            --rojo: #d31027;
-            --naranja: #ea384d;
-            --gradiente: linear-gradient(135deg, #d31027 0%, #ea384d 100%);
-            --fondo: #0a0a0a;
-            --gris-oscuro: #121212;
-            --borde: rgba(255, 255, 255, 0.05);
-            --sidebar-width: 280px;
+            --rojo-neon: #ff0022;
+            --rojo-oscuro: #8b0000;
+            --gradiente-vivos: linear-gradient(135deg, #ff0022 0%, #8b0000 100%);
+            --fondo-negro: #050505;
+            --tarjeta: #0d0d0d;
+            --borde-glow: rgba(255, 0, 34, 0.2);
+            --sidebar-width: 260px;
         }
+
+        * { box-sizing: border-box; }
 
         body { 
             font-family: 'Inter', sans-serif; 
-            background-color: var(--fondo); 
-            color: white; 
+            background-color: var(--fondo-negro); 
+            color: #e0e0e0; 
             margin: 0;
             display: flex;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* --- SIDEBAR --- */
+        /* --- SIDEBAR PRO --- */
         .sidebar {
             width: var(--sidebar-width);
-            background: var(--gris-oscuro);
-            border-right: 1px solid var(--borde);
+            background: #080808;
+            border-right: 1px solid rgba(255, 0, 34, 0.1);
             display: flex;
             flex-direction: column;
-            padding: 30px 20px;
+            padding: 40px 20px;
             position: fixed;
             height: 100vh;
-            box-sizing: border-box;
+            z-index: 100;
         }
 
         .sidebar h2 {
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--rojo);
-            margin-bottom: 30px;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1rem;
+            color: white;
             text-align: center;
+            margin-bottom: 50px;
+            letter-spacing: 4px;
+            background: var(--gradiente-vivos);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .menu-group { margin-bottom: 25px; }
         .menu-label { 
-            font-size: 0.7rem; 
-            color: #555; 
+            font-size: 0.65rem; 
+            color: #444; 
             text-transform: uppercase; 
-            margin-bottom: 10px; 
+            margin: 20px 0 10px 10px; 
             display: block;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            font-weight: 900;
         }
 
         .nav-btn {
             width: 100%;
             background: transparent;
             border: none;
-            color: #aaa;
-            padding: 12px 15px;
+            color: #888;
+            padding: 14px 18px;
             text-align: left;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: 0.3s;
-            margin-bottom: 5px;
-            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 8px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
+
+        .nav-btn i { font-size: 1.1rem; width: 20px; }
 
         .nav-btn:hover, .nav-btn.active {
-            background: rgba(211, 16, 39, 0.1);
-            color: white;
+            background: rgba(255, 0, 34, 0.05);
+            color: var(--rojo-neon);
+            box-shadow: inset 4px 0 0 var(--rojo-neon);
         }
 
-        /* --- CONTENIDO PRINCIPAL --- */
+        /* --- MAIN CONTENT --- */
         .main-content {
             margin-left: var(--sidebar-width);
             flex-grow: 1;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            padding: 60px;
+            background: radial-gradient(circle at 10% 10%, #1a0505 0%, var(--fondo-negro) 50%);
         }
 
-        .section { display: none; width: 100%; max-width: 1000px; animation: fadeIn 0.5s ease; }
+        .section { display: none; animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
         .section.active { display: block; }
 
-        /* --- ESTILOS INFO & LIDERES --- */
-        .info-card {
-            background: #111;
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid var(--borde);
-            line-height: 1.6;
+        h1 { 
+            font-family: 'Syncopate', sans-serif; 
+            font-size: 1.8rem; 
+            margin-bottom: 40px; 
+            border-left: 5px solid var(--rojo-neon);
+            padding-left: 20px;
         }
 
-        /* Árbol de Líderes */
+        /* --- INFO CARD --- */
+        .info-card {
+            background: var(--tarjeta);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        /* --- LIDERES (EL ÁRBOL ARREGLADO) --- */
         .leader-tree {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 40px;
+            padding-top: 20px;
         }
-        .leader-row { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
-        
-        .leader-box {
-            background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid var(--rojo);
-            text-align: center;
-            min-width: 160px;
-        }
-        .leader-box img { width: 60px; height: 60px; border-radius: 50%; margin-bottom: 10px; border: 2px solid var(--rojo); }
-        .leader-box .rank { font-size: 0.7rem; color: var(--rojo); text-transform: uppercase; font-weight: 900; }
 
-        /* --- ROLES (Tu sistema actual) --- */
-        .roles-nav { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 30px; justify-content: center; }
-        .btn-rol { 
-            background: #1a1a1a; color: #ccc; border: 1px solid var(--borde);
-            padding: 10px 15px; border-radius: 10px; cursor: pointer; transition: 0.3s;
+        .leader-row { 
+            display: flex; 
+            gap: 30px; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            width: 100%; 
         }
-        .btn-rol.active { background: var(--gradiente); color: white; border: none; }
+
+        .leader-box {
+            background: #111;
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            min-width: 200px;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .leader-box:hover {
+            transform: translateY(-10px);
+            border-color: var(--rojo-neon);
+            box-shadow: 0 10px 30px rgba(255, 0, 34, 0.2);
+        }
+
+        .leader-box img { 
+            width: 80px; 
+            height: 80px; 
+            border-radius: 50%; 
+            margin-bottom: 15px; 
+            border: 3px solid var(--rojo-neon);
+            object-fit: cover;
+            background: #000;
+        }
+
+        .rank { 
+            font-size: 0.65rem; 
+            color: var(--rojo-neon); 
+            text-transform: uppercase; 
+            font-weight: 900; 
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .leader-name { font-weight: 800; font-size: 1.1rem; color: #fff; }
+
+        /* --- ROLES Y GRID --- */
+        .roles-nav { 
+            display: flex; 
+            gap: 12px; 
+            flex-wrap: wrap; 
+            margin-bottom: 40px; 
+        }
+
+        .btn-rol { 
+            background: #111; 
+            color: #777; 
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 12px 24px; 
+            border-radius: 14px; 
+            cursor: pointer; 
+            transition: 0.3s;
+            font-weight: 700;
+        }
+
+        .btn-rol:hover { color: #fff; border-color: #444; }
+
+        .btn-rol.active { 
+            background: var(--gradiente-vivos); 
+            color: white; 
+            border: none;
+            box-shadow: 0 8px 20px rgba(255, 0, 34, 0.3);
+        }
 
         .grid { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
-            gap: 20px; width: 100%; 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+            gap: 25px; 
         }
-        .card { 
-            background: #151515; padding: 20px; border-radius: 20px; text-align: center;
-            border: 1px solid var(--borde);
-        }
-        .card img { width: 70px; height: 70px; border-radius: 50%; margin-bottom: 15px; background: var(--gradiente); padding: 2px; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .card { 
+            background: #0f0f0f; 
+            padding: 30px 20px; 
+            border-radius: 24px; 
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: 0.3s;
+        }
+
+        .card:hover { border-color: rgba(255, 0, 34, 0.3); transform: scale(1.02); }
+
+        .card img { 
+            width: 85px; 
+            height: 85px; 
+            border-radius: 50%; 
+            margin-bottom: 15px; 
+            padding: 3px;
+            background: var(--gradiente-vivos);
+        }
+
+        @keyframes slideUp { 
+            from { opacity: 0; transform: translateY(30px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
     </style>
 </head>
 <body>
@@ -143,73 +240,81 @@
     <div class="sidebar">
         <h2>COLMILLOS</h2>
         
-        <div class="menu-group">
-            <span class="menu-label">General</span>
-            <button class="nav-btn active" onclick="showSection('info', this)">📂 Información</button>
-            <button class="nav-btn" onclick="showSection('lideres', this)">👑 Líderes</button>
-        </div>
+        <span class="menu-label">Principal</span>
+        <button class="nav-btn active" onclick="showSection('info', this)">
+            <i class="fas fa-info-circle"></i> Información
+        </button>
+        <button class="nav-btn" onclick="showSection('lideres', this)">
+            <i class="fas fa-crown"></i> Jerarquía
+        </button>
 
-        <div class="menu-group">
-            <span class="menu-label">Comunidad</span>
-            <button class="nav-btn" onclick="showSection('roles', this)">⚔️ Roles del Clan</button>
-        </div>
+        <span class="menu-label">Usuarios</span>
+        <button class="nav-btn" onclick="showSection('roles', this)">
+            <i class="fas fa-users-gear"></i> Miembros
+        </button>
     </div>
 
     <div class="main-content">
         
         <div id="info" class="section active">
-            <h1>Información del Clan</h1>
+            <h1>BASE DE DATOS</h1>
             <div class="info-card">
-                <p><strong>Fundación:</strong> Enero de 2026</p>
-                <p><strong>Servidor:</strong> DiosesMC</p>
-                <p><strong>Fundador:</strong> Guepar__</p>
-                <hr style="border: 0; border-top: 1px solid #333; margin: 20px 0;">
-                <p>Colmillos Del Alba fue creado en enero de 2026.</p>
+                <p><i class="fas fa-calendar-alt" style="color:var(--rojo-neon)"></i> <strong style="margin-left:10px">Fundación:</strong> Enero 2026</p>
+                <p><i class="fas fa-server" style="color:var(--rojo-neon)"></i> <strong style="margin-left:10px">Servidor:</strong> DiosesMC</p>
+                <p><i class="fas fa-user-shield" style="color:var(--rojo-neon)"></i> <strong style="margin-left:10px">Estado:</strong> Activo</p>
+                <hr style="border:0; border-top:1px solid rgba(255,255,255,0.05); margin:30px 0;">
+                <p style="color:#888; font-size: 1.1rem; line-height: 1.8;">
+                    Colmillos Del Alba es una organización de élite dentro del servidor DiosesMC. 
+                    Nuestro enfoque principal es la supremacía técnica y estratégica.
+                </p>
             </div>
         </div>
 
         <div id="lideres" class="section">
-            <h1>Jerarquía del Alba</h1>
+            <h1>JERARQUÍA SUPREMA</h1>
             <div class="leader-tree">
-                <div class="leader-box">
-                    <div class="rank">Líder Supremo</div>
-                    <img src="https://avatar.iran.liara.run/public/31" alt="Líder">
-                    <p>guepar_3111</p>
+                <div class="leader-box" style="border-width: 2px;">
+                    <span class="rank"><i class="fas fa-star"></i> Líder Supremo</span>
+                    <img src="https://avatar.iran.liara.run/public/31" alt="Lider">
+                    <div class="leader-name">guepar_3111</div>
                 </div>
+
                 <div class="leader-box">
-                    <div class="rank">Co-Líder</div>
+                    <span class="rank">Co-Líder</span>
                     <img src="https://avatar.iran.liara.run/public/80" alt="CoLider">
-                    <p>nicol3_espin0za</p>
+                    <div class="leader-name">nicol3_espin0za</div>
                 </div>
+
                 <div class="leader-row">
                     <div class="leader-box">
-                        <div class="rank">Líder Técnico</div>
+                        <span class="rank">Líder Técnico</span>
                         <img src="https://avatar.iran.liara.run/public/65" alt="Tecnico">
-                        <p>danielitaxgg18</p>
+                        <div class="leader-name">danielitaxgg18</div>
                     </div>
                     <div class="leader-box">
-                        <div class="rank">Líder Farmer</div>
+                        <span class="rank">Líder Farmer</span>
                         <img src="https://avatar.iran.liara.run/public/1" alt="Farmer">
-                        <p>1fsi.</p>
+                        <div class="leader-name">1fsi.</div>
                     </div>
                 </div>
+
                 <div class="leader-row">
                     <div class="leader-box">
-                        <div class="rank">Líder PVP</div>
+                        <span class="rank">Líder PVP</span>
                         <img src="https://avatar.iran.liara.run/public/20" alt="PVP">
-                        <p>postm_alone</p>
+                        <div class="leader-name">postm_alone</div>
                     </div>
                     <div class="leader-box">
-                        <div class="rank">Líder Builder</div>
+                        <span class="rank">Líder Construcción</span>
                         <img src="https://avatar.iran.liara.run/public/44" alt="Builder">
-                        <p>__jpmc</p>
+                        <div class="leader-name">__jpmc</div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div id="roles" class="section">
-            <h1>Miembros por Rol</h1>
+            <h1>REGISTRO DE MIEMBROS</h1>
             <div class="roles-nav">
                 <button class="btn-rol active" onclick="filtroTotal('Todos', this)">Todos</button>
                 <button class="btn-rol" onclick="filtroTotal('𝒑𝒗𝒑', this)">⚔️ PVP</button>
@@ -220,17 +325,15 @@
             </div>
 
             <div class="grid" id="lista-usuarios">
-                <p>Cargando miembros...</p>
+                <p>Consultando base de datos...</p>
             </div>
         </div>
-
     </div>
 
     <script>
         const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros";
         let miembrosCache = [];
 
-        // Cambio de secciones
         function showSection(sectionId, btn) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -244,7 +347,7 @@
                 miembrosCache = await respuesta.json();
                 renderizarPantalla(miembrosCache);
             } catch (error) {
-                document.getElementById('lista-usuarios').innerHTML = "<p>Error al cargar.</p>";
+                document.getElementById('lista-usuarios').innerHTML = "<p>Error de conexión.</p>";
             }
         }
 
@@ -255,7 +358,7 @@
                 grid.innerHTML += `
                     <div class="card">
                         <img src="${user.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}" alt="Avatar">
-                        <p>${user.username}</p>
+                        <p style="font-weight:800; margin:0;">${user.username}</p>
                     </div>
                 `;
             });
