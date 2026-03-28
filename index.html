@@ -60,7 +60,7 @@
             font-weight: 900;
         }
 
-        .nav-btn {
+        .nav-btn, .nav-link {
             width: 100%;
             background: transparent;
             border: none;
@@ -75,9 +75,11 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            text-decoration: none; /* Para el link */
+            font-size: 0.9rem;
         }
 
-        .nav-btn:hover, .nav-btn.active {
+        .nav-btn:hover, .nav-btn.active, .nav-link:hover {
             background: rgba(255, 0, 34, 0.05);
             color: var(--rojo-neon);
             box-shadow: inset 4px 0 0 var(--rojo-neon);
@@ -111,7 +113,6 @@
             padding-top: 20px;
         }
 
-        /* Línea vertical central */
         .leader-tree::after {
             content: '';
             position: absolute;
@@ -182,10 +183,20 @@
     <div class="sidebar">
         <h2>COLMILLOS</h2>
         <span class="menu-label">Principal</span>
-        <button class="nav-btn active" onclick="showSection('info', this)"><i class="fas fa-database"></i> Información</button>
-        <button class="nav-btn" onclick="showSection('lideres', this)"><i class="fas fa-sitemap"></i> Jerarquía</button>
+        <button class="nav-btn active" onclick="showSection('info', this)">
+            <i class="fas fa-database"></i> Información
+        </button>
+        <a href="https://discord.gg/xw9pzw3kB5" target="_blank" class="nav-link">
+            <i class="fas fa-user-plus"></i> Reclutaciones
+        </a>
+        <button class="nav-btn" onclick="showSection('lideres', this)">
+            <i class="fas fa-sitemap"></i> Jerarquía
+        </button>
+        
         <span class="menu-label">Comunidad</span>
-        <button class="nav-btn" onclick="showSection('roles', this)"><i class="fas fa-user-group"></i> Miembros</button>
+        <button class="nav-btn" onclick="showSection('roles', this)">
+            <i class="fas fa-user-group"></i> Miembros
+        </button>
     </div>
 
     <div class="main-content">
@@ -225,7 +236,6 @@
         const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros";
         let miembrosCache = [];
 
-        // Escribe aquí los nombres exactos o partes del nombre
         const JERARQUIA = [
             { nick: "guepar_3111", rango: "Líder Supremo", icono: "fa-star" },
             { nick: "nicol3_espin0za", rango: "Co-Líder", icono: "fa-crown" },
@@ -243,7 +253,7 @@
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(sectionId).classList.add('active');
-            btn.classList.add('active');
+            if(btn) btn.classList.add('active');
         }
 
         async function obtenerMiembros() {
@@ -274,7 +284,6 @@
         }
 
         function crearCardLider(info) {
-            // BUSCADOR INTELIGENTE: Ignora puntos, mayúsculas y espacios
             const user = miembrosCache.find(m => {
                 const buscar = info.nick.toLowerCase().trim();
                 const u = (m.username || "").toLowerCase();
