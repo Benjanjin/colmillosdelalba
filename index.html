@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miembros | Colmillos Del Alba</title>
+    <style>
+        /* Estilos generales */
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; color: white; margin: 0; text-align: center; }
+        
+        /* Cabecera */
+        header { background: #8B0000; padding: 40px 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        h1 { margin: 0; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 3px; }
+        .subtitle { color: #ffcccc; margin-top: 10px; font-style: italic; }
+
+        /* Navegación de Roles */
+        .roles-container { margin: 30px auto; max-width: 900px; padding: 10px; }
+        .roles-title { margin-bottom: 15px; font-weight: bold; color: #8B0000; text-transform: uppercase; }
+        .roles-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+        
+        .btn-rol { 
+            background: #23272a; color: white; border: 2px solid #8B0000; 
+            padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: 0.3s;
+        }
+        .btn-rol:hover { background: #8B0000; transform: scale(1.05); }
+        .btn-rol.active { background: white; color: #8B0000; font-weight: bold; }
+
+        /* Cuadrícula de Usuarios */
+        .grid { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+            gap: 25px; padding: 40px; max-width: 1100px; margin: 0 auto; 
+        }
+        .card { 
+            background: #2c2f33; padding: 20px; border-radius: 15px; 
+            border: 1px solid #444; transition: 0.3s;
+        }
+        .card:hover { border-color: #8B0000; box-shadow: 0 0 15px rgba(139, 0, 0, 0.4); }
+        .card img { width: 90px; height: 90px; border-radius: 50%; border: 3px solid #8B0000; margin-bottom: 15px; }
+        .card p { margin: 0; font-weight: bold; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Colmillos Del Alba</h1>
+        <div class="subtitle">Lista Oficial de Miembros</div>
+    </header>
+
+    <div class="roles-container">
+        <div class="roles-title">Selecciona un Rol:</div>
+        <div class="roles-nav" id="botones-roles">
+            <button class="btn-rol active" onclick="mostrarPorRol('Todos', this)">Todos</button>
+            <button class="btn-rol" onclick="mostrarPorRol('PVP', this)">⚔️ PVP</button>
+            <button class="btn-rol" onclick="mostrarPorRol('BUILDER', this)">⚒️ Builder</button>
+            <button class="btn-rol" onclick="mostrarPorRol('TECNICO', this)">⚙️ Técnico</button>
+            <button class="btn-rol" onclick="mostrarPorRol('CASUAL', this)">🏛️ Casual</button>
+        </div>
+    </div>
+
+    <div class="grid" id="lista-usuarios">
+        <p style="grid-column: 1/-1; opacity: 0.5;">Esperando conexión con el servidor...</p>
+    </div>
+
+    <script>
+        // Función para cambiar de rol visualmente (por ahora)
+        function mostrarPorRol(rol, elemento) {
+            // Quitar clase activa de todos los botones
+            document.querySelectorAll('.btn-rol').forEach(b => b.classList.remove('active'));
+            // Poner clase activa al botón presionado
+            elemento.classList.add('active');
+            
+            console.log("Filtrando por: " + rol);
+            // Aquí irá la lógica de filtrado cuando conectemos el bot
+        }
+    </script>
+</body>
+</html>
