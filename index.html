@@ -108,8 +108,6 @@
             text-align: center;
             border: 1px solid var(--borde);
             transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
             animation: fadeIn 0.5s ease forwards;
         }
         
@@ -146,16 +144,16 @@
     </header>
 
     <div class="roles-nav">
-        <button class="btn-rol active" onclick="superFiltro('Todos', 'Todos', this)">Todos</button>
-        <button class="btn-rol" onclick="superFiltro('1464335696390263069', 'pvp', this)">⚔️ PVP</button>
-        <button class="btn-rol" onclick="superFiltro('1464335639561506878', 'builder', this)">⚒️ Builder</button>
-        <button class="btn-rol" onclick="superFiltro('1464335746944209161', 'tecnico', this)">⚙️ Técnico</button>
-        <button class="btn-rol" onclick="superFiltro('1464335746856128737', 'farmer', this)">🌱 Farmer</button>
-        <button class="btn-rol" onclick="superFiltro('1479953030605443204', 'herrero', this)">🔨 Herrero</button>
+        <button class="btn-rol active" onclick="filtrarExacto('Todos', this)">Todos</button>
+        <button class="btn-rol" onclick="filtrarExacto('𝑪𝒂𝒅𝒂𝒅𝒐𝒓𝒆𝒔 𝒅𝒆𝒍 𝑨𝒍𝒃𝒂 (𝒑𝒗𝒑)', this)">⚔️ PVP</button>
+        <button class="btn-rol" onclick="filtrarExacto('𝑨𝒓𝒒𝒖𝒊𝒕𝒆𝒄𝒕𝒐𝒔 𝒅𝒆𝒍 𝒂𝒍𝒃𝒂 (𝒃𝒖𝒊𝒍𝒅𝒆𝒓𝒔)', this)">⚒️ Builder</button>
+        <button class="btn-rol" onclick="filtrarExacto('𝑵𝒖𝒄𝒍𝒆𝒐 𝒅𝒆 𝑨𝒍𝒃𝒂 (𝒕𝒆𝒄𝒏𝒊𝒄𝒐𝒔)', this)">⚙️ Técnico</button>
+        <button class="btn-rol" onclick="filtrarExacto('farmer', this)">🌱 Farmer</button>
+        <button class="btn-rol" onclick="filtrarExacto('⛏️Herrero oficial del clan', this)">🔨 Herrero</button>
     </div>
 
     <div class="grid" id="lista-usuarios">
-        <p style="opacity: 0.5; grid-column: 1/-1;">Cargando guerreros...</p>
+        <p style="opacity: 0.5; grid-column: 1/-1;">Cargando miembros...</p>
     </div>
 
     <footer>
@@ -165,15 +163,6 @@
     <script>
         const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros";
         let miembrosCache = [];
-
-        // Función mágica para limpiar texto incluyendo fuentes raras de Discord
-        const normalizarTotal = (str) => {
-            if (!str) return "";
-            return str.toLowerCase()
-                .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Quita tildes
-                .replace(/[^\x00-\x7F]/g, " ") // Reemplaza caracteres especiales/fuentes raras por espacios
-                .replace(/\s+/g, " "); // Limpia espacios dobles
-        };
 
         async function obtenerMiembros() {
             const grid = document.getElementById('lista-usuarios');
@@ -203,26 +192,20 @@
             });
         }
 
-        function superFiltro(id, palabraClave, btn) {
+        // Esta función busca EXACTAMENTE lo que Discord envía
+        function filtrarExacto(nombreRolDiscord, btn) {
             document.querySelectorAll('.btn-rol').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            if (id === 'Todos') {
+            if (nombreRolDiscord === 'Todos') {
                 renderizarPantalla(miembrosCache);
                 return;
             }
 
             const filtrados = miembrosCache.filter(m => {
                 if (!m.roles) return false;
-                
-                return m.roles.some(rol => {
-                    // 1. Intento por ID exacta
-                    if (rol === id) return true;
-                    
-                    // 2. Intento por Nombre (Limpiamos el rol de Discord y buscamos la palabra clave)
-                    const rolLimpio = normalizarTotal(rol);
-                    return rolLimpio.includes(palabraClave);
-                });
+                // Compara el nombre literal que pusimos en el botón con los roles del miembro
+                return m.roles.some(rol => rol.trim() === nombreRolDiscord.trim());
             });
 
             renderizarPantalla(filtrados);
