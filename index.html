@@ -144,12 +144,12 @@
     </header>
 
     <div class="roles-nav">
-        <button class="btn-rol active" onclick="filtrarExacto('Todos', this)">Todos</button>
-        <button class="btn-rol" onclick="filtrarExacto('𝑪𝒂𝒛𝒂𝒅𝒐𝒓𝒆𝒔 𝒅𝒆𝒍 𝑨𝒍𝒃𝒂 (𝒑𝒗𝒑)', this)">⚔️ PVP</button>
-        <button class="btn-rol" onclick="filtrarExacto('𝑨𝒓𝒒𝒖𝒊𝒕𝒆𝒄𝒕𝒐𝒔 𝒅𝒆𝒍 𝒂𝒍𝒃𝒂 (𝒃𝒖𝒊𝒍𝒅𝒆𝒓𝒔)', this)">⚒️ Builder</button>
-        <button class="btn-rol" onclick="filtrarExacto('𝑵𝒖𝒄𝒍𝒆𝒐 𝒅𝒆 𝑨𝒍𝒃𝒂 (𝒕𝒆𝒄𝒏𝒊𝒄𝒐𝒔)', this)">⚙️ Técnico</button>
-        <button class="btn-rol" onclick="filtrarExacto('𝑯𝒂𝒃𝒊𝒕𝒂𝒏𝒕𝒆𝒔 𝒅𝒆𝒍 𝑨𝒍𝒃𝒂 (Farmer)', this)">🌱 Farmer</button>
-        <button class="btn-rol" onclick="filtrarExacto('⛏️Herrero oficial del clan', this)">🔨 Herrero</button>
+        <button class="btn-rol active" onclick="filtrar('Todos', this)">Todos</button>
+        <button class="btn-rol" onclick="filtrar('pvp', this)">⚔️ PVP</button>
+        <button class="btn-rol" onclick="filtrar('builder', this)">⚒️ Builder</button>
+        <button class="btn-rol" onclick="filtrar('tecnico', this)">⚙️ Técnico</button>
+        <button class="btn-rol" onclick="filtrar('Farmer', this)">🌱 Farmer</button>
+        <button class="btn-rol" onclick="filtrar('Herrero', this)">🔨 Herrero</button>
     </div>
 
     <div class="grid" id="lista-usuarios">
@@ -192,20 +192,27 @@
             });
         }
 
-        // Esta función busca EXACTAMENTE lo que Discord envía
-        function filtrarExacto(nombreRolDiscord, btn) {
+        // Esta versión mejorada busca si el nombre del rol CONTIENE la palabra
+        function filtrar(palabraClave, btn) {
             document.querySelectorAll('.btn-rol').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            if (nombreRolDiscord === 'Todos') {
+            if (palabraClave === 'Todos') {
                 renderizarPantalla(miembrosCache);
                 return;
             }
 
             const filtrados = miembrosCache.filter(m => {
                 if (!m.roles) return false;
-                // Compara el nombre literal que pusimos en el botón con los roles del miembro
-                return m.roles.some(rol => rol.trim() === nombreRolDiscord.trim());
+                
+                return m.roles.some(rol => {
+                    // Limpiamos el rol de Discord para quitarle el formato raro
+                    const rolLimpio = rol.toLowerCase()
+                        .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                    
+                    // Buscamos si la palabra clave (pvp, builder, farmer, herrero) está adentro
+                    return rolLimpio.includes(palabraClave.toLowerCase());
+                });
             });
 
             renderizarPantalla(filtrados);
