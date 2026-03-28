@@ -118,144 +118,94 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
-        /* --- LIDERES (EL ÁRBOL ARREGLADO) --- */
+        /* --- LIDERES (ÁRBOL CON LÍNEAS) --- */
         .leader-tree {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 40px;
-            padding-top: 20px;
+            position: relative;
+            padding-bottom: 50px;
         }
 
-        .leader-row { 
-            display: flex; 
-            gap: 30px; 
-            flex-wrap: wrap; 
-            justify-content: center; 
-            width: 100%; 
+        /* Líneas verticales conectoras */
+        .leader-tree::before {
+            content: '';
+            position: absolute;
+            top: 100px;
+            bottom: 50px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--rojo-neon), transparent);
+            z-index: 0;
         }
 
         .leader-box {
             background: #111;
-            padding: 25px;
+            padding: 20px;
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             text-align: center;
-            min-width: 200px;
+            min-width: 180px;
             transition: 0.4s;
             position: relative;
-            overflow: hidden;
+            z-index: 2;
+            margin-bottom: 40px;
         }
 
         .leader-box:hover {
-            transform: translateY(-10px);
+            transform: scale(1.05);
             border-color: var(--rojo-neon);
-            box-shadow: 0 10px 30px rgba(255, 0, 34, 0.2);
+            box-shadow: 0 0 20px rgba(255, 0, 34, 0.3);
         }
 
         .leader-box img { 
-            width: 80px; 
-            height: 80px; 
-            border-radius: 50%; 
-            margin-bottom: 15px; 
-            border: 3px solid var(--rojo-neon);
-            object-fit: cover;
+            width: 70px; height: 70px; border-radius: 50%; 
+            margin-bottom: 10px; border: 2px solid var(--rojo-neon);
             background: #000;
         }
 
         .rank { 
-            font-size: 0.65rem; 
-            color: var(--rojo-neon); 
-            text-transform: uppercase; 
-            font-weight: 900; 
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-            display: block;
+            font-size: 0.6rem; color: var(--rojo-neon); 
+            text-transform: uppercase; font-weight: 900; 
+            letter-spacing: 1px; margin-bottom: 5px; display: block;
         }
 
-        .leader-name { font-weight: 800; font-size: 1.1rem; color: #fff; }
+        .leader-name { font-weight: 800; font-size: 0.95rem; color: #fff; }
+
+        .leader-row { 
+            display: flex; gap: 40px; justify-content: center; width: 100%; position: relative;
+        }
 
         /* --- ROLES Y GRID --- */
-        .roles-nav { 
-            display: flex; 
-            gap: 12px; 
-            flex-wrap: wrap; 
-            margin-bottom: 40px; 
-        }
-
+        .roles-nav { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; }
         .btn-rol { 
-            background: #111; 
-            color: #777; 
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 12px 24px; 
-            border-radius: 14px; 
-            cursor: pointer; 
-            transition: 0.3s;
+            background: #111; color: #777; border: 1px solid rgba(255,255,255,0.05);
+            padding: 12px 24px; border-radius: 14px; cursor: pointer; transition: 0.3s;
             font-weight: 700;
         }
+        .btn-rol.active { background: var(--gradiente-vivos); color: white; border: none; }
 
-        .btn-rol:hover { color: #fff; border-color: #444; }
-
-        .btn-rol.active { 
-            background: var(--gradiente-vivos); 
-            color: white; 
-            border: none;
-            box-shadow: 0 8px 20px rgba(255, 0, 34, 0.3);
-        }
-
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
-            gap: 25px; 
-        }
-
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 25px; }
         .card { 
-            background: #0f0f0f; 
-            padding: 30px 20px; 
-            border-radius: 24px; 
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            transition: 0.3s;
+            background: #0f0f0f; padding: 30px 20px; border-radius: 24px; text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.03); transition: 0.3s;
         }
+        .card img { width: 85px; height: 85px; border-radius: 50%; margin-bottom: 15px; padding: 3px; background: var(--gradiente-vivos); }
 
-        .card:hover { border-color: rgba(255, 0, 34, 0.3); transform: scale(1.02); }
-
-        .card img { 
-            width: 85px; 
-            height: 85px; 
-            border-radius: 50%; 
-            margin-bottom: 15px; 
-            padding: 3px;
-            background: var(--gradiente-vivos);
-        }
-
-        @keyframes slideUp { 
-            from { opacity: 0; transform: translateY(30px); } 
-            to { opacity: 1; transform: translateY(0); } 
-        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
         <h2>COLMILLOS</h2>
-        
         <span class="menu-label">Principal</span>
-        <button class="nav-btn active" onclick="showSection('info', this)">
-            <i class="fas fa-info-circle"></i> Información
-        </button>
-        <button class="nav-btn" onclick="showSection('lideres', this)">
-            <i class="fas fa-crown"></i> Lideres
-        </button>
-
+        <button class="nav-btn active" onclick="showSection('info', this)"><i class="fas fa-info-circle"></i> Información</button>
+        <button class="nav-btn" onclick="showSection('lideres', this)"><i class="fas fa-crown"></i> Lideres</button>
         <span class="menu-label">Usuarios</span>
-        <button class="nav-btn" onclick="showSection('roles', this)">
-            <i class="fas fa-users-gear"></i> Miembros
-        </button>
+        <button class="nav-btn" onclick="showSection('roles', this)"><i class="fas fa-users-gear"></i> Miembros</button>
     </div>
 
     <div class="main-content">
-        
         <div id="info" class="section active">
             <h1>INFORMACION DEL CLAN</h1>
             <div class="info-card">
@@ -263,53 +213,14 @@
                 <p><i class="fas fa-server" style="color:var(--rojo-neon)"></i> <strong style="margin-left:10px">Servidor:</strong> DiosesMC</p>
                 <p><i class="fas fa-user-shield" style="color:var(--rojo-neon)"></i> <strong style="margin-left:10px">Estado:</strong> Activo</p>
                 <hr style="border:0; border-top:1px solid rgba(255,255,255,0.05); margin:30px 0;">
-                <p style="color:#888; font-size: 1.1rem; line-height: 1.8;">
-                    Colmillos Del Alba es un clan dentro del servidor DiosesMC. 
-                    Nuestro enfoque principal es ser top uno.
-                </p>
+                <p style="color:#888; font-size: 1.1rem; line-height: 1.8;">Colmillos Del Alba es un clan dentro del servidor DiosesMC. Nuestro enfoque principal es ser top uno.</p>
             </div>
         </div>
 
         <div id="lideres" class="section">
-            <h1>LIDERES</h1>
-            <div class="leader-tree">
-                <div class="leader-box" style="border-width: 2px;">
-                    <span class="rank"><i class="fas fa-star"></i> Líder Supremo</span>
-                    <img src="https://avatar.iran.liara.run/public/31" alt="Lider">
-                    <div class="leader-name">guepar_3111</div>
-                </div>
-
-                <div class="leader-box">
-                    <span class="rank">Co-Líder</span>
-                    <img src="https://avatar.iran.liara.run/public/80" alt="CoLider">
-                    <div class="leader-name">nicol3_espin0za</div>
-                </div>
-
-                <div class="leader-row">
-                    <div class="leader-box">
-                        <span class="rank">Líder Técnico</span>
-                        <img src="https://avatar.iran.liara.run/public/65" alt="Tecnico">
-                        <div class="leader-name">danielitaxgg18</div>
-                    </div>
-                    <div class="leader-box">
-                        <span class="rank">Líder Farmer</span>
-                        <img src="https://avatar.iran.liara.run/public/1" alt="Farmer">
-                        <div class="leader-name">1fsi.</div>
-                    </div>
-                </div>
-
-                <div class="leader-row">
-                    <div class="leader-box">
-                        <span class="rank">Líder PVP</span>
-                        <img src="https://avatar.iran.liara.run/public/20" alt="PVP">
-                        <div class="leader-name">postm_alone</div>
-                    </div>
-                    <div class="leader-box">
-                        <span class="rank">Líder Construcción</span>
-                        <img src="https://avatar.iran.liara.run/public/44" alt="Builder">
-                        <div class="leader-name">__jpmc</div>
-                    </div>
-                </div>
+            <h1>JERARQUÍA DEL ALBA</h1>
+            <div class="leader-tree" id="tree-container">
+                <p>Cargando jerarquía suprema...</p>
             </div>
         </div>
 
@@ -323,7 +234,6 @@
                 <button class="btn-rol" onclick="filtroTotal('Farmer', this)">🌱 Farmer</button>
                 <button class="btn-rol" onclick="filtroTotal('Herrero', this)">🔨 Herrero</button>
             </div>
-
             <div class="grid" id="lista-usuarios">
                 <p>Consultando base de datos...</p>
             </div>
@@ -333,6 +243,20 @@
     <script>
         const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros";
         let miembrosCache = [];
+
+        // Configuración de los nicks de los líderes para buscarlos
+        const JERARQUIA = [
+            { nick: "guepar_3111", rango: "Líder Supremo", icono: "fa-star" },
+            { nick: "nicol3_espin0za", rango: "Co-Líder", icono: "fa-crown" },
+            { fila: [
+                { nick: "danielitaxgg18", rango: "Líder Técnico" },
+                { nick: "1fsi.", rango: "Líder Farmer" }
+            ]},
+            { fila: [
+                { nick: "postm_alone", rango: "Líder PVP" },
+                { nick: "__jpmc", rango: "Líder Construcción" }
+            ]}
+        ];
 
         function showSection(sectionId, btn) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -346,9 +270,45 @@
                 const respuesta = await fetch(`${API_URL}?t=${Date.now()}`);
                 miembrosCache = await respuesta.json();
                 renderizarPantalla(miembrosCache);
+                renderizarJerarquia();
             } catch (error) {
-                document.getElementById('lista-usuarios').innerHTML = "<p>Error de conexión.</p>";
+                console.error(error);
             }
+        }
+
+        function renderizarJerarquia() {
+            const container = document.getElementById('tree-container');
+            container.innerHTML = '';
+
+            JERARQUIA.forEach(item => {
+                if(item.fila) {
+                    let rowHtml = '<div class="leader-row">';
+                    item.fila.forEach(l => rowHtml += crearCardLider(l));
+                    rowHtml += '</div>';
+                    container.innerHTML += rowHtml;
+                } else {
+                    container.innerHTML += crearCardLider(item);
+                }
+            });
+        }
+
+        function crearCardLider(info) {
+            // Buscamos al usuario en la caché por nombre o nick
+            const user = miembrosCache.find(m => 
+                m.username.toLowerCase() === info.nick.toLowerCase() || 
+                (m.nickname && m.nickname.toLowerCase() === info.nick.toLowerCase())
+            );
+
+            const foto = user ? user.avatar : 'https://cdn.discordapp.com/embed/avatars/0.png';
+            const nombreMostrar = user ? (user.nickname || user.username) : info.nick;
+
+            return `
+                <div class="leader-box">
+                    <span class="rank">${info.icono ? `<i class="fas ${info.icono}"></i> ` : ''}${info.rango}</span>
+                    <img src="${foto}" alt="Lider">
+                    <div class="leader-name">${nombreMostrar}</div>
+                </div>
+            `;
         }
 
         function renderizarPantalla(lista) {
@@ -358,7 +318,7 @@
                 grid.innerHTML += `
                     <div class="card">
                         <img src="${user.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}" alt="Avatar">
-                        <p style="font-weight:800; margin:0;">${user.username}</p>
+                        <p style="font-weight:800; margin:0;">${user.nickname || user.username}</p>
                     </div>
                 `;
             });
