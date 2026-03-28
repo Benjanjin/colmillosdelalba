@@ -8,10 +8,11 @@
         :root {
             --rojo: #d31027;
             --naranja: #ea384d;
-            --gradiente: linear-gradient(to right, #d31027, #ea384d);
+            --gradiente: linear-gradient(135deg, #d31027 0%, #ea384d 100%);
             --fondo: #0a0a0a;
-            --gris-oscuro: #151515;
+            --gris-oscuro: #121212;
             --texto-secundario: #a0a0a0;
+            --borde: rgba(255, 255, 255, 0.05);
         }
 
         body { 
@@ -22,194 +23,219 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow-x: hidden;
         }
 
         header { 
             width: 100%;
-            padding: 80px 20px;
+            padding: 100px 20px;
             text-align: center;
-            background: radial-gradient(circle at center, #250505 0%, var(--fondo) 100%);
+            background: radial-gradient(circle at center, #300505 0%, var(--fondo) 80%);
         }
         
         h1 { 
             margin: 0; 
-            font-size: 3.5rem; 
-            font-weight: 800;
+            font-size: clamp(2.5rem, 8vw, 4rem); 
+            font-weight: 900;
             text-transform: uppercase;
-            background: linear-gradient(to bottom, #fff 30%, #ff4b2b 100%);
+            background: linear-gradient(to bottom, #fff 40%, #ff4b2b 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -1px;
+            letter-spacing: -2px;
+            filter: drop-shadow(0 0 15px rgba(211, 16, 39, 0.3));
         }
 
         .subtitle { 
             color: var(--texto-secundario);
-            font-size: 1.1rem;
-            margin-top: 10px;
-            letter-spacing: 2px;
+            font-size: 1rem;
+            margin-top: 15px;
+            letter-spacing: 4px;
             text-transform: uppercase;
+            font-weight: 500;
         }
 
         .roles-nav { 
             display: flex; 
             justify-content: center; 
-            gap: 12px; 
-            margin: 40px 0;
+            gap: 10px; 
+            margin: -20px 0 50px 0;
             flex-wrap: wrap;
+            padding: 0 20px;
+            z-index: 10;
         }
         
         .btn-rol { 
             background: var(--gris-oscuro);
-            color: white;
-            border: 1px solid #333;
-            padding: 10px 24px;
-            border-radius: 8px;
+            color: #ccc;
+            border: 1px solid var(--borde);
+            padding: 12px 20px;
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: 0.3s;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
         }
         
         .btn-rol:hover {
             border-color: var(--rojo);
+            color: white;
+            transform: translateY(-3px);
             background: rgba(211, 16, 39, 0.1);
         }
         
         .btn-rol.active { 
             background: var(--gradiente);
             border: none;
-            box-shadow: 0 4px 15px rgba(211, 16, 39, 0.4);
+            color: white;
+            box-shadow: 0 8px 20px rgba(211, 16, 39, 0.4);
         }
 
         .grid { 
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 25px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 30px;
             padding: 20px;
-            max-width: 1000px;
-            min-height: 200px;
+            width: 90%;
+            max-width: 1100px;
+            min-height: 300px;
         }
 
         .card { 
-            background: var(--gris-oscuro);
-            width: 180px;
-            padding: 30px 10px;
-            border-radius: 16px;
+            background: linear-gradient(145deg, #181818, #0f0f0f);
+            padding: 35px 15px;
+            border-radius: 24px;
             text-align: center;
-            border: 1px solid #222;
-            transition: 0.3s;
+            border: 1px solid var(--borde);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
         
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at top right, rgba(211, 16, 39, 0.1), transparent);
+            pointer-events: none;
+        }
+
         .card:hover {
-            transform: translateY(-8px);
-            border-color: var(--rojo);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(211, 16, 39, 0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
 
         .card img { 
-            width: 85px; 
-            height: 85px; 
+            width: 95px; 
+            height: 95px; 
             border-radius: 50%; 
-            padding: 3px;
+            padding: 4px;
             background: var(--gradiente);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+            transition: 0.4s;
+        }
+
+        .card:hover img {
+            transform: rotate(5deg) scale(1.1);
         }
 
         .card p { 
             margin: 0; 
-            font-size: 1.1rem;
-            font-weight: 700;
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #f0f0f0;
         }
 
         .info-clan {
             width: 100%;
-            max-width: 700px;
-            margin: 80px auto 40px auto;
+            max-width: 800px;
+            margin: 100px auto 50px auto;
             text-align: center;
-            padding: 40px 20px;
-            border-top: 1px solid #222;
+            padding: 50px 20px;
+            border-top: 1px solid var(--borde);
         }
 
         .info-title {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             color: white;
-            margin-bottom: 15px;
-            font-weight: 700;
+            margin-bottom: 20px;
+            font-weight: 800;
+            text-transform: uppercase;
         }
 
         .info-text {
             color: var(--texto-secundario);
-            line-height: 1.6;
-            font-size: 1rem;
+            line-height: 1.8;
+            font-size: 1.1rem;
         }
 
-        .info-text strong { color: #fff; }
+        .info-text strong { color: var(--naranja); }
 
         footer {
-            margin-bottom: 40px;
-            font-size: 0.8rem;
-            color: #444;
+            margin-bottom: 50px;
+            font-size: 0.9rem;
+            color: #333;
+            font-weight: 600;
         }
+
+        /* Animación de entrada */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card { animation: fadeIn 0.5s ease forwards; }
+
     </style>
 </head>
 <body>
 
     <header>
         <h1>Colmillos Del Alba</h1>
-        <div class="subtitle">Miembros del Clan</div>
+        <div class="subtitle">Legión DiosesMC</div>
     </header>
 
     <div class="roles-nav">
-        <button class="btn-rol active" onclick="mostrarPorRol('Todos', this)">Todos</button>
-        <button class="btn-rol" onclick="mostrarPorRol('PVP', this)">⚔️ PVP</button>
-        <button class="btn-rol" onclick="mostrarPorRol('BUILDER', this)">⚒️ Builder</button>
-        <button class="btn-rol" onclick="mostrarPorRol('TECNICO', this)">⚙️ Técnico</button>
-        <button class="btn-rol" onclick="mostrarPorRol('CASUAL', this)">🏛️ Casual</button>
+        <button class="btn-rol active" onclick="filtrarPorID('Todos', this)">Todos</button>
+        <button class="btn-rol" onclick="filtrarPorID('1464335696390263069', this)">⚔️ PVP</button>
+        <button class="btn-rol" onclick="filtrarPorID('1464335639561506878', this)">⚒️ Builder</button>
+        <button class="btn-rol" onclick="filtrarPorID('1464335746944209161', this)">⚙️ Técnico</button>
+        <button class="btn-rol" onclick="filtrarPorID('1464335746856128737', this)">🌱 Farmer</button>
+        <button class="btn-rol" onclick="filtrarPorID('1479953030605443204', this)">🔨 Herrero</button>
     </div>
 
     <div class="grid" id="lista-usuarios">
-        <p style="opacity: 0.5;">Cargando miembros del clan...</p>
+        <p style="opacity: 0.5; grid-column: 1/-1;">Conectando con el servidor...</p>
     </div>
 
     <section class="info-clan">
         <div class="info-title">Información del Clan</div>
         <p class="info-text">
-            Clan <strong>Colmillos Del Alba</strong> del servidor <strong>DiosesMC</strong> (Vegetta777 y Willyrex).<br>
-            Creado por <strong>Guepar__</strong> el <strong>10 de enero de 2026</strong>.
+            Clan <strong>Colmillos Del Alba</strong> • Servidor <strong>DiosesMC</strong><br>
+            Liderado por <strong>Guepar__</strong> • Desde el <strong>10 de enero, 2026</strong>.
         </p>
     </section>
 
     <footer>
-        © 2026 Colmillos Del Alba
+        © 2026 COLMILLOS DEL ALBA • MINAS, URUGUAY
     </footer>
 
     <script>
-        // Configuración de la URL del Bot (Añadimos timestamp para evitar caché)
         const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros";
-        
         let miembrosCache = [];
-
-        // Función para limpiar texto (quitar tildes y mayúsculas)
-        const limpiarTexto = (t) => t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
         async function obtenerMiembros() {
             const grid = document.getElementById('lista-usuarios');
             try {
-                // Fetch con bypass de caché para asegurar datos frescos
-                const respuesta = await fetch(`${API_URL}?nocache=${Date.now()}`, {
-                    method: 'GET',
-                    mode: 'cors'
-                });
-
-                if (!respuesta.ok) throw new Error("Error en servidor");
-
+                const respuesta = await fetch(`${API_URL}?t=${Date.now()}`);
+                if (!respuesta.ok) throw new Error("Error de red");
+                
                 miembrosCache = await respuesta.json();
                 renderizarPantalla(miembrosCache);
-
             } catch (error) {
-                console.error("Error conectando:", error);
-                grid.innerHTML = "<p style='color: var(--rojo);'>El servidor está reconectando. Espera 5 segundos...</p>";
+                grid.innerHTML = "<p style='color: var(--rojo); grid-column: 1/-1;'>El servidor está despertando... recarga en unos segundos.</p>";
             }
         }
 
@@ -218,13 +244,14 @@
             grid.innerHTML = ''; 
 
             if (!lista || lista.length === 0) {
-                grid.innerHTML = "<p style='opacity: 0.5;'>No se encontraron miembros activos en esta categoría.</p>";
+                grid.innerHTML = "<p style='opacity: 0.5; grid-column: 1/-1;'>No hay miembros en esta categoría.</p>";
                 return;
             }
 
-            lista.forEach(user => {
+            lista.forEach((user, index) => {
                 const card = document.createElement('div');
                 card.className = 'card';
+                card.style.animationDelay = (index * 0.05) + "s";
                 card.innerHTML = `
                     <img src="${user.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}" alt="${user.username}">
                     <p>${user.username}</p>
@@ -233,29 +260,22 @@
             });
         }
 
-        function mostrarPorRol(rol, btn) {
-            // Manejo visual de botones
-            if(btn) {
-                document.querySelectorAll('.btn-rol').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            }
+        function filtrarPorID(idBuscada, btn) {
+            // Estética de botones
+            document.querySelectorAll('.btn-rol').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
 
-            if (rol === 'Todos') {
+            if (idBuscada === 'Todos') {
                 renderizarPantalla(miembrosCache);
             } else {
-                const busqueda = limpiarTexto(rol);
-                
-                const filtrados = miembrosCache.filter(m => {
-                    if (!m.roles) return false;
-                    // Comprobamos si alguno de los roles del miembro contiene la palabra clave
-                    return m.roles.some(r => limpiarTexto(r).includes(busqueda));
-                });
-
+                // Filtramos comparando las IDs exactas que envía el bot
+                const filtrados = miembrosCache.filter(m => 
+                    m.roles && m.roles.includes(idBuscada)
+                );
                 renderizarPantalla(filtrados);
             }
         }
 
-        // Carga inicial
         obtenerMiembros();
     </script>
 </body>
