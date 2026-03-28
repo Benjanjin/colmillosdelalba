@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colmillos Del Alba | DiosesMC</title>
+    <title>Colmillos Del Alba | Gestion</title>
     <style> 
         :root {
             --rojo: #d31027;
@@ -11,177 +11,246 @@
             --gradiente: linear-gradient(135deg, #d31027 0%, #ea384d 100%);
             --fondo: #0a0a0a;
             --gris-oscuro: #121212;
-            --texto-secundario: #a0a0a0;
             --borde: rgba(255, 255, 255, 0.05);
+            --sidebar-width: 280px;
         }
 
         body { 
-            font-family: 'Inter', 'Segoe UI', sans-serif; 
+            font-family: 'Inter', sans-serif; 
             background-color: var(--fondo); 
             color: white; 
             margin: 0;
             display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--gris-oscuro);
+            border-right: 1px solid var(--borde);
+            display: flex;
+            flex-direction: column;
+            padding: 30px 20px;
+            position: fixed;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--rojo);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .menu-group { margin-bottom: 25px; }
+        .menu-label { 
+            font-size: 0.7rem; 
+            color: #555; 
+            text-transform: uppercase; 
+            margin-bottom: 10px; 
+            display: block;
+            letter-spacing: 1px;
+        }
+
+        .nav-btn {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: #aaa;
+            padding: 12px 15px;
+            text-align: left;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: rgba(211, 16, 39, 0.1);
+            color: white;
+        }
+
+        /* --- CONTENIDO PRINCIPAL --- */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            padding: 40px;
+            display: flex;
             flex-direction: column;
             align-items: center;
-            overflow-x: hidden;
         }
 
-        header { 
-            width: 100%;
-            padding: 100px 20px;
-            text-align: center;
-            background: radial-gradient(circle at center, #300505 0%, var(--fondo) 80%);
-        }
-        
-        h1 { 
-            margin: 0; 
-            font-size: clamp(2.5rem, 8vw, 4rem); 
-            font-weight: 900;
-            text-transform: uppercase;
-            background: linear-gradient(to bottom, #fff 40%, #ff4b2b 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -2px;
-            filter: drop-shadow(0 0 15px rgba(211, 16, 39, 0.3));
-        }
+        .section { display: none; width: 100%; max-width: 1000px; animation: fadeIn 0.5s ease; }
+        .section.active { display: block; }
 
-        .subtitle { 
-            color: var(--texto-secundario);
-            font-size: 1rem;
-            margin-top: 15px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            font-weight: 500;
-        }
-
-        .roles-nav { 
-            display: flex; 
-            justify-content: center; 
-            gap: 10px; 
-            margin: -20px 0 50px 0;
-            flex-wrap: wrap;
-            padding: 0 20px;
-            z-index: 10;
-        }
-        
-        .btn-rol { 
-            background: var(--gris-oscuro);
-            color: #ccc;
+        /* --- ESTILOS INFO & LIDERES --- */
+        .info-card {
+            background: #111;
+            padding: 30px;
+            border-radius: 20px;
             border: 1px solid var(--borde);
-            padding: 12px 20px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 700;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px);
+            line-height: 1.6;
         }
+
+        /* Árbol de Líderes */
+        .leader-tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .leader-row { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
         
-        .btn-rol:hover {
-            border-color: var(--rojo);
-            color: white;
-            transform: translateY(-3px);
-            background: rgba(211, 16, 39, 0.1);
+        .leader-box {
+            background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid var(--rojo);
+            text-align: center;
+            min-width: 160px;
         }
-        
-        .btn-rol.active { 
-            background: var(--gradiente);
-            border: none;
-            color: white;
-            box-shadow: 0 8px 20px rgba(211, 16, 39, 0.4);
+        .leader-box img { width: 60px; height: 60px; border-radius: 50%; margin-bottom: 10px; border: 2px solid var(--rojo); }
+        .leader-box .rank { font-size: 0.7rem; color: var(--rojo); text-transform: uppercase; font-weight: 900; }
+
+        /* --- ROLES (Tu sistema actual) --- */
+        .roles-nav { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 30px; justify-content: center; }
+        .btn-rol { 
+            background: #1a1a1a; color: #ccc; border: 1px solid var(--borde);
+            padding: 10px 15px; border-radius: 10px; cursor: pointer; transition: 0.3s;
         }
+        .btn-rol.active { background: var(--gradiente); color: white; border: none; }
 
         .grid { 
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 30px;
-            padding: 20px;
-            width: 90%;
-            max-width: 1100px;
-            min-height: 300px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
+            gap: 20px; width: 100%; 
         }
-
         .card { 
-            background: linear-gradient(145deg, #181818, #0f0f0f);
-            padding: 35px 15px;
-            border-radius: 24px;
-            text-align: center;
+            background: #151515; padding: 20px; border-radius: 20px; text-align: center;
             border: 1px solid var(--borde);
-            transition: all 0.4s ease;
-            animation: fadeIn 0.5s ease forwards;
         }
-        
-        .card img { 
-            width: 95px; 
-            height: 95px; 
-            border-radius: 50%; 
-            padding: 4px;
-            background: var(--gradiente);
-            margin-bottom: 20px;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-        }
+        .card img { width: 70px; height: 70px; border-radius: 50%; margin-bottom: 15px; background: var(--gradiente); padding: 2px; }
 
-        .card p { 
-            margin: 0; 
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: #f0f0f0;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        footer { margin: 50px 0; color: #333; font-weight: 600; text-align: center; width: 100%; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Colmillos Del Alba</h1>
-        <div class="subtitle">CLan de DiosesMC</div>
-    </header>
+    <div class="sidebar">
+        <h2>COLMILLOS</h2>
+        
+        <div class="menu-group">
+            <span class="menu-label">General</span>
+            <button class="nav-btn active" onclick="showSection('info', this)">📂 Información</button>
+            <button class="nav-btn" onclick="showSection('lideres', this)">👑 Líderes</button>
+        </div>
 
-    <div class="roles-nav">
-        <button class="btn-rol active" onclick="filtroTotal('Todos', this)">Todos</button>
-        <button class="btn-rol" onclick="filtroTotal('𝒑𝒗𝒑', this)">⚔️ PVP</button>
-        <button class="btn-rol" onclick="filtroTotal('𝒃𝒖𝒊𝒍𝒅𝒆𝒓𝒔', this)">⚒️ Builder</button>
-        <button class="btn-rol" onclick="filtroTotal('𝒕𝒆𝒄𝒏𝒊𝒄𝒐𝒔', this)">⚙️ Técnico</button>
-        <button class="btn-rol" onclick="filtroTotal('Farmer', this)">🌱 Farmer</button>
-        <button class="btn-rol" onclick="filtroTotal('Herrero', this)">🔨 Herrero</button>
+        <div class="menu-group">
+            <span class="menu-label">Comunidad</span>
+            <button class="nav-btn" onclick="showSection('roles', this)">⚔️ Roles del Clan</button>
+        </div>
     </div>
 
-    <div class="grid" id="lista-usuarios">
-        <p style="opacity: 0.5; grid-column: 1/-1;">Cargando miembros...</p>
-    </div>
+    <div class="main-content">
+        
+        <div id="info" class="section active">
+            <h1>Información del Clan</h1>
+            <div class="info-card">
+                <p><strong>Fundación:</strong> Enero de 2026</p>
+                <p><strong>Servidor:</strong> DiosesMC</p>
+                <p><strong>Origen:</strong> Uruguay 🇺🇾</p>
+                <hr style="border: 0; border-top: 1px solid #333; margin: 20px 0;">
+                <p>Colmillos Del Alba nació con el objetivo de dominar el servidor DiosesMC mediante la organización técnica y el poder en PVP. Somos una legión enfocada en el crecimiento mutuo y la lealtad de nuestros miembros.</p>
+            </div>
+        </div>
 
-    <footer>
-        © 2026 COLMILLOS DEL ALBA • OFICIAL
-    </footer>
+        <div id="lideres" class="section">
+            <h1>Jerarquía del Alba</h1>
+            <div class="leader-tree">
+                <div class="leader-box">
+                    <div class="rank">Líder Supremo</div>
+                    <img src="https://avatar.iran.liara.run/public/31" alt="Líder">
+                    <p>guepar_3111</p>
+                </div>
+                <div class="leader-box">
+                    <div class="rank">Co-Líder</div>
+                    <img src="https://avatar.iran.liara.run/public/80" alt="CoLider">
+                    <p>nicol3_espin0za</p>
+                </div>
+                <div class="leader-row">
+                    <div class="leader-box">
+                        <div class="rank">Líder Técnico</div>
+                        <img src="https://avatar.iran.liara.run/public/65" alt="Tecnico">
+                        <p>danielitaxgg18</p>
+                    </div>
+                    <div class="leader-box">
+                        <div class="rank">Líder Farmer</div>
+                        <img src="https://avatar.iran.liara.run/public/1" alt="Farmer">
+                        <p>1fsi.</p>
+                    </div>
+                </div>
+                <div class="leader-row">
+                    <div class="leader-box">
+                        <div class="rank">Líder PVP</div>
+                        <img src="https://avatar.iran.liara.run/public/20" alt="PVP">
+                        <p>postm_alone</p>
+                    </div>
+                    <div class="leader-box">
+                        <div class="rank">Líder Builder</div>
+                        <img src="https://avatar.iran.liara.run/public/44" alt="Builder">
+                        <p>__jpmc</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="roles" class="section">
+            <h1>Miembros por Rol</h1>
+            <div class="roles-nav">
+                <button class="btn-rol active" onclick="filtroTotal('Todos', this)">Todos</button>
+                <button class="btn-rol" onclick="filtroTotal('𝒑𝒗𝒑', this)">⚔️ PVP</button>
+                <button class="btn-rol" onclick="filtroTotal('𝒃𝒖𝒊𝒍𝒅𝒆𝒓𝒔', this)">⚒️ Builder</button>
+                <button class="btn-rol" onclick="filtroTotal('𝒕𝒆𝒄𝒏𝒊𝒄𝒐𝒔', this)">⚙️ Técnico</button>
+                <button class="btn-rol" onclick="filtroTotal('Farmer', this)">🌱 Farmer</button>
+                <button class="btn-rol" onclick="filtroTotal('Herrero', this)">🔨 Herrero</button>
+            </div>
+
+            <div class="grid" id="lista-usuarios">
+                <p>Cargando miembros...</p>
+            </div>
+        </div>
+
+    </div>
 
     <script>
         const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros";
         let miembrosCache = [];
 
+        // Cambio de secciones
+        function showSection(sectionId, btn) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            btn.classList.add('active');
+        }
+
         async function obtenerMiembros() {
-            const grid = document.getElementById('lista-usuarios');
             try {
                 const respuesta = await fetch(`${API_URL}?t=${Date.now()}`);
                 miembrosCache = await respuesta.json();
                 renderizarPantalla(miembrosCache);
             } catch (error) {
-                grid.innerHTML = "<p>Error al conectar con el clan.</p>";
+                document.getElementById('lista-usuarios').innerHTML = "<p>Error al cargar.</p>";
             }
         }
 
         function renderizarPantalla(lista) {
             const grid = document.getElementById('lista-usuarios');
             grid.innerHTML = ''; 
-            if (!lista || lista.length === 0) {
-                grid.innerHTML = "<p style='opacity: 0.5; grid-column: 1/-1;'>Categoría vacía.</p>";
-                return;
-            }
             lista.forEach(user => {
                 grid.innerHTML += `
                     <div class="card">
@@ -192,33 +261,13 @@
             });
         }
 
-        // EL FILTRO QUE NO FALLA:
         function filtroTotal(key, btn) {
             document.querySelectorAll('.btn-rol').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-
-            if (key === 'Todos') {
-                renderizarPantalla(miembrosCache);
-                return;
-            }
-
-            const filtrados = miembrosCache.filter(m => {
-                if (!m.roles) return false;
-                
-                return m.roles.some(rol => {
-                    // 1. Buscamos por el nombre tal cual (con fuentes raras)
-                    if (rol.includes(key)) return true;
-                    
-                    // 2. Buscamos ignorando mayúsculas y minúsculas (para Farmer/Herrero)
-                    if (rol.toLowerCase().includes(key.toLowerCase())) return true;
-                    
-                    // 3. Caso especial para Herrero por el pico
-                    if (key === 'Herrero' && rol.includes('Herrero')) return true;
-
-                    return false;
-                });
-            });
-
+            if (key === 'Todos') { renderizarPantalla(miembrosCache); return; }
+            const filtrados = miembrosCache.filter(m => m.roles && m.roles.some(rol => 
+                rol.includes(key) || rol.toLowerCase().includes(key.toLowerCase())
+            ));
             renderizarPantalla(filtrados);
         }
 
