@@ -135,43 +135,51 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        footer { margin: 50px 0; color: #333; font-weight: 600; }
+        footer { margin: 50px 0; color: #333; font-weight: 600; text-align: center; width: 100%; }
     </style>
 </head>
 <body>
 
     <header>
         <h1>Colmillos Del Alba</h1>
-        <div class="subtitle">Clan DiosesMC</div>
+        <div class="subtitle">Legión DiosesMC</div>
     </header>
 
     <div class="roles-nav">
         <button class="btn-rol active" onclick="superFiltro('Todos', 'Todos', this)">Todos</button>
-        <button class="btn-rol" onclick="superFiltro('1464335696390263069', 'PVP', this)">⚔️ PVP</button>
-        <button class="btn-rol" onclick="superFiltro('1464335639561506878', 'BUILDER', this)">⚒️ Builder</button>
-        <button class="btn-rol" onclick="superFiltro('1464335746944209161', 'TECNICO', this)">⚙️ Técnico</button>
-        <button class="btn-rol" onclick="superFiltro('1464335746856128737', 'FARMER', this)">🌱 Farmer</button>
-        <button class="btn-rol" onclick="superFiltro('1479953030605443204', 'HERREROS', this)">🔨 Herrero</button>
+        <button class="btn-rol" onclick="superFiltro('1464335696390263069', 'pvp', this)">⚔️ PVP</button>
+        <button class="btn-rol" onclick="superFiltro('1464335639561506878', 'builder', this)">⚒️ Builder</button>
+        <button class="btn-rol" onclick="superFiltro('1464335746944209161', 'tecnico', this)">⚙️ Técnico</button>
+        <button class="btn-rol" onclick="superFiltro('1464335746856128737', 'farmer', this)">🌱 Farmer</button>
+        <button class="btn-rol" onclick="superFiltro('1479953030605443204', 'herrero', this)">🔨 Herrero</button>
     </div>
 
     <div class="grid" id="lista-usuarios">
-        <p style="opacity: 0.5; grid-column: 1/-1;">Conectando...</p>
+        <p style="opacity: 0.5; grid-column: 1/-1;">Cargando guerreros...</p>
     </div>
 
     <footer>
-        © 2026 COLMILLOS DEL ALBA •
+        © 2026 COLMILLOS DEL ALBA • URUGUAY
     </footer>
 
     <script>
         const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros";
         let miembrosCache = [];
 
+        // Función mágica para limpiar texto incluyendo fuentes raras de Discord
+        const normalizarTotal = (str) => {
+            if (!str) return "";
+            return str.toLowerCase()
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Quita tildes
+                .replace(/[^\x00-\x7F]/g, " ") // Reemplaza caracteres especiales/fuentes raras por espacios
+                .replace(/\s+/g, " "); // Limpia espacios dobles
+        };
+
         async function obtenerMiembros() {
             const grid = document.getElementById('lista-usuarios');
             try {
                 const respuesta = await fetch(`${API_URL}?t=${Date.now()}`);
                 miembrosCache = await respuesta.json();
-                console.log("Datos recibidos:", miembrosCache);
                 renderizarPantalla(miembrosCache);
             } catch (error) {
                 grid.innerHTML = "<p>Error al conectar con el clan.</p>";
@@ -195,8 +203,7 @@
             });
         }
 
-        // ESTA FUNCIÓN ES LA SOLUCIÓN: Busca por ID o por Nombre al mismo tiempo
-        function superFiltro(id, nombre, btn) {
+        function superFiltro(id, palabraClave, btn) {
             document.querySelectorAll('.btn-rol').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
@@ -207,11 +214,15 @@
 
             const filtrados = miembrosCache.filter(m => {
                 if (!m.roles) return false;
-                // Busca si en la lista de roles está la ID O si está el NOMBRE
-                return m.roles.some(rol => 
-                    rol === id || 
-                    rol.toUpperCase().includes(nombre.toUpperCase())
-                );
+                
+                return m.roles.some(rol => {
+                    // 1. Intento por ID exacta
+                    if (rol === id) return true;
+                    
+                    // 2. Intento por Nombre (Limpiamos el rol de Discord y buscamos la palabra clave)
+                    const rolLimpio = normalizarTotal(rol);
+                    return rolLimpio.includes(palabraClave);
+                });
             });
 
             renderizarPantalla(filtrados);
