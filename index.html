@@ -3,27 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colmillos Del Alba | Dashboard Pro</title>
+    <title>Colmillos Del Alba | Dashboard Elite</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     
     <style> 
         :root {
             --rojo-neon: #ff0022;
+            --rojo-oscuro: #8b0000;
             --naranja-fuego: #ff8c00;
-            --fondo-negro: #030303;
-            --tarjeta: rgba(10, 10, 10, 0.95);
+            --fondo-negro: #020202;
+            --tarjeta: rgba(15, 5, 5, 0.95);
             --sidebar-width: 260px;
         }
 
         * { box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--fondo-negro); color: #e0e0e0; margin: 0; display: flex; min-height: 100vh; overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--fondo-negro); color: #fff; margin: 0; display: flex; min-height: 100vh; overflow-x: hidden; }
 
-        /* --- FONDO ANIMADO DE ESPADAS --- */
-        #bg-combat { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at center, #1a0202 0%, #000 100%); overflow: hidden; }
+        /* --- DECORACIÓN: BARRAS DE ENERGÍA MÓVILES --- */
+        .scanner-line {
+            position: fixed; top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--rojo-neon), transparent);
+            z-index: 1000; animation: scanVertical 8s infinite linear;
+            box-shadow: 0 0 15px var(--rojo-neon);
+        }
+
+        @keyframes scanVertical {
+            0% { top: -5%; }
+            100% { top: 105%; }
+        }
+
+        /* --- FONDO ANIMADO ESPADAS --- */
+        #bg-combat { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at center, #1a0000 0%, #000 100%); overflow: hidden; }
         .sword {
             position: absolute; width: 50px; height: 50px; background-size: contain; background-repeat: no-repeat;
-            opacity: 0.2; filter: drop-shadow(0 0 8px var(--rojo-neon)); animation: floatSwords 20s infinite linear;
+            opacity: 0.15; filter: drop-shadow(0 0 10px var(--rojo-neon)); animation: floatSwords 20s infinite linear;
         }
         .s-neth { background-image: url('https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png'); }
         .s-diam { background-image: url('https://minecraft.wiki/images/Diamond_Sword_JE3_BE3.png'); }
@@ -31,90 +45,102 @@
 
         @keyframes floatSwords {
             0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
+            10% { opacity: 0.2; }
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
         /* --- SIDEBAR --- */
-        .sidebar { width: var(--sidebar-width); background: rgba(0, 0, 0, 0.98); border-right: 2px solid var(--rojo-neon); padding: 40px 20px; position: fixed; height: 100vh; z-index: 100; box-shadow: 5px 0 20px rgba(255,0,0,0.2); }
-        .sidebar h2 { font-family: 'Syncopate', sans-serif; font-size: 0.8rem; text-align: center; margin-bottom: 50px; color: var(--rojo-neon); text-shadow: 0 0 10px var(--rojo-neon); letter-spacing: 2px; }
-        .menu-label { font-size: 0.6rem; color: #555; text-transform: uppercase; margin: 20px 0 10px 10px; font-weight: 900; }
-        .nav-btn { width: 100%; background: transparent; border: none; color: #888; padding: 14px 18px; text-align: left; border-radius: 12px; cursor: pointer; transition: 0.3s; margin-bottom: 8px; font-weight: 700; display: flex; align-items: center; gap: 12px; font-size: 0.85rem; }
-        .nav-btn:hover, .nav-btn.active { background: rgba(255, 0, 34, 0.1); color: #fff; box-shadow: inset 4px 0 0 var(--rojo-neon); transform: translateX(5px); }
+        .sidebar { 
+            width: var(--sidebar-width); background: rgba(0, 0, 0, 0.98); 
+            border-right: 2px solid var(--rojo-neon); padding: 40px 20px; 
+            position: fixed; height: 100vh; z-index: 100;
+            box-shadow: 10px 0 30px rgba(255, 0, 34, 0.15);
+        }
+        .sidebar h2 { font-family: 'Syncopate', sans-serif; font-size: 0.8rem; text-align: center; margin-bottom: 50px; color: var(--rojo-neon); text-shadow: 0 0 15px var(--rojo-neon); }
+        .nav-btn { 
+            width: 100%; background: transparent; border: 1px solid transparent; color: #666; 
+            padding: 14px 18px; text-align: left; border-radius: 12px; cursor: pointer; 
+            transition: 0.3s; margin-bottom: 8px; font-weight: 700; display: flex; align-items: center; gap: 12px; 
+        }
+        .nav-btn:hover, .nav-btn.active { 
+            background: rgba(255, 0, 34, 0.1); color: #fff; border-color: var(--rojo-neon);
+            box-shadow: inset 0 0 10px rgba(255,0,0,0.2); transform: translateX(5px);
+        }
 
-        /* --- CONTENIDO --- */
-        .main-content { margin-left: var(--sidebar-width); flex-grow: 1; padding: 50px; z-index: 1; }
-        .section { display: none; animation: fadeIn 0.5s ease forwards; }
+        /* --- MAIN --- */
+        .main-content { margin-left: var(--sidebar-width); flex-grow: 1; padding: 60px; z-index: 1; }
+        .section { display: none; animation: slideIn 0.5s ease-out forwards; }
         .section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
 
-        h1 { font-family: 'Syncopate', sans-serif; font-size: 1.4rem; margin-bottom: 35px; border-left: 5px solid var(--rojo-neon); padding-left: 15px; }
+        h1 { font-family: 'Syncopate', sans-serif; font-size: 1.5rem; color: #fff; text-shadow: 0 0 10px var(--rojo-neon); border-left: 5px solid var(--rojo-neon); padding-left: 20px; margin-bottom: 40px; }
 
-        /* --- GRANJAS (NARANJA DEGRADADO) --- */
-        .farm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        /* --- GRANJAS --- */
+        .farm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
         .farm-card { background: var(--tarjeta); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; }
-        .farm-card:hover { transform: translateY(-8px); border-color: var(--naranja-fuego); box-shadow: 0 10px 20px rgba(255, 140, 0, 0.1); }
-        .farm-img { width: 100%; height: 170px; object-fit: cover; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .farm-badge { display: inline-block; padding: 6px 14px; background: linear-gradient(90deg, #ff8c00, #ff4500); color: #fff; font-size: 0.65rem; font-weight: 900; border-radius: 5px; margin-top: 10px; text-transform: uppercase; }
+        .farm-card:hover { transform: translateY(-10px); border-color: var(--naranja-fuego); box-shadow: 0 10px 30px rgba(255, 140, 0, 0.2); }
+        .farm-badge { display: inline-block; padding: 6px 15px; background: linear-gradient(90deg, #ff8c00, #ff4500); color: #fff; font-size: 0.65rem; font-weight: 900; border-radius: 5px; margin-top: 10px; text-transform: uppercase; }
 
         /* --- JERARQUÍA --- */
-        .leader-tree { display: flex; flex-direction: column; align-items: center; gap: 30px; }
-        .leader-box { background: #0a0a0a; padding: 20px; border-radius: 20px; border: 1px solid var(--rojo-neon); text-align: center; min-width: 190px; box-shadow: 0 0 15px rgba(255,0,0,0.1); }
-        .leader-box img { width: 75px; height: 75px; border-radius: 50%; border: 3px solid var(--rojo-neon); margin-bottom: 12px; background: #000; }
-        .leader-row { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; width: 100%; }
-        .rank-tag { font-size: 0.65rem; color: var(--rojo-neon); font-weight: 900; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 5px; }
+        .leader-box { background: #080808; padding: 25px; border-radius: 20px; border: 1px solid var(--rojo-neon); text-align: center; min-width: 190px; margin-bottom: 40px; transition: 0.3s; box-shadow: 0 0 20px rgba(255,0,0,0.1); }
+        .leader-box:hover { box-shadow: 0 0 30px var(--rojo-neon); transform: scale(1.05); }
+        .leader-box img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--rojo-neon); margin-bottom: 12px; }
+        .leader-row { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; }
 
-        /* --- FILTROS DE ROLES (ESTILO BOTÓN) --- */
-        .roles-nav { background: rgba(255,255,255,0.03); padding: 20px; border-radius: 20px; margin-bottom: 30px; border: 1px solid rgba(255,0,0,0.1); display: flex; gap: 10px; flex-wrap: wrap; }
-        .btn-rol { background: #111; border: 1px solid #333; color: #888; padding: 10px 18px; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 0.75rem; transition: 0.3s; }
-        .btn-rol:hover, .btn-rol.active { background: var(--rojo-neon); color: #fff; border-color: var(--rojo-neon); box-shadow: 0 0 15px rgba(255,0,0,0.3); transform: scale(1.05); }
+        /* --- FILTRO MIEMBROS --- */
+        .roles-nav { display: flex; gap: 12px; flex-wrap: wrap; background: rgba(255,255,255,0.02); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,0,0,0.1); margin-bottom: 40px; }
+        .btn-rol { 
+            background: #000; border: 1px solid #333; color: #888; padding: 12px 20px; 
+            border-radius: 12px; cursor: pointer; font-weight: 800; font-size: 0.75rem; 
+            transition: 0.3s; text-transform: uppercase; 
+        }
+        .btn-rol:hover, .btn-rol.active { background: var(--rojo-neon); color: #fff; border-color: var(--rojo-neon); box-shadow: 0 0 20px var(--rojo-neon); }
 
         .member-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
-        .card { background: var(--tarjeta); padding: 25px 15px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.03); transition: 0.3s; }
-        .card img { width: 75px; height: 75px; border-radius: 50%; margin-bottom: 15px; border: 2px solid var(--rojo-neon); }
+        .card { background: var(--tarjeta); padding: 30px 15px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.03); transition: 0.3s; }
+        .card img { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--rojo-neon); margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
+    <div class="scanner-line"></div>
     <div id="bg-combat"></div>
 
     <div class="sidebar">
         <h2>COLMILLOS</h2>
-        <span class="menu-label">Nivel Central</span>
-        <button class="nav-btn active" onclick="switchTab('info', this)"><i class="fas fa-ghost"></i> General</button>
-        <button class="nav-btn" onclick="switchTab('lideres', this)"><i class="fas fa-sitemap"></i> Jerarquía</button>
-        <button class="nav-btn" onclick="switchTab('granjas', this)"><i class="fas fa-fire"></i> Granjas</button>
-        <button class="nav-btn" onclick="switchTab('miembros', this)"><i class="fas fa-users-viewfinder"></i> Miembros</button>
+        <span style="font-size:0.6rem; color:#444; font-weight:900; letter-spacing:2px;">SISTEMA</span>
+        <button class="nav-btn active" onclick="switchTab('info', this)"><i class="fas fa-terminal"></i> Status</button>
+        <button class="nav-btn" onclick="switchTab('lideres', this)"><i class="fas fa-crown"></i> Jerarquía</button>
+        <button class="nav-btn" onclick="switchTab('granjas', this)"><i class="fas fa-bolt"></i> Granjas</button>
+        <button class="nav-btn" onclick="switchTab('miembros', this)"><i class="fas fa-user-secret"></i> Miembros</button>
     </div>
 
     <div class="main-content">
-        
         <div id="info" class="section active">
-            <h1>INFORMACION</h1>
-            <div style="background: var(--tarjeta); padding: 40px; border-radius: 25px; border: 1px solid rgba(255,0,0,0.1)">
-                <p><i class="fas fa-shield-halved" style="color:var(--rojo-neon); margin-right:10px;"></i> <strong>Clan:</strong> Colmillos Del Alba</p>
-                <p><i class="fas fa-gamepad" style="color:var(--rojo-neon); margin-right:10px;"></i> <strong>Servidor:</strong> DiosesMC</p>
+            <h1>CENTRAL STATUS</h1>
+            <div style="background: var(--tarjeta); padding: 40px; border-radius: 25px; border: 1px solid rgba(255,0,0,0.2)">
+                <p><i class="fas fa-circle" style="color:#00ff00; font-size:0.7rem;"></i> Sistema Online</p>
+                <p><i class="fas fa-shield-alt" style="color:var(--rojo-neon)"></i> Clan: Colmillos Del Alba</p>
             </div>
         </div>
 
         <div id="granjas" class="section">
-            <h1>SISTEMA DE GRANJAS</h1>
+            <h1>Granjas</h1>
             <div class="farm-grid">
-                <div class="farm-card"><img src="https://imgur.com/ZawCT1U.png" class="farm-img"><div style="padding:20px;"><h3>Granja de Hierro</h3><span class="farm-badge">Producción Industrial</span></div></div>
-                <div class="farm-card"><img src="https://imgur.com/s3F1aKG.png" class="farm-img"><div style="padding:20px;"><h3>Granja de Magma</h3><span class="farm-badge">Suministro Nether</span></div></div>
-                <div class="farm-card"><img src="https://imgur.com/sOvjMva.png" class="farm-img"><div style="padding:20px;"><h3>Granja de Oro</h3><span class="farm-badge">XP & Oro Infinito</span></div></div>
-                <div class="farm-card"><img src="https://imgur.com/nseW5Rd.png" class="farm-img"><div style="padding:20px;"><h3>Mega Granja Zanahorias</h3><span class="farm-badge">Bio-Comida Auto</span></div></div>
+                <div class="farm-card"><img src="https://imgur.com/ZawCT1U.png" style="width:100%; height:180px; object-fit:cover;"><div style="padding:20px;"><h3>Granja de Hierro</h3><span class="farm-badge">Producción Industrial</span></div></div>
+                <div class="farm-card"><img src="https://imgur.com/s3F1aKG.png" style="width:100%; height:180px; object-fit:cover;"><div style="padding:20px;"><h3>Granja de Magma</h3><span class="farm-badge">Suministro Nether</span></div></div>
+                <div class="farm-card"><img src="https://imgur.com/sOvjMva.png" style="width:100%; height:180px; object-fit:cover;"><div style="padding:20px;"><h3>Granja de Oro</h3><span class="farm-badge">XP & Oro Infinito</span></div></div>
+                <div class="farm-card"><img src="https://imgur.com/nseW5Rd.png" style="width:100%; height:180px; object-fit:cover;"><div style="padding:20px;"><h3>Mega Granja Zanahorias</h3><span class="farm-badge">Bio-Comida Auto</span></div></div>
             </div>
         </div>
 
         <div id="lideres" class="section">
-            <h1>ALTO MANDO</h1>
-            <div class="leader-tree" id="tree-container"></div>
+            <h1>LINAJE DE MANDO</h1>
+            <div class="leader-row" id="tree-container"></div>
         </div>
 
         <div id="miembros" class="section">
-            <h1>REGISTRO DE MIEMBROS</h1>
+            <h1>MIEMBROS</h1>
             <div class="roles-nav">
                 <button class="btn-rol active" onclick="filtroTotal('Todos', this)">Todos</button>
                 <button class="btn-rol" onclick="filtroTotal('𝒑𝒗𝒑', this)">⚔️ PVP</button>
@@ -136,7 +162,6 @@
                 s.className = `sword ${types[Math.floor(Math.random()*3)]}`;
                 s.style.left = Math.random()*100 + 'vw';
                 s.style.animationDelay = Math.random()*15 + 's';
-                s.style.animationDuration = (Math.random()*8 + 15) + 's';
                 container.appendChild(s);
             }
         }
@@ -152,11 +177,13 @@
         const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros";
         let miembrosCache = [];
 
-        const JERARQUIA_DATA = [
+        const LIDERES = [
             { nick: "guepar_3111", rango: "Líder Supremo" },
             { nick: "nicol3_espin0za", rango: "Co-Líder" },
-            { fila: [{ nick: "danielitaxgg18", rango: "Líder Técnico" }, { nick: "1fsi.", rango: "Líder Farmer" }] },
-            { fila: [{ nick: "postm_alone", rango: "Líder PVP" }, { nick: "__jpmc", rango: "Líder Construcción" }] }
+            { nick: "danielitaxgg18", rango: "Líder Técnico" },
+            { nick: "1fsi.", rango: "Líder Farmer" },
+            { nick: "postm_alone", rango: "Líder PVP" },
+            { nick: "__jpmc", rango: "Líder Construcción" }
         ];
 
         async function inicializar() {
@@ -170,21 +197,14 @@
 
         function renderJerarquia() {
             const container = document.getElementById('tree-container');
-            container.innerHTML = JERARQUIA_DATA.map(item => {
-                if(item.fila) {
-                    return `<div class="leader-row">${item.fila.map(l => cardLider(l)).join('')}</div>`;
-                }
-                return cardLider(item);
+            container.innerHTML = LIDERES.map(l => {
+                const user = miembrosCache.find(m => (m.username||"").toLowerCase().includes(l.nick.toLowerCase()));
+                const img = user ? user.avatar : 'https://cdn.discordapp.com/embed/avatars/0.png';
+                return `<div class="leader-box"><span style="color:var(--rojo-neon); font-size:0.65rem; font-weight:900;">${l.rango}</span><br><img src="${img}"><div style="font-weight:900;">${user ? (user.nickname || user.username) : l.nick}</div></div>`;
             }).join('');
         }
 
-        function cardLider(info) {
-            const user = miembrosCache.find(m => (m.username||"").toLowerCase().includes(info.nick.toLowerCase()));
-            const img = user ? user.avatar : 'https://cdn.discordapp.com/embed/avatars/0.png';
-            return `<div class="leader-box"><span class="rank-tag">${info.rango}</span><img src="${img}"><div style="font-weight:900;">${user ? (user.nickname || user.username) : info.nick}</div></div>`;
-        }
-
-        // FUNCIÓN FILTRO TOTAL CORREGIDA CON ROLES DE DISCORD
+        // --- FILTRO DE ROLES SÚPER FLEXIBLE ---
         function filtroTotal(rolBusqueda, btn) {
             if(btn) {
                 document.querySelectorAll('.btn-rol').forEach(b => b.classList.remove('active'));
@@ -194,12 +214,21 @@
             const grid = document.getElementById('lista-usuarios');
             const filtrados = rolBusqueda === 'Todos' 
                 ? miembrosCache 
-                : miembrosCache.filter(u => u.roles && u.roles.some(r => r.includes(rolBusqueda)));
+                : miembrosCache.filter(u => {
+                    if(!u.roles) return false;
+                    // Buscamos si el rol contiene la palabra, ignorando si es itálica o normal
+                    return u.roles.some(r => {
+                        const rClean = r.toLowerCase();
+                        const sClean = rolBusqueda.toLowerCase();
+                        // Esto ayuda a que "Farmer" encuentre "🌱 Farmer" y "Herrero" encuentre "🔨 Herrero"
+                        return rClean.includes(sClean) || sClean.includes(rClean);
+                    });
+                });
 
             grid.innerHTML = filtrados.map(u => `
                 <div class="card">
                     <img src="${u.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}">
-                    <div style="font-weight:800; font-size:0.85rem;">${u.nickname || u.username}</div>
+                    <div style="font-weight:900; font-size:0.85rem;">${u.nickname || u.username}</div>
                 </div>
             `).join('');
         }
