@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colmillos Del Alba | Dashboard Pro</title>
+    <title>Colmillos Del Alba | Dashboard Supremo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     
@@ -11,28 +11,62 @@
         :root {
             --rojo-neon: #ff0022;
             --naranja-fuego: #ff8c00;
-            --fondo-negro: #050505;
-            --tarjeta: rgba(15, 15, 15, 0.9);
+            --rojo-glow: rgba(255, 0, 34, 0.4);
+            --fondo-negro: #030303;
+            --tarjeta: rgba(10, 10, 10, 0.9);
             --sidebar-width: 260px;
         }
 
         * { box-sizing: border-box; }
+
         body { 
             font-family: 'Inter', sans-serif; 
             background-color: var(--fondo-negro); 
-            color: #fff; 
+            color: #e0e0e0; 
             margin: 0;
             display: flex;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* --- FONDO ANIMADO DE PARTÍCULAS --- */
-        #bg-canvas {
+        /* --- FONDO ANIMADO DE ESPADAS (NUEVO Y MEJORADO) --- */
+        #bg-combat {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
-            background: radial-gradient(circle at center, #150000 0%, #000 100%);
+            background: radial-gradient(circle at center, #1a0202 0%, #000 100%);
+            overflow: hidden;
+        }
+
+        /* Niebla de batalla */
+        #bg-combat::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+            opacity: 0.2;
+        }
+
+        .sword {
+            position: absolute;
+            width: 50px; height: 50px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.15;
+            filter: drop-shadow(0 0 5px var(--rojo-neon));
+            animation: floatSwords 25s infinite linear;
+        }
+
+        /* Sprites de espadas de Minecraft (puedes cambiarlas por otras URLs si prefieres) */
+        .sword-netherite { background-image: url('https://i.imgur.com/GjN5HXT.png'); }
+        .sword-diamond { background-image: url('https://i.imgur.com/vH4Xw4k.png'); }
+        .sword-gold { background-image: url('https://i.imgur.com/7H7M3xN.png'); }
+
+        @keyframes floatSwords {
+            0% { transform: translateY(110vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.2; }
+            90% { opacity: 0.2; }
+            100% { transform: translateY(-10vh) translateX(50px) rotate(360deg); opacity: 0; }
         }
 
         /* --- SIDEBAR --- */
@@ -40,166 +74,121 @@
             width: var(--sidebar-width);
             background: rgba(0, 0, 0, 0.95);
             border-right: 2px solid var(--rojo-neon);
+            box-shadow: 5px 0 20px rgba(255, 0, 34, 0.1);
+            backdrop-filter: blur(15px);
             display: flex;
             flex-direction: column;
             padding: 40px 20px;
             position: fixed;
             height: 100vh;
             z-index: 100;
-            box-shadow: 10px 0 30px rgba(255, 0, 34, 0.1);
         }
 
         .sidebar h2 {
             font-family: 'Syncopate', sans-serif;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             text-align: center;
-            margin-bottom: 40px;
-            letter-spacing: 2px;
-            color: var(--rojo-neon);
+            margin-bottom: 50px;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #fff 0%, var(--rojo-neon) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-shadow: 0 0 10px var(--rojo-neon);
         }
 
         .menu-label { 
-            font-size: 0.65rem; 
-            color: #444; 
-            text-transform: uppercase; 
-            margin: 20px 0 10px 10px; 
-            font-weight: 900;
-            letter-spacing: 1px;
+            font-size: 0.65rem; color: #555; text-transform: uppercase; 
+            margin: 20px 0 10px 10px; font-weight: 900; letter-spacing: 1.5px;
         }
 
-        .nav-btn {
-            width: 100%;
-            background: transparent;
-            border: 1px solid transparent;
-            color: #888;
-            padding: 14px 18px;
-            text-align: left;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-bottom: 8px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .nav-btn, .nav-link {
+            width: 100%; background: transparent; border: none; color: #888;
+            padding: 14px 18px; text-align: left; border-radius: 12px; cursor: pointer;
+            transition: 0.3s; margin-bottom: 8px; font-weight: 700;
+            display: flex; align-items: center; gap: 12px; text-decoration: none; font-size: 0.9rem;
         }
 
-        .nav-btn:hover, .nav-btn.active {
-            background: rgba(255, 0, 34, 0.1);
+        .nav-btn:hover, .nav-btn.active, .nav-link:hover {
+            background: rgba(255, 0, 34, 0.08);
             color: #fff;
-            border-color: var(--rojo-neon);
+            box-shadow: inset 4px 0 0 var(--rojo-neon), 0 0 15px rgba(255,0,0,0.2);
             transform: translateX(5px);
         }
 
-        /* --- CONTENIDO PRINCIPAL --- */
-        .main-content {
-            margin-left: var(--sidebar-width);
-            flex-grow: 1;
-            padding: 50px;
-            width: calc(100% - var(--sidebar-width));
-        }
+        /* --- MAIN --- */
+        .main-content { margin-left: var(--sidebar-width); flex-grow: 1; padding: 60px; z-index: 1; }
 
-        /* LÓGICA DE CATEGORÍAS (IMPORTANTE) */
-        .section { 
-            display: none; 
-            animation: fadeIn 0.5s ease;
-        }
-        .section.active { 
-            display: block; 
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        /* LÓGICA DE CATEGORÍAS */
+        .section { display: none; animation: slideUp 0.6s ease forwards; }
+        .section.active { display: block; }
 
         h1 { 
-            font-family: 'Syncopate', sans-serif; 
-            font-size: 1.5rem; 
-            margin-bottom: 40px; 
-            border-left: 4px solid var(--rojo-neon);
-            padding-left: 15px;
+            font-family: 'Syncopate', sans-serif; font-size: 1.6rem; margin-bottom: 40px; 
+            border-left: 5px solid var(--rojo-neon); padding-left: 20px;
+            text-shadow: 0 0 10px var(--rojo-glow);
         }
 
-        /* --- DISEÑO DE GRANJAS (NARANJA DEGRADADO) --- */
-        .farm-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .farm-card {
-            background: var(--tarjeta);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.4s;
-        }
-
-        .farm-card:hover {
-            border-color: var(--naranja-fuego);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(255, 140, 0, 0.1);
-        }
-
-        .farm-card img { width: 100%; height: 160px; object-fit: cover; transition: 0.5s; }
-        .farm-card:hover img { transform: scale(1.1); }
-
-        .farm-info { padding: 20px; }
+        /* --- SECCION GRANJAS (NARANJA DEGRADADO) --- */
+        .farm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .farm-card { background: var(--tarjeta); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.05); transition: 0.4s; position: relative; }
+        .farm-card:hover { transform: translateY(-10px); border-color: var(--naranja-fuego); box-shadow: 0 10px 30px rgba(255, 140, 0, 0.15); }
+        .farm-card img { width: 100%; height: 180px; object-fit: cover; filter: grayscale(30%); transition: 0.4s; }
+        .farm-card:hover img { filter: grayscale(0%); scale: 1.05; }
+        .farm-info { padding: 20px; background: linear-gradient(to top, #0a0a0a, transparent); }
+        .farm-info h3 { margin: 0; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; color: #fff; }
         
         /* TEXTO DEBAJO DEL NOMBRE (DEGRADADO NARANJA) */
         .farm-badge {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 5px 12px;
-            font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            border-radius: 4px;
-            background: linear-gradient(90deg, #ff8c00, #ff4500); /* Degradado Naranja a Rojo */
-            color: #fff;
-            box-shadow: 0 2px 8px rgba(255, 140, 0, 0.4);
+            display: inline-block; padding: 6px 12px;
+            background: linear-gradient(135deg, var(--naranja-fuego) 0%, #ff4500 100%);
+            color: #fff; font-size: 0.65rem; font-weight: 900; border-radius: 5px;
+            margin-top: 10px; text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(255, 140, 0, 0.3);
         }
 
-        /* --- MIEMBROS Y JERARQUIA --- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px; }
-        .card { background: var(--tarjeta); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.03); }
-        .card img { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--rojo-neon); margin-bottom: 10px; }
+        /* --- ARBOL DE LIDERES (EL DE SIEMPRE, ARREGLADO) --- */
+        .leader-tree { display: flex; flex-direction: column; align-items: center; position: relative; padding-top: 20px; }
+        .leader-tree::after { content: ''; position: absolute; top: 0; width: 2px; height: 85%; background: linear-gradient(to bottom, var(--rojo-neon), transparent); z-index: 1; }
+        .leader-box { background: #111; padding: 20px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center; min-width: 190px; margin-bottom: 50px; position: relative; z-index: 5; transition: 0.3s; }
+        .leader-box:hover { transform: translateY(-5px); border-color: var(--rojo-neon); box-shadow: 0 0 25px rgba(255, 0, 34, 0.2); }
+        .leader-box img { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 12px; border: 3px solid var(--rojo-neon); background: #000; object-fit: cover; }
+        .rank { font-size: 0.65rem; color: var(--rojo-neon); text-transform: uppercase; font-weight: 900; letter-spacing: 1.5px; margin-bottom: 5px; display: block; }
+        .leader-name { font-weight: 800; font-size: 1rem; color: #fff; }
+        .leader-row { display: flex; gap: 60px; justify-content: center; width: 100%; position: relative; z-index: 5; }
 
-        .leader-box { background: #111; padding: 25px; border-radius: 15px; border: 1px solid var(--rojo-neon); text-align: center; margin-bottom: 20px; }
-        .leader-box img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--rojo-neon); margin-bottom: 10px; }
+        /* --- MIEMBROS GRID --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 20px; }
+        .card { background: var(--tarjeta); padding: 25px 15px; border-radius: 20px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.03); backdrop-filter: blur(5px); }
+        .card img { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 15px; background: linear-gradient(135deg, #ff0022 0%, #8b0000 100%); padding: 2px; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div id="bg-canvas"></div>
+    <div id="bg-combat"></div>
 
     <div class="sidebar">
         <h2>COLMILLOS</h2>
-        
         <span class="menu-label">Principal</span>
-        <button class="nav-btn active" onclick="switchTab('info', this)"><i class="fas fa-home"></i> Inicio</button>
-        <button class="nav-btn" onclick="switchTab('lideres', this)"><i class="fas fa-crown"></i> Jerarquía</button>
+        <button class="nav-btn active" onclick="showSection('info', this)"><i class="fas fa-house"></i> Información</button>
+        <a href="https://discord.gg/xw9pzw3kB5" target="_blank" class="nav-link"><i class="fas fa-user-plus"></i> Reclutaciones</a>
+        <button class="nav-btn" onclick="showSection('lideres', this)"><i class="fas fa-sitemap"></i> Jerarquía</button>
         
         <span class="menu-label">Recursos</span>
-        <button class="nav-btn" onclick="switchTab('granjas', this)"><i class="fas fa-tractor"></i> Granjas</button>
+        <button class="nav-btn" onclick="showSection('granjas', this)"><i class="fas fa-wheat-awn"></i> Granjas</button>
         
-        <span class="menu-label">Clan</span>
-        <button class="nav-btn" onclick="switchTab('miembros', this)"><i class="fas fa-users"></i> Miembros</button>
-        <a href="https://discord.gg/xw9pzw3kB5" target="_blank" style="text-decoration:none">
-            <button class="nav-btn"><i class="fas fa-plus"></i> Reclutar</button>
-        </a>
+        <span class="menu-label">Comunidad</span>
+        <button class="nav-btn" onclick="showSection('roles', this)"><i class="fas fa-user-group"></i> Miembros</button>
     </div>
 
     <div class="main-content">
-        
         <div id="info" class="section active">
-            <h1>SISTEMA CENTRAL</h1>
-            <div style="background: var(--tarjeta); padding: 30px; border-radius: 15px; border: 1px solid rgba(255,0,0,0.2)">
-                <p><i class="fas fa-shield-alt" style="color:var(--rojo-neon)"></i> <strong>Clan:</strong> Colmillos Del Alba</p>
-                <p><i class="fas fa-map-marker-alt" style="color:var(--rojo-neon)"></i> <strong>Servidor:</strong> DiosesMC</p>
-                <p><i class="fas fa-info-circle" style="color:var(--rojo-neon)"></i> Selecciona una categoría en el menú para gestionar los recursos del clan.</p>
+            <h1>BASE DE OPERACIONES</h1>
+            <div style="background: var(--tarjeta); padding: 40px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.03); backdrop-filter: blur(10px);">
+                <p><i class="fas fa-shield-halved" style="color:var(--rojo-neon)"></i> <strong> Clan:</strong> Colmillos Del Alba</p>
+                <p><i class="fas fa-crosshairs" style="color:var(--rojo-neon)"></i> <strong> Sector:</strong> DiosesMC</p>
+                <p><i class="fas fa-bolt" style="color:var(--rojo-neon)"></i> <strong> Estado:</strong> En Crecimiento</p>
             </div>
         </div>
 
@@ -210,104 +199,159 @@
                     <img src="https://imgur.com/ZawCT1U.png" alt="Hierro">
                     <div class="farm-info">
                         <h3>Granja de Hierro</h3>
-                        <div class="farm-badge">Producción Industrial</div>
+                        <span class="farm-badge">Producción Industrial</span>
                     </div>
                 </div>
                 <div class="farm-card">
                     <img src="https://imgur.com/s3F1aKG.png" alt="Magma">
                     <div class="farm-info">
                         <h3>Granja de Magma</h3>
-                        <div class="farm-badge">Spawners Masivos</div>
+                        <span class="farm-badge">Nether Spawner High-Yield</span>
                     </div>
                 </div>
                 <div class="farm-card">
                     <img src="https://imgur.com/sOvjMva.png" alt="Oro">
                     <div class="farm-info">
                         <h3>Granja de Oro</h3>
-                        <div class="farm-badge">XP & Oro Infinito</div>
+                        <span class="farm-badge">Suministro XP & Lingotes</span>
                     </div>
                 </div>
                 <div class="farm-card">
                     <img src="https://imgur.com/nseW5Rd.png" alt="Zanahorias">
                     <div class="farm-info">
-                        <h3>MEGA Granja Zanahorias</h3>
-                        <div class="farm-badge">Comida Automática</div>
+                        <h3>Mega Granja Zanahorias</h3>
+                        <span class="farm-badge">Bio-Suministro Auto</span>
                     </div>
                 </div>
             </div>
         </div>
 
         <div id="lideres" class="section">
-            <h1>ALTOS MANDOS</h1>
-            <div id="tree-container" style="display: flex; flex-direction: column; align-items: center;">
-                </div>
+            <h1>JERARQUÍA DEL ALBA</h1>
+            <div class="leader-tree" id="tree-container">
+                <p>Sincronizando red de mando...</p>
+            </div>
         </div>
 
-        <div id="miembros" class="section">
-            <h1>MIEMBROS ACTIVOS</h1>
+        <div id="roles" class="section">
+            <h1>REGISTRO DE INFANTERÍA</h1>
             <div class="grid" id="lista-usuarios">
                 <p>Cargando base de datos...</p>
             </div>
         </div>
-
     </div>
 
     <script>
-        // --- LÓGICA DE NAVEGACIÓN (CATEGORÍAS) ---
-        function switchTab(tabId, btn) {
-            // Ocultar todas las secciones
-            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-            // Quitar clase active de botones
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        // GENERADOR DE ESPADAS ANIMADAS
+        function createSwords() {
+            const container = document.getElementById('bg-combat');
+            const swordTypes = ['sword-netherite', 'sword-diamond', 'sword-gold'];
             
-            // Mostrar la seleccionada
-            document.getElementById(tabId).classList.add('active');
-            btn.classList.add('active');
+            for(let i = 0; i < 15; i++) {
+                const s = document.createElement('div');
+                // Asignar un tipo de espada aleatorio
+                const type = swordTypes[Math.floor(Math.random() * swordTypes.length)];
+                s.className = `sword ${type}`;
+                
+                // Posición y animación aleatoria
+                s.style.left = Math.random() * 100 + 'vw';
+                s.style.animationDelay = Math.random() * 20 + 's';
+                s.style.animationDuration = (Math.random() * 15 + 15) + 's'; // Entre 15 y 30s
+                
+                container.appendChild(s);
+            }
         }
+        createSwords();
 
-        // --- CARGA DE DATOS API ---
         const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros";
         let miembrosCache = [];
 
-        async function cargarDatos() {
+        // ESTRUCTURA DE JERARQUÍA COMPLETA REINSTAURADA
+        const JERARQUIA = [
+            { nick: "guepar_3111", rango: "Líder Supremo", icono: "fa-star" },
+            { nick: "nicol3_espin0za", rango: "Co-Líder", icono: "fa-crown" },
+            { fila: [
+                { nick: "danielitaxgg18", rango: "Líder Técnico" },
+                { nick: "1fsi.", rango: "Líder Farmer" }
+            ]},
+            { fila: [
+                { nick: "postm_alone", rango: "Líder PVP" },
+                { nick: "__jpmc", rango: "Líder Construcción" }
+            ]}
+        ];
+
+        // Lógica de Categorías
+        function showSection(sectionId, btn) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            if(btn) btn.classList.add('active');
+        }
+
+        async function obtenerMiembros() {
             try {
-                const res = await fetch(`${API_URL}?t=${Date.now()}`);
-                miembrosCache = await res.json();
-                renderMiembros();
-                renderLideres();
-            } catch (e) { console.error("Error cargando API"); }
+                const respuesta = await fetch(`${API_URL}?t=${Date.now()}`);
+                miembrosCache = await respuesta.json();
+                renderizarPantalla(miembrosCache);
+                renderizarJerarquia();
+            } catch (error) {
+                console.error("Error API:", error);
+            }
         }
 
-        function renderMiembros() {
-            const container = document.getElementById('lista-usuarios');
-            container.innerHTML = miembrosCache.map(u => `
-                <div class="card">
-                    <img src="${u.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}">
-                    <div style="font-size:0.8rem; font-weight:bold;">${u.nickname || u.username}</div>
-                </div>
-            `).join('');
-        }
-
-        function renderLideres() {
+        // Renderizado del árbol de jerarquía reinstaurado
+        function renderizarJerarquia() {
             const container = document.getElementById('tree-container');
-            const lideres = [
-                {nick: "guepar_3111", rango: "Líder Supremo"},
-                {nick: "nicol3_espin0za", rango: "Co-Líder"}
-            ];
-            
-            container.innerHTML = lideres.map(l => {
-                const u = miembrosCache.find(m => (m.username||"").toLowerCase().includes(l.nick.toLowerCase()));
-                return `
-                    <div class="leader-box">
-                        <span style="color:var(--rojo-neon); font-size:0.7rem; font-weight:900;">${l.rango}</span><br>
-                        <img src="${u ? u.avatar : 'https://cdn.discordapp.com/embed/avatars/0.png'}"><br>
-                        <strong style="font-size:1.1rem;">${u ? (u.nickname || u.username) : l.nick}</strong>
+            container.innerHTML = '';
+
+            JERARQUIA.forEach(item => {
+                if(item.fila) {
+                    let rowHtml = '<div class="leader-row">';
+                    item.fila.forEach(l => rowHtml += crearCardLider(l));
+                    rowHtml += '</div>';
+                    container.innerHTML += rowHtml;
+                } else {
+                    container.innerHTML += crearCardLider(item);
+                }
+            });
+        }
+
+        // Buscador inteligente de líderes reinstaurado
+        function crearCardLider(info) {
+            const user = miembrosCache.find(m => {
+                const buscar = info.nick.toLowerCase().trim();
+                const u = (m.username || "").toLowerCase();
+                const n = (m.nickname || "").toLowerCase();
+                const g = (m.globalName || "").toLowerCase();
+                return u.includes(buscar) || n.includes(buscar) || g.includes(buscar) || buscar.includes(u);
+            });
+
+            const foto = user ? user.avatar : 'https://cdn.discordapp.com/embed/avatars/0.png';
+            const nombreFinal = user ? (user.nickname || user.username) : info.nick;
+
+            return `
+                <div class="leader-box">
+                    <span class="rank">${info.icono ? `<i class="fas ${info.icono}"></i> ` : ''}${info.rango}</span>
+                    <img src="${foto}" alt="Lider" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                    <div class="leader-name">${nombreFinal}</div>
+                </div>
+            `;
+        }
+
+        function renderizarPantalla(lista) {
+            const grid = document.getElementById('lista-usuarios');
+            grid.innerHTML = ''; 
+            lista.forEach(user => {
+                grid.innerHTML += `
+                    <div class="card">
+                        <img src="${user.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}" alt="Avatar">
+                        <p style="font-weight:800; margin:0; font-size:0.9rem;">${user.nickname || user.username}</p>
                     </div>
                 `;
-            }).join('');
+            });
         }
 
-        cargarDatos();
+        obtenerMiembros();
     </script>
 </body>
 </html>
