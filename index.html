@@ -12,7 +12,7 @@
             /* Paleta Ultra Profesional */
             --rojo-core: #e60026;
             --oro-brillante: #ffcc00;
-            --naranja-fuego: #ff8c00; /* Definida pero la usaremos más en el fondo */
+            --naranja-fuego: #ff8c00; 
             --blanco-puro: #ffffff;
             --fondo-negro: #050505;
             --tarjeta: rgba(20, 20, 20, 0.85);
@@ -23,7 +23,7 @@
         * { box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: var(--fondo-negro); color: #fff; margin: 0; display: flex; min-height: 100vh; overflow-x: hidden; }
 
-        /* --- FONDO ANIMADO MEJORADO (Tono Naranja/Fuego) --- */
+        /* --- FONDO MEJORADO: LISO Y NARANJA FUEGO --- */
         #bg-combat { 
             position: fixed; 
             top: 0; 
@@ -31,8 +31,8 @@
             width: 100%; 
             height: 100%; 
             z-index: -1; 
-            /* Degradado radial mejorado: Centro Rojo Fuego -> Naranja Lava -> Negro */
-            background: radial-gradient(circle at center, #4a0008 0%, #2b0b00 35%, #050505 100%); 
+            /* Degradado LISO de arriba hacia abajo (sin círculos) */
+            background: linear-gradient(180deg, #3d1400 0%, #1a0800 50%, #050505 100%); 
             overflow: hidden; 
         }
         .sword { position: absolute; width: 50px; height: 50px; background-size: contain; background-repeat: no-repeat; opacity: 0.12; filter: drop-shadow(0 0 8px var(--oro-brillante)); animation: floatSwords 20s infinite linear; }
@@ -107,7 +107,7 @@
             border-left: 4px solid var(--rojo-core); padding-left: 20px; margin-bottom: 45px; 
         }
 
-        /* --- JERARQUÍA (ESTILO ELITE) --- */
+        /* --- JERARQUÍA --- */
         .leader-tree { display: flex; flex-direction: column; align-items: center; width: 100%; }
         .leader-box { 
             background: linear-gradient(145deg, #151515, #0a0a0a); padding: 20px; border-radius: 12px; 
@@ -119,7 +119,7 @@
         .leader-box .rank { color: var(--oro-brillante); font-size: 0.65rem; font-weight: 900; text-transform: uppercase; display: block; margin-bottom: 8px; letter-spacing: 1px; }
         .line-v { width: 2px; height: 40px; background: linear-gradient(to bottom, var(--rojo-core), var(--oro-brillante)); }
         
-        /* --- TARJETAS DE GRANJAS Y MIEMBROS --- */
+        /* --- TARJETAS --- */
         .farm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
         .farm-card { background: var(--tarjeta); border-radius: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); transition: 0.4s; backdrop-filter: blur(10px); }
         .farm-card:hover { transform: translateY(-8px); border-color: var(--oro-brillante); }
@@ -143,7 +143,6 @@
         }
         .btn-postular:hover { transform: scale(1.05); box-shadow: 0 15px 25px rgba(255, 204, 0, 0.3); }
 
-        /* Estilo para el contenedor de info inicial */
         .status-box { background: var(--tarjeta); padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
         .status-box p { font-size: 1.1rem; font-weight: 600; margin: 15px 0; display: flex; align-items: center; gap: 15px; }
     </style>
