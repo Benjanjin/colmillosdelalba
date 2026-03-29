@@ -64,10 +64,6 @@
 
         .line-v { width: 2px; height: 40px; background: var(--rojo-neon); box-shadow: 0 0 10px var(--rojo-neon); }
         .leader-row { display: flex; gap: 40px; justify-content: center; position: relative; }
-        
-        /* Línea horizontal para conectar grupos */
-        .connector-h { position: relative; width: 100%; display: flex; justify-content: center; }
-        .connector-h::before { content: ''; position: absolute; top: 0; width: 50%; height: 2px; background: var(--rojo-neon); box-shadow: 0 0 10px var(--rojo-neon); z-index: 1; }
 
         /* --- FILTRO MIEMBROS --- */
         .roles-nav { display: flex; gap: 10px; flex-wrap: wrap; background: rgba(255,255,255,0.02); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,0,0,0.1); margin-bottom: 30px; }
@@ -77,6 +73,14 @@
         .member-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
         .card { background: var(--tarjeta); padding: 25px 15px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.03); }
         .card img { width: 75px; height: 75px; border-radius: 50%; border: 2px solid var(--rojo-neon); margin-bottom: 15px; }
+
+        /* BOTÓN POSTULACIÓN */
+        .btn-postular {
+            display: inline-block; padding: 15px 30px; background: var(--rojo-neon); color: #fff; 
+            text-decoration: none; border-radius: 12px; font-weight: 900; font-size: 0.9rem;
+            box-shadow: 0 0 20px rgba(255,0,34,0.4); transition: 0.3s;
+        }
+        .btn-postular:hover { transform: scale(1.1); box-shadow: 0 0 30px var(--rojo-neon); }
     </style>
 </head>
 <body>
@@ -90,11 +94,12 @@
         <button class="nav-btn" onclick="switchTab('lideres', this)"><i class="fas fa-sitemap"></i> Jerarquía</button>
         <button class="nav-btn" onclick="switchTab('granjas', this)"><i class="fas fa-fire"></i> Granjas</button>
         <button class="nav-btn" onclick="switchTab('miembros', this)"><i class="fas fa-users"></i> Miembros</button>
+        <button class="nav-btn" onclick="switchTab('postulaciones', this)"><i class="fas fa-file-signature"></i> Postularse</button>
     </div>
 
     <div class="main-content">
         <div id="info" class="section active">
-            <h1>Clan Activo</h1>
+            <h1>SISTEMA ONLINE</h1>
             <div style="background: var(--tarjeta); padding: 40px; border-radius: 25px; border: 1px solid rgba(255,0,0,0.2)">
                 <p><i class="fas fa-shield-alt" style="color:var(--rojo-neon)"></i> Clan: Colmillos Del Alba</p>
                 <p><i class="fas fa-crosshairs" style="color:var(--naranja-fuego)"></i> Servidor: DiosesMC</p>
@@ -106,10 +111,8 @@
             <div class="leader-tree">
                 <div id="rank-1"></div>
                 <div class="line-v"></div>
-                
                 <div id="rank-2"></div>
                 <div class="line-v"></div>
-
                 <div class="leader-row" id="rank-3"></div>
             </div>
         </div>
@@ -139,6 +142,17 @@
                 <button class="btn-rol" onclick="filtroTotal('Herrero', this)">🔨 Herrero</button>
             </div>
             <div class="member-grid" id="lista-usuarios"></div>
+        </div>
+
+        <div id="postulaciones" class="section">
+            <h1>POSTULACIONES AL CLAN</h1>
+            <div style="background: var(--tarjeta); padding: 50px; border-radius: 25px; border: 1px solid var(--rojo-neon); text-align: center;">
+                <h2 style="font-family: 'Syncopate'; font-size: 1rem; color: var(--rojo-neon);">¿Quieres unirte a nuestras filas?</h2>
+                <p style="color: #aaa; margin: 20px 0 40px;">Completa el formulario oficial para ser evaluado por el Alto Mando.</p>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSczYl9X8G_Y3N2yI6W_NRE2mI1f8O_Z_X_Y3N2yI6W_NRE2mI1/viewform" target="_blank" class="btn-postular">
+                    <i class="fas fa-external-link-alt"></i> ABRIR FORMULARIO
+                </a>
+            </div>
         </div>
     </div>
 
