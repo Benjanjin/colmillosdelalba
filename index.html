@@ -37,40 +37,39 @@
 
         /* --- SIDEBAR --- */
         .sidebar { width: var(--sidebar-width); background: rgba(0, 0, 0, 0.98); border-right: 2px solid var(--rojo-neon); padding: 40px 20px; position: fixed; height: 100vh; z-index: 100; box-shadow: 10px 0 30px rgba(255, 0, 34, 0.15); }
-        
-        /* TÍTULO NARANJA DEGRADADO */
         .sidebar h2 { 
             font-family: 'Syncopate', sans-serif; font-size: 0.9rem; text-align: center; margin-bottom: 50px; 
             background: linear-gradient(90deg, var(--naranja-fuego), #ff4500);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             text-shadow: 0 0 10px rgba(255, 140, 0, 0.3); letter-spacing: 2px;
         }
-
-        .menu-label { font-size: 0.65rem; color: #444; font-weight: 900; letter-spacing: 2px; margin-bottom: 15px; display: block; }
-
         .nav-btn { width: 100%; background: transparent; border: 1px solid transparent; color: #666; padding: 14px 18px; text-align: left; border-radius: 12px; cursor: pointer; transition: 0.3s; margin-bottom: 8px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
         .nav-btn:hover, .nav-btn.active { background: rgba(255, 0, 34, 0.1); color: #fff; border-color: var(--rojo-neon); box-shadow: inset 0 0 10px rgba(255,0,0,0.2); transform: translateX(5px); }
 
-        /* --- CONTENIDO --- */
+        /* --- MAIN --- */
         .main-content { margin-left: var(--sidebar-width); flex-grow: 1; padding: 60px; z-index: 1; }
         .section { display: none; animation: slideIn 0.5s ease-out forwards; }
         .section.active { display: block; }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        h1 { font-family: 'Syncopate', sans-serif; font-size: 1.5rem; text-shadow: 0 0 10px var(--rojo-neon); border-left: 5px solid var(--rojo-neon); padding-left: 20px; margin-bottom: 40px; }
+        /* --- JERARQUÍA CON LÍNEAS --- */
+        .leader-tree { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        .leader-box { 
+            background: #080808; padding: 15px; border-radius: 15px; border: 2px solid var(--rojo-neon); 
+            text-align: center; min-width: 160px; position: relative; z-index: 2;
+            box-shadow: 0 0 15px rgba(255, 0, 34, 0.2);
+        }
+        .leader-box img { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--rojo-neon); margin-bottom: 10px; }
+        .leader-box .rank { color: var(--rojo-neon); font-size: 0.6rem; font-weight: 900; text-transform: uppercase; display: block; margin-bottom: 5px; }
 
-        /* --- GRANJAS (RESTAURADAS) --- */
-        .farm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
-        .farm-card { background: var(--tarjeta); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; }
-        .farm-badge { display: inline-block; padding: 6px 15px; background: linear-gradient(90deg, #ff8c00, #ff4500); color: #fff; font-size: 0.65rem; font-weight: 900; border-radius: 5px; margin-top: 10px; text-transform: uppercase; }
+        .line-v { width: 2px; height: 40px; background: var(--rojo-neon); box-shadow: 0 0 10px var(--rojo-neon); }
+        .leader-row { display: flex; gap: 40px; justify-content: center; position: relative; }
+        
+        /* Línea horizontal para conectar grupos */
+        .connector-h { position: relative; width: 100%; display: flex; justify-content: center; }
+        .connector-h::before { content: ''; position: absolute; top: 0; width: 50%; height: 2px; background: var(--rojo-neon); box-shadow: 0 0 10px var(--rojo-neon); z-index: 1; }
 
-        /* --- JERARQUÍA EN ÁRBOL (RESTAURADA) --- */
-        .leader-tree { display: flex; flex-direction: column; align-items: center; gap: 30px; }
-        .leader-box { background: #080808; padding: 20px; border-radius: 20px; border: 1px solid var(--rojo-neon); text-align: center; min-width: 180px; }
-        .leader-box img { width: 75px; height: 75px; border-radius: 50%; border: 3px solid var(--rojo-neon); margin-bottom: 12px; }
-        .leader-row { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; width: 100%; }
-
-        /* --- FILTRO MIEMBROS (TUS BOTONES ORIGINALES) --- */
+        /* --- FILTRO MIEMBROS --- */
         .roles-nav { display: flex; gap: 10px; flex-wrap: wrap; background: rgba(255,255,255,0.02); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,0,0,0.1); margin-bottom: 30px; }
         .btn-rol { background: #000; border: 1px solid #333; color: #888; padding: 10px 18px; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 0.75rem; transition: 0.3s; }
         .btn-rol:hover, .btn-rol.active { background: var(--rojo-neon); color: #fff; border-color: var(--rojo-neon); box-shadow: 0 0 15px var(--rojo-neon); }
@@ -87,7 +86,6 @@
 
     <div class="sidebar">
         <h2>CATEGORÍAS</h2>
-        <span class="menu-label">SISTEMA CENTRAL</span>
         <button class="nav-btn active" onclick="switchTab('info', this)"><i class="fas fa-terminal"></i> Status</button>
         <button class="nav-btn" onclick="switchTab('lideres', this)"><i class="fas fa-sitemap"></i> Jerarquía</button>
         <button class="nav-btn" onclick="switchTab('granjas', this)"><i class="fas fa-fire"></i> Granjas</button>
@@ -103,19 +101,31 @@
             </div>
         </div>
 
-        <div id="granjas" class="section">
-            <h1>PLANOS DE RECURSOS</h1>
-            <div class="farm-grid">
-                <div class="farm-card"><img src="https://imgur.com/ZawCT1U.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:15px;"><h3>Hierro</h3><span class="farm-badge">Industrial</span></div></div>
-                <div class="farm-card"><img src="https://imgur.com/sOvjMva.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:15px;"><h3>Oro</h3><span class="farm-badge">XP Boost</span></div></div>
-                <div class="farm-card"><img src="https://imgur.com/s3F1aKG.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:15px;"><h3>Magma</h3><span class="farm-badge">Nether</span></div></div>
-                <div class="farm-card"><img src="https://imgur.com/nseW5Rd.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:15px;"><h3>Zanahorias</h3><span class="farm-badge">Comida</span></div></div>
+        <div id="lideres" class="section">
+            <h1>LINAJE DE MANDO</h1>
+            <div class="leader-tree">
+                <div id="rank-1"></div>
+                <div class="line-v"></div>
+                
+                <div id="rank-2"></div>
+                <div class="line-v"></div>
+
+                <div class="leader-row" id="rank-3"></div>
             </div>
         </div>
 
-        <div id="lideres" class="section">
-            <h1>ALTO MANDO</h1>
-            <div class="leader-tree" id="tree-container"></div>
+        <div id="granjas" class="section">
+            <h1>PLANOS DE RECURSOS</h1>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+                <div style="background: var(--tarjeta); border-radius: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);">
+                    <img src="https://imgur.com/ZawCT1U.png" style="width:100%; height:150px; object-fit:cover;">
+                    <div style="padding:15px;"><h3>Hierro</h3></div>
+                </div>
+                <div style="background: var(--tarjeta); border-radius: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);">
+                    <img src="https://imgur.com/sOvjMva.png" style="width:100%; height:150px; object-fit:cover;">
+                    <div style="padding:15px;"><h3>Oro</h3></div>
+                </div>
+            </div>
         </div>
 
         <div id="miembros" class="section">
@@ -156,13 +166,16 @@
         const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros";
         let miembrosCache = [];
 
-        // ESTRUCTURA COMPLETA DE LIDERES
-        const JERARQUIA_DATA = [
-            { nick: "guepar_3111", rango: "Líder Supremo" },
-            { nick: "nicol3_espin0za", rango: "Co-Líder" },
-            { fila: [{ nick: "danielitaxgg18", rango: "Líder Técnico" }, { nick: "1fsi.", rango: "Líder Farmer" }] },
-            { fila: [{ nick: "postm_alone", rango: "Líder PVP" }, { nick: "__jpmc", rango: "Líder Construcción" }] }
-        ];
+        const DATA_LIDERES = {
+            supremo: { nick: "guepar_3111", rango: "Líder Supremo" },
+            colider: { nick: "nicol3_espin0za", rango: "Co-Líder" },
+            divisiones: [
+                { nick: "danielitaxgg18", rango: "Líder Técnico" },
+                { nick: "1fsi.", rango: "Líder Farmer" },
+                { nick: "postm_alone", rango: "Líder PVP" },
+                { nick: "__jpmc", rango: "Líder Construcción" }
+            ]
+        };
 
         async function inicializar() {
             try {
@@ -174,19 +187,21 @@
         }
 
         function renderJerarquia() {
-            const container = document.getElementById('tree-container');
-            container.innerHTML = JERARQUIA_DATA.map(item => {
-                if(item.fila) {
-                    return `<div class="leader-row">${item.fila.map(l => cardLider(l)).join('')}</div>`;
-                }
-                return cardLider(item);
-            }).join('');
+            document.getElementById('rank-1').innerHTML = cardLider(DATA_LIDERES.supremo);
+            document.getElementById('rank-2').innerHTML = cardLider(DATA_LIDERES.colider);
+            document.getElementById('rank-3').innerHTML = DATA_LIDERES.divisiones.map(l => cardLider(l)).join('');
         }
 
         function cardLider(info) {
             const user = miembrosCache.find(m => (m.username||"").toLowerCase().includes(info.nick.toLowerCase()));
             const img = user ? user.avatar : 'https://cdn.discordapp.com/embed/avatars/0.png';
-            return `<div class="leader-box"><span style="color:var(--rojo-neon); font-size:0.65rem; font-weight:900; text-transform:uppercase;">${info.rango}</span><br><img src="${img}"><div style="font-weight:900;">${user ? (user.nickname || user.username) : info.nick}</div></div>`;
+            return `
+                <div class="leader-box">
+                    <span class="rank">${info.rango}</span>
+                    <img src="${img}">
+                    <div style="font-weight:900; font-size:0.8rem;">${user ? (user.nickname || user.username) : info.nick}</div>
+                </div>
+            `;
         }
 
         function filtroTotal(rolBusqueda, btn) {
