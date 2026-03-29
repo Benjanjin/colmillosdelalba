@@ -11,42 +11,13 @@
         :root {
             --rojo-neon: #ff0022;
             --naranja-fuego: #ff8c00;
-            --violeta-neon: #bc13fe;
             --fondo-negro: #020202;
             --tarjeta: rgba(15, 5, 5, 0.95);
             --sidebar-width: 260px;
         }
 
         * { box-sizing: border-box; }
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--fondo-negro); 
-            color: #fff; 
-            margin: 0; 
-            display: flex; 
-            min-height: 100vh; 
-            overflow-x: hidden;
-        }
-
-        /* --- BORDE ANIMADO CORREGIDO (Sin tapar el contenido) --- */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            border: 4px solid transparent;
-            /* El truco: Usamos linear-gradient para el borde sin fondo sólido */
-            background: linear-gradient(var(--fondo-negro), var(--fondo-negro)) padding-box,
-                        linear-gradient(90deg, var(--rojo-neon), var(--violeta-neon), var(--rojo-neon)) border-box;
-            background-size: 200% 100%;
-            animation: moveBorder 4s linear infinite;
-            pointer-events: none;
-            z-index: 9999;
-        }
-
-        @keyframes moveBorder {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 200% 50%; }
-        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--fondo-negro); color: #fff; margin: 0; display: flex; min-height: 100vh; overflow-x: hidden; }
 
         /* --- FONDO ANIMADO --- */
         #bg-combat { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at center, #1a0000 0%, #000 100%); overflow: hidden; }
@@ -58,13 +29,11 @@
 
         /* --- BOTÓN MENÚ (3 LÍNEAS) --- */
         .menu-toggle {
-            position: fixed; top: 25px; left: 25px; z-index: 1100;
+            position: fixed; top: 20px; left: 20px; z-index: 1100;
             background: var(--rojo-neon); border: none; color: white;
             padding: 12px 15px; border-radius: 8px; cursor: pointer;
             box-shadow: 0 0 15px rgba(255, 0, 34, 0.5);
-            transition: 0.3s;
         }
-        .menu-toggle:hover { transform: scale(1.1); }
 
         /* --- SIDEBAR --- */
         .sidebar { 
@@ -77,8 +46,9 @@
         }
         .sidebar.hidden { transform: translateX(-100%); }
 
+        /* HEADER DE CATEGORÍAS (BAJADO PARA NO TAPAR EL BOTÓN) */
         .sidebar-header {
-            margin-top: 90px;
+            margin-top: 80px; /* Espacio para el botón de 3 líneas */
             background: linear-gradient(90deg, #440000, #1a0000);
             padding: 20px; text-align: center; border-top: 1px solid var(--rojo-neon); border-bottom: 1px solid var(--rojo-neon);
             margin-bottom: 20px;
@@ -106,7 +76,7 @@
         /* --- MAIN --- */
         .main-content { 
             margin-left: var(--sidebar-width); flex-grow: 1; padding: 60px; 
-            z-index: 1; transition: 0.4s;
+            z-index: 1; transition: margin 0.4s;
         }
         .main-content.full { margin-left: 0; }
 
@@ -192,7 +162,7 @@
         </div>
 
         <div id="granjas" class="section">
-            <h1>GRANJAS</h1>
+            <h1>PLANOS DE RECURSOS</h1>
             <div class="farm-grid">
                 <div class="farm-card"><img src="https://imgur.com/ZawCT1U.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:15px;"><h3>Hierro</h3><span class="farm-badge">Industrial</span></div></div>
                 <div class="farm-card"><img src="https://imgur.com/sOvjMva.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:15px;"><h3>Oro</h3><span class="farm-badge">XP Boost</span></div></div>
