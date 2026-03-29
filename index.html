@@ -9,12 +9,13 @@
     
     <style> 
         :root {
-            /* Nueva Paleta Ultra Profesional */
+            /* Paleta Ultra Profesional */
             --rojo-core: #e60026;
             --oro-brillante: #ffcc00;
+            --naranja-fuego: #ff8c00; /* Definida pero la usaremos más en el fondo */
             --blanco-puro: #ffffff;
             --fondo-negro: #050505;
-            --tarjeta: rgba(20, 20, 20, 0.8);
+            --tarjeta: rgba(20, 20, 20, 0.85);
             --sidebar-width: 260px;
             --gradiente-premium: linear-gradient(135deg, var(--rojo-core), var(--oro-brillante));
         }
@@ -22,8 +23,18 @@
         * { box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: var(--fondo-negro); color: #fff; margin: 0; display: flex; min-height: 100vh; overflow-x: hidden; }
 
-        /* --- FONDO ANIMADO --- */
-        #bg-combat { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at center, #2a0005 0%, #000 100%); overflow: hidden; }
+        /* --- FONDO ANIMADO MEJORADO (Tono Naranja/Fuego) --- */
+        #bg-combat { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -1; 
+            /* Degradado radial mejorado: Centro Rojo Fuego -> Naranja Lava -> Negro */
+            background: radial-gradient(circle at center, #4a0008 0%, #2b0b00 35%, #050505 100%); 
+            overflow: hidden; 
+        }
         .sword { position: absolute; width: 50px; height: 50px; background-size: contain; background-repeat: no-repeat; opacity: 0.12; filter: drop-shadow(0 0 8px var(--oro-brillante)); animation: floatSwords 20s infinite linear; }
         .s-neth { background-image: url('https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png'); }
         .s-diam { background-image: url('https://minecraft.wiki/images/Diamond_Sword_JE3_BE3.png'); }
@@ -182,10 +193,10 @@
         <div id="granjas" class="section">
             <h1>INFRAESTRUCTURA</h1>
             <div class="farm-grid">
-                <div class="farm-card"><img src="https://imgur.com/ZawCT1U.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:20px;"><h3>Hierro</h3><span class="farm-badge">Automática</span></div></div>
-                <div class="farm-card"><img src="https://imgur.com/sOvjMva.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:20px;"><h3>Oro</h3><span class="farm-badge">Semi-Auto</span></div></div>
-                <div class="farm-card"><img src="https://imgur.com/s3F1aKG.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:20px;"><h3>Magma</h3><span class="farm-badge">Nether Tech</span></div></div>
-                <div class="farm-card"><img src="https://imgur.com/nseW5Rd.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:20px;"><h3>Zanahorias</h3><span class="farm-badge">Full Auto</span></div></div>
+                <div class="farm-card"><img src="https://imgur.com/ZawCT1U.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:20px;"><h3>Hierro</h3><span class="farm-badge">Automatica</span></div></div>
+                <div class="farm-card"><img src="https://imgur.com/sOvjMva.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:20px;"><h3>Oro</h3><span class="farm-badge">SemiAutomatica</span></div></div>
+                <div class="farm-card"><img src="https://imgur.com/s3F1aKG.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:20px;"><h3>Magma</h3><span class="farm-badge">SemiAutomatica</span></div></div>
+                <div class="farm-card"><img src="https://imgur.com/nseW5Rd.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:20px;"><h3>Zanahorias</h3><span class="farm-badge">Automatica</span></div></div>
             </div>
         </div>
 
