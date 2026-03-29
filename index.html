@@ -65,15 +65,13 @@
         .leader-row { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; width: 100%; }
         .rank-tag { font-size: 0.65rem; color: var(--rojo-neon); font-weight: 900; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 5px; }
 
-        /* --- MEGA FILTRO DE MIEMBROS --- */
-        .filter-container { background: rgba(255,255,255,0.03); padding: 20px; border-radius: 20px; margin-bottom: 30px; border: 1px solid rgba(255,0,0,0.1); }
-        .filter-grid { display: flex; gap: 10px; flex-wrap: wrap; }
-        .filter-btn { background: #111; border: 1px solid #333; color: #888; padding: 10px 18px; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 0.7rem; transition: 0.3s; text-transform: uppercase; }
-        .filter-btn:hover, .filter-btn.active { background: var(--rojo-neon); color: #fff; border-color: var(--rojo-neon); box-shadow: 0 0 15px rgba(255,0,0,0.3); transform: scale(1.05); }
+        /* --- FILTROS DE ROLES (ESTILO BOTÓN) --- */
+        .roles-nav { background: rgba(255,255,255,0.03); padding: 20px; border-radius: 20px; margin-bottom: 30px; border: 1px solid rgba(255,0,0,0.1); display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn-rol { background: #111; border: 1px solid #333; color: #888; padding: 10px 18px; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 0.75rem; transition: 0.3s; }
+        .btn-rol:hover, .btn-rol.active { background: var(--rojo-neon); color: #fff; border-color: var(--rojo-neon); box-shadow: 0 0 15px rgba(255,0,0,0.3); transform: scale(1.05); }
 
         .member-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
         .card { background: var(--tarjeta); padding: 25px 15px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.03); transition: 0.3s; }
-        .card:hover { border-color: var(--rojo-neon); transform: translateY(-5px); }
         .card img { width: 75px; height: 75px; border-radius: 50%; margin-bottom: 15px; border: 2px solid var(--rojo-neon); }
     </style>
 </head>
@@ -86,11 +84,7 @@
         <span class="menu-label">Nivel Central</span>
         <button class="nav-btn active" onclick="switchTab('info', this)"><i class="fas fa-ghost"></i> General</button>
         <button class="nav-btn" onclick="switchTab('lideres', this)"><i class="fas fa-sitemap"></i> Jerarquía</button>
-        
-        <span class="menu-label">Recursos</span>
         <button class="nav-btn" onclick="switchTab('granjas', this)"><i class="fas fa-fire"></i> Granjas</button>
-        
-        <span class="menu-label">Comunidad</span>
         <button class="nav-btn" onclick="switchTab('miembros', this)"><i class="fas fa-users-viewfinder"></i> Miembros</button>
     </div>
 
@@ -101,71 +95,39 @@
             <div style="background: var(--tarjeta); padding: 40px; border-radius: 25px; border: 1px solid rgba(255,0,0,0.1)">
                 <p><i class="fas fa-shield-halved" style="color:var(--rojo-neon); margin-right:10px;"></i> <strong>Clan:</strong> Colmillos Del Alba</p>
                 <p><i class="fas fa-gamepad" style="color:var(--rojo-neon); margin-right:10px;"></i> <strong>Servidor:</strong> DiosesMC</p>
-                <p><i class="fas fa-bolt" style="color:var(--rojo-neon); margin-right:10px;"></i> <strong>Estado:</strong> Activo / Reclutando</p>
             </div>
         </div>
 
         <div id="granjas" class="section">
             <h1>SISTEMA DE GRANJAS</h1>
             <div class="farm-grid">
-                <div class="farm-card">
-                    <img src="https://imgur.com/ZawCT1U.png" class="farm-img">
-                    <div style="padding:20px;">
-                        <h3>Granja de Hierro</h3>
-                        <span class="farm-badge">Producción Industrial</span>
-                    </div>
-                </div>
-                <div class="farm-card">
-                    <img src="https://imgur.com/s3F1aKG.png" class="farm-img">
-                    <div style="padding:20px;">
-                        <h3>Granja de Magma</h3>
-                        <span class="farm-badge">Suministro Nether</span>
-                    </div>
-                </div>
-                <div class="farm-card">
-                    <img src="https://imgur.com/sOvjMva.png" class="farm-img">
-                    <div style="padding:20px;">
-                        <h3>Granja de Oro</h3>
-                        <span class="farm-badge">XP & Oro Infinito</span>
-                    </div>
-                </div>
-                <div class="farm-card">
-                    <img src="https://imgur.com/nseW5Rd.png" class="farm-img">
-                    <div style="padding:20px;">
-                        <h3>Mega Granja Zanahorias</h3>
-                        <span class="farm-badge">Bio-Comida Auto</span>
-                    </div>
-                </div>
+                <div class="farm-card"><img src="https://imgur.com/ZawCT1U.png" class="farm-img"><div style="padding:20px;"><h3>Granja de Hierro</h3><span class="farm-badge">Producción Industrial</span></div></div>
+                <div class="farm-card"><img src="https://imgur.com/s3F1aKG.png" class="farm-img"><div style="padding:20px;"><h3>Granja de Magma</h3><span class="farm-badge">Suministro Nether</span></div></div>
+                <div class="farm-card"><img src="https://imgur.com/sOvjMva.png" class="farm-img"><div style="padding:20px;"><h3>Granja de Oro</h3><span class="farm-badge">XP & Oro Infinito</span></div></div>
+                <div class="farm-card"><img src="https://imgur.com/nseW5Rd.png" class="farm-img"><div style="padding:20px;"><h3>Mega Granja Zanahorias</h3><span class="farm-badge">Bio-Comida Auto</span></div></div>
             </div>
         </div>
 
         <div id="lideres" class="section">
             <h1>ALTO MANDO</h1>
-            <div class="leader-tree" id="tree-container">
-                </div>
+            <div class="leader-tree" id="tree-container"></div>
         </div>
 
         <div id="miembros" class="section">
             <h1>REGISTRO DE MIEMBROS</h1>
-            <div class="filter-container">
-                <div class="filter-grid" id="filter-buttons">
-                    <button class="filter-btn active" onclick="filtrar('Todos', this)">Todos</button>
-                    <button class="filter-btn" onclick="filtrar('Builder', this)">Builders</button>
-                    <button class="filter-btn" onclick="filtrar('Farmer', this)">Farmers</button>
-                    <button class="filter-btn" onclick="filtrar('Herrero', this)">Herreros</button>
-                    <button class="filter-btn" onclick="filtrar('Tecnico', this)">Técnicos</button>
-                    <button class="filter-btn" onclick="filtrar('PVP', this)">PVP</button>
-                </div>
+            <div class="roles-nav">
+                <button class="btn-rol active" onclick="filtroTotal('Todos', this)">Todos</button>
+                <button class="btn-rol" onclick="filtroTotal('𝒑𝒗𝒑', this)">⚔️ PVP</button>
+                <button class="btn-rol" onclick="filtroTotal('𝒃𝒖𝒊𝒍𝒅𝒆𝒓𝒔', this)">⚒️ Builder</button>
+                <button class="btn-rol" onclick="filtroTotal('𝒕𝒆𝒄𝒏𝒊𝒄𝒐𝒔', this)">⚙️ Técnico</button>
+                <button class="btn-rol" onclick="filtroTotal('Farmer', this)">🌱 Farmer</button>
+                <button class="btn-rol" onclick="filtroTotal('Herrero', this)">🔨 Herrero</button>
             </div>
-            <div class="member-grid" id="lista-usuarios">
-                <p>Conectando con la base de datos...</p>
-            </div>
+            <div class="member-grid" id="lista-usuarios"></div>
         </div>
-
     </div>
 
     <script>
-        // --- ESPADAS ANIMADAS ---
         function createSwords() {
             const container = document.getElementById('bg-combat');
             const types = ['s-neth', 's-diam', 's-gold'];
@@ -180,7 +142,6 @@
         }
         createSwords();
 
-        // --- NAVEGACIÓN ---
         function switchTab(id, btn) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -191,18 +152,11 @@
         const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros";
         let miembrosCache = [];
 
-        // --- ESTRUCTURA DE LÍDERES COMPLETA ---
         const JERARQUIA_DATA = [
             { nick: "guepar_3111", rango: "Líder Supremo" },
             { nick: "nicol3_espin0za", rango: "Co-Líder" },
-            { fila: [
-                { nick: "danielitaxgg18", rango: "Líder Técnico" },
-                { nick: "1fsi.", rango: "Líder Farmer" }
-            ]},
-            { fila: [
-                { nick: "postm_alone", rango: "Líder PVP" },
-                { nick: "__jpmc", rango: "Líder Construcción" }
-            ]}
+            { fila: [{ nick: "danielitaxgg18", rango: "Líder Técnico" }, { nick: "1fsi.", rango: "Líder Farmer" }] },
+            { fila: [{ nick: "postm_alone", rango: "Líder PVP" }, { nick: "__jpmc", rango: "Líder Construcción" }] }
         ];
 
         async function inicializar() {
@@ -210,8 +164,8 @@
                 const res = await fetch(`${API_URL}?t=${Date.now()}`);
                 miembrosCache = await res.json();
                 renderJerarquia();
-                filtrar('Todos');
-            } catch(e) { console.error("Error cargando API:", e); }
+                filtroTotal('Todos');
+            } catch(e) { console.error(e); }
         }
 
         function renderJerarquia() {
@@ -225,39 +179,22 @@
         }
 
         function cardLider(info) {
-            const user = miembrosCache.find(m => {
-                const search = info.nick.toLowerCase();
-                return (m.username||"").toLowerCase().includes(search) || 
-                       (m.nickname||"").toLowerCase().includes(search);
-            });
+            const user = miembrosCache.find(m => (m.username||"").toLowerCase().includes(info.nick.toLowerCase()));
             const img = user ? user.avatar : 'https://cdn.discordapp.com/embed/avatars/0.png';
-            const name = user ? (user.nickname || user.username) : info.nick;
-            return `
-                <div class="leader-box">
-                    <span class="rank-tag">${info.rango}</span>
-                    <img src="${img}">
-                    <div style="font-weight:900; font-size:0.95rem;">${name}</div>
-                </div>
-            `;
+            return `<div class="leader-box"><span class="rank-tag">${info.rango}</span><img src="${img}"><div style="font-weight:900;">${user ? (user.nickname || user.username) : info.nick}</div></div>`;
         }
 
-        // --- MEGA FILTRO DE ROLES (LÓGICA MEJORADA) ---
-        function filtrar(rolBusqueda, btn) {
+        // FUNCIÓN FILTRO TOTAL CORREGIDA CON ROLES DE DISCORD
+        function filtroTotal(rolBusqueda, btn) {
             if(btn) {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.btn-rol').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
             }
 
             const grid = document.getElementById('lista-usuarios');
-            
-            // Filtramos comparando el rol seleccionado con el array 'roles' de cada usuario
             const filtrados = rolBusqueda === 'Todos' 
                 ? miembrosCache 
-                : miembrosCache.filter(u => {
-                    if(!u.roles) return false;
-                    // Buscamos si alguno de los roles del usuario contiene la palabra (ej: "Builder")
-                    return u.roles.some(r => r.toLowerCase().includes(rolBusqueda.toLowerCase()));
-                });
+                : miembrosCache.filter(u => u.roles && u.roles.some(r => r.includes(rolBusqueda)));
 
             grid.innerHTML = filtrados.map(u => `
                 <div class="card">
@@ -265,10 +202,6 @@
                     <div style="font-weight:800; font-size:0.85rem;">${u.nickname || u.username}</div>
                 </div>
             `).join('');
-
-            if(filtrados.length === 0) {
-                grid.innerHTML = `<p style="color:#666; grid-column: 1/-1; text-align:center;">No se encontraron miembros con el rol ${rolBusqueda}</p>`;
-            }
         }
 
         inicializar();
