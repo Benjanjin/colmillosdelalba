@@ -27,47 +27,49 @@
         .s-gold { background-image: url('https://minecraft.wiki/images/Golden_Sword_JE3_BE2.png'); }
         @keyframes floatSwords { 0% { transform: translateY(110vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.2; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
 
-        /* --- BOTÓN MENÚ MÓVIL/FLOTANTE --- */
+        /* --- BOTÓN MENÚ (3 LÍNEAS) --- */
         .menu-toggle {
-            position: fixed; top: 20px; left: 20px; z-index: 1001;
+            position: fixed; top: 20px; left: 20px; z-index: 1100;
             background: var(--rojo-neon); border: none; color: white;
             padding: 12px 15px; border-radius: 8px; cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 0, 34, 0.5); display: block;
+            box-shadow: 0 0 15px rgba(255, 0, 34, 0.5);
         }
 
         /* --- SIDEBAR --- */
         .sidebar { 
             width: var(--sidebar-width); background: rgba(0, 0, 0, 0.98); 
             border-right: 2px solid var(--rojo-neon); padding: 0; 
-            position: fixed; height: 100vh; z-index: 100; 
+            position: fixed; height: 100vh; z-index: 1000; 
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 10px 0 30px rgba(255, 0, 34, 0.15);
+            display: flex; flex-direction: column;
         }
         .sidebar.hidden { transform: translateX(-100%); }
 
-        /* HEADER DE CATEGORÍAS */
+        /* HEADER DE CATEGORÍAS (BAJADO PARA NO TAPAR EL BOTÓN) */
         .sidebar-header {
-            background: linear-gradient(135deg, #440000 0%, #1a0000 100%);
-            padding: 40px 20px; text-align: center; border-bottom: 1px solid var(--rojo-neon);
+            margin-top: 80px; /* Espacio para el botón de 3 líneas */
+            background: linear-gradient(90deg, #440000, #1a0000);
+            padding: 20px; text-align: center; border-top: 1px solid var(--rojo-neon); border-bottom: 1px solid var(--rojo-neon);
             margin-bottom: 20px;
         }
         .sidebar h2 { 
-            font-family: 'Syncopate', sans-serif; font-size: 0.9rem; margin: 0;
+            font-family: 'Syncopate', sans-serif; font-size: 0.8rem; margin: 0;
             background: linear-gradient(90deg, #fff, var(--naranja-fuego));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            letter-spacing: 2px;
+            letter-spacing: 2px; font-weight: 900;
         }
 
-        .nav-container { padding: 0 20px; }
+        .nav-container { padding: 0 15px; }
         .nav-btn { 
-            width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,0,0,0.1); 
-            color: #aaa; padding: 14px 18px; text-align: left; border-radius: 12px; 
+            width: 100%; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); 
+            color: #777; padding: 14px 18px; text-align: left; border-radius: 12px; 
             cursor: pointer; transition: 0.3s; margin-bottom: 10px; font-weight: 700; 
             display: flex; align-items: center; gap: 12px; 
         }
         .nav-btn:hover, .nav-btn.active { 
-            background: rgba(255, 0, 34, 0.15); color: #fff; 
-            border-color: var(--rojo-neon); box-shadow: inset 0 0 15px rgba(255,0,0,0.2); 
+            background: rgba(255, 0, 34, 0.1); color: #fff; 
+            border-color: var(--rojo-neon); box-shadow: inset 0 0 10px rgba(255,0,0,0.1); 
             transform: translateX(5px); 
         }
 
@@ -94,7 +96,7 @@
         .leader-box img { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--rojo-neon); margin-bottom: 10px; }
         .leader-box .rank { color: var(--rojo-neon); font-size: 0.6rem; font-weight: 900; text-transform: uppercase; display: block; margin-bottom: 5px; }
         .line-v { width: 2px; height: 40px; background: var(--rojo-neon); box-shadow: 0 0 10px var(--rojo-neon); }
-        .leader-row { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .leader-row { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; }
 
         /* --- GRANJAS --- */
         .farm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
@@ -102,7 +104,7 @@
         .farm-card:hover { transform: translateY(-10px); border-color: var(--naranja-fuego); }
         .farm-badge { display: inline-block; padding: 6px 12px; background: linear-gradient(90deg, #ff8c00, #ff4500); color: #fff; font-size: 0.6rem; font-weight: 900; border-radius: 5px; margin-top: 8px; text-transform: uppercase; }
 
-        /* --- FILTRO MIEMBROS --- */
+        /* --- MIEMBROS --- */
         .roles-nav { display: flex; gap: 10px; flex-wrap: wrap; background: rgba(255,255,255,0.02); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,0,0,0.1); margin-bottom: 30px; }
         .btn-rol { background: #000; border: 1px solid #333; color: #888; padding: 10px 18px; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 0.75rem; transition: 0.3s; }
         .btn-rol:hover, .btn-rol.active { background: var(--rojo-neon); color: #fff; border-color: var(--rojo-neon); box-shadow: 0 0 15px var(--rojo-neon); }
@@ -116,7 +118,6 @@
             text-decoration: none; border-radius: 12px; font-weight: 900; font-size: 0.9rem;
             box-shadow: 0 0 20px rgba(255,0,34,0.4); transition: 0.3s;
         }
-        .btn-postular:hover { transform: scale(1.1); box-shadow: 0 0 30px var(--rojo-neon); }
     </style>
 </head>
 <body>
@@ -150,7 +151,7 @@
         </div>
 
         <div id="lideres" class="section">
-            <h1>Lideres</h1>
+            <h1>LIDERES</h1>
             <div class="leader-tree">
                 <div id="rank-1"></div>
                 <div class="line-v"></div>
@@ -219,7 +220,6 @@
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             btn.classList.add('active');
-            // En móviles, cerrar el menú al hacer clic en una opción
             if(window.innerWidth < 1024) toggleMenu();
         }
 
