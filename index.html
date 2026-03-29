@@ -19,15 +19,7 @@
         * { box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: var(--fondo-negro); color: #fff; margin: 0; display: flex; min-height: 100vh; overflow-x: hidden; }
 
-        /* --- DECORACIONES --- */
-        .scanner-line {
-            position: fixed; top: 0; left: 0; width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--rojo-neon), transparent);
-            z-index: 1000; animation: scanVertical 8s infinite linear;
-            box-shadow: 0 0 15px var(--rojo-neon);
-        }
-        @keyframes scanVertical { 0% { top: -5%; } 100% { top: 105%; } }
-
+        /* --- FONDO ANIMADO --- */
         #bg-combat { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at center, #1a0000 0%, #000 100%); overflow: hidden; }
         .sword { position: absolute; width: 50px; height: 50px; background-size: contain; background-repeat: no-repeat; opacity: 0.15; filter: drop-shadow(0 0 10px var(--rojo-neon)); animation: floatSwords 20s infinite linear; }
         .s-neth { background-image: url('https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png'); }
@@ -35,19 +27,57 @@
         .s-gold { background-image: url('https://minecraft.wiki/images/Golden_Sword_JE3_BE2.png'); }
         @keyframes floatSwords { 0% { transform: translateY(110vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.2; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
 
-        /* --- SIDEBAR --- */
-        .sidebar { width: var(--sidebar-width); background: rgba(0, 0, 0, 0.98); border-right: 2px solid var(--rojo-neon); padding: 40px 20px; position: fixed; height: 100vh; z-index: 100; box-shadow: 10px 0 30px rgba(255, 0, 34, 0.15); }
-        .sidebar h2 { 
-            font-family: 'Syncopate', sans-serif; font-size: 0.9rem; text-align: center; margin-bottom: 50px; 
-            background: linear-gradient(90deg, var(--naranja-fuego), #ff4500);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 10px rgba(255, 140, 0, 0.3); letter-spacing: 2px;
+        /* --- BOTÓN MENÚ MÓVIL/FLOTANTE --- */
+        .menu-toggle {
+            position: fixed; top: 20px; left: 20px; z-index: 1001;
+            background: var(--rojo-neon); border: none; color: white;
+            padding: 12px 15px; border-radius: 8px; cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 0, 34, 0.5); display: block;
         }
-        .nav-btn { width: 100%; background: transparent; border: 1px solid transparent; color: #666; padding: 14px 18px; text-align: left; border-radius: 12px; cursor: pointer; transition: 0.3s; margin-bottom: 8px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
-        .nav-btn:hover, .nav-btn.active { background: rgba(255, 0, 34, 0.1); color: #fff; border-color: var(--rojo-neon); box-shadow: inset 0 0 10px rgba(255,0,0,0.2); transform: translateX(5px); }
+
+        /* --- SIDEBAR --- */
+        .sidebar { 
+            width: var(--sidebar-width); background: rgba(0, 0, 0, 0.98); 
+            border-right: 2px solid var(--rojo-neon); padding: 0; 
+            position: fixed; height: 100vh; z-index: 100; 
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 10px 0 30px rgba(255, 0, 34, 0.15);
+        }
+        .sidebar.hidden { transform: translateX(-100%); }
+
+        /* HEADER DE CATEGORÍAS */
+        .sidebar-header {
+            background: linear-gradient(135deg, #440000 0%, #1a0000 100%);
+            padding: 40px 20px; text-align: center; border-bottom: 1px solid var(--rojo-neon);
+            margin-bottom: 20px;
+        }
+        .sidebar h2 { 
+            font-family: 'Syncopate', sans-serif; font-size: 0.9rem; margin: 0;
+            background: linear-gradient(90deg, #fff, var(--naranja-fuego));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+        }
+
+        .nav-container { padding: 0 20px; }
+        .nav-btn { 
+            width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,0,0,0.1); 
+            color: #aaa; padding: 14px 18px; text-align: left; border-radius: 12px; 
+            cursor: pointer; transition: 0.3s; margin-bottom: 10px; font-weight: 700; 
+            display: flex; align-items: center; gap: 12px; 
+        }
+        .nav-btn:hover, .nav-btn.active { 
+            background: rgba(255, 0, 34, 0.15); color: #fff; 
+            border-color: var(--rojo-neon); box-shadow: inset 0 0 15px rgba(255,0,0,0.2); 
+            transform: translateX(5px); 
+        }
 
         /* --- MAIN --- */
-        .main-content { margin-left: var(--sidebar-width); flex-grow: 1; padding: 60px; z-index: 1; }
+        .main-content { 
+            margin-left: var(--sidebar-width); flex-grow: 1; padding: 60px; 
+            z-index: 1; transition: margin 0.4s;
+        }
+        .main-content.full { margin-left: 0; }
+
         .section { display: none; animation: slideIn 0.5s ease-out forwards; }
         .section.active { display: block; }
         @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -64,9 +94,9 @@
         .leader-box img { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--rojo-neon); margin-bottom: 10px; }
         .leader-box .rank { color: var(--rojo-neon); font-size: 0.6rem; font-weight: 900; text-transform: uppercase; display: block; margin-bottom: 5px; }
         .line-v { width: 2px; height: 40px; background: var(--rojo-neon); box-shadow: 0 0 10px var(--rojo-neon); }
-        .leader-row { display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; }
+        .leader-row { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
 
-        /* --- GRANJAS (RESTAURADAS TODAS) --- */
+        /* --- GRANJAS --- */
         .farm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
         .farm-card { background: var(--tarjeta); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; }
         .farm-card:hover { transform: translateY(-10px); border-color: var(--naranja-fuego); }
@@ -81,7 +111,6 @@
         .card { background: var(--tarjeta); padding: 25px 15px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.03); }
         .card img { width: 75px; height: 75px; border-radius: 50%; border: 2px solid var(--rojo-neon); margin-bottom: 15px; }
 
-        /* BOTÓN POSTULACIÓN */
         .btn-postular {
             display: inline-block; padding: 15px 30px; background: var(--rojo-neon); color: #fff; 
             text-decoration: none; border-radius: 12px; font-weight: 900; font-size: 0.9rem;
@@ -92,19 +121,26 @@
 </head>
 <body>
 
-    <div class="scanner-line"></div>
     <div id="bg-combat"></div>
 
-    <div class="sidebar">
-        <h2>CATEGORÍAS</h2>
-        <button class="nav-btn active" onclick="switchTab('info', this)"><i class="fas fa-terminal"></i> ESTADO</button>
-        <button class="nav-btn" onclick="switchTab('lideres', this)"><i class="fas fa-sitemap"></i> Jerarquía</button>
-        <button class="nav-btn" onclick="switchTab('granjas', this)"><i class="fas fa-fire"></i> Granjas</button>
-        <button class="nav-btn" onclick="switchTab('miembros', this)"><i class="fas fa-users"></i> Miembros</button>
-        <button class="nav-btn" onclick="switchTab('postulaciones', this)"><i class="fas fa-file-signature"></i> Postularse</button>
+    <button class="menu-toggle" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>CATEGORÍAS</h2>
+        </div>
+        <div class="nav-container">
+            <button class="nav-btn active" onclick="switchTab('info', this)"><i class="fas fa-terminal"></i> ESTADO</button>
+            <button class="nav-btn" onclick="switchTab('lideres', this)"><i class="fas fa-sitemap"></i> Jerarquía</button>
+            <button class="nav-btn" onclick="switchTab('granjas', this)"><i class="fas fa-fire"></i> Granjas</button>
+            <button class="nav-btn" onclick="switchTab('miembros', this)"><i class="fas fa-users"></i> Miembros</button>
+            <button class="nav-btn" onclick="switchTab('postulaciones', this)"><i class="fas fa-file-signature"></i> Postularse</button>
+        </div>
     </div>
 
-    <div class="main-content">
+    <div class="main-content" id="main-content">
         <div id="info" class="section active">
             <h1>SISTEMA ONLINE</h1>
             <div style="background: var(--tarjeta); padding: 40px; border-radius: 25px; border: 1px solid rgba(255,0,0,0.2)">
@@ -160,6 +196,11 @@
     </div>
 
     <script>
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('hidden');
+            document.getElementById('main-content').classList.toggle('full');
+        }
+
         function createSwords() {
             const container = document.getElementById('bg-combat');
             const types = ['s-neth', 's-diam', 's-gold'];
@@ -178,6 +219,8 @@
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             btn.classList.add('active');
+            // En móviles, cerrar el menú al hacer clic en una opción
+            if(window.innerWidth < 1024) toggleMenu();
         }
 
         const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros";
