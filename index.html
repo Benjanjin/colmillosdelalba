@@ -19,7 +19,7 @@
         * { box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: var(--fondo-negro); color: #fff; margin: 0; display: flex; min-height: 100vh; overflow-x: hidden; }
 
-        /* --- DECORACIÓN --- */
+        /* --- DECORACIONES --- */
         .scanner-line {
             position: fixed; top: 0; left: 0; width: 100%; height: 2px;
             background: linear-gradient(90deg, transparent, var(--rojo-neon), transparent);
@@ -52,7 +52,9 @@
         .section.active { display: block; }
         @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- JERARQUÍA CON LÍNEAS --- */
+        h1 { font-family: 'Syncopate', sans-serif; font-size: 1.5rem; text-shadow: 0 0 10px var(--rojo-neon); border-left: 5px solid var(--rojo-neon); padding-left: 20px; margin-bottom: 40px; }
+
+        /* --- JERARQUÍA --- */
         .leader-tree { display: flex; flex-direction: column; align-items: center; width: 100%; }
         .leader-box { 
             background: #080808; padding: 15px; border-radius: 15px; border: 2px solid var(--rojo-neon); 
@@ -61,9 +63,14 @@
         }
         .leader-box img { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--rojo-neon); margin-bottom: 10px; }
         .leader-box .rank { color: var(--rojo-neon); font-size: 0.6rem; font-weight: 900; text-transform: uppercase; display: block; margin-bottom: 5px; }
-
         .line-v { width: 2px; height: 40px; background: var(--rojo-neon); box-shadow: 0 0 10px var(--rojo-neon); }
-        .leader-row { display: flex; gap: 40px; justify-content: center; position: relative; }
+        .leader-row { display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; }
+
+        /* --- GRANJAS (RESTAURADAS TODAS) --- */
+        .farm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .farm-card { background: var(--tarjeta); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; }
+        .farm-card:hover { transform: translateY(-10px); border-color: var(--naranja-fuego); }
+        .farm-badge { display: inline-block; padding: 6px 12px; background: linear-gradient(90deg, #ff8c00, #ff4500); color: #fff; font-size: 0.6rem; font-weight: 900; border-radius: 5px; margin-top: 8px; text-transform: uppercase; }
 
         /* --- FILTRO MIEMBROS --- */
         .roles-nav { display: flex; gap: 10px; flex-wrap: wrap; background: rgba(255,255,255,0.02); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,0,0,0.1); margin-bottom: 30px; }
@@ -118,16 +125,12 @@
         </div>
 
         <div id="granjas" class="section">
-            <h1>GRANJAS</h1>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
-                <div style="background: var(--tarjeta); border-radius: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);">
-                    <img src="https://imgur.com/ZawCT1U.png" style="width:100%; height:150px; object-fit:cover;">
-                    <div style="padding:15px;"><h3>Hierro</h3></div>
-                </div>
-                <div style="background: var(--tarjeta); border-radius: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);">
-                    <img src="https://imgur.com/sOvjMva.png" style="width:100%; height:150px; object-fit:cover;">
-                    <div style="padding:15px;"><h3>Oro</h3></div>
-                </div>
+            <h1>PLANOS DE RECURSOS</h1>
+            <div class="farm-grid">
+                <div class="farm-card"><img src="https://imgur.com/ZawCT1U.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:15px;"><h3>Hierro</h3><span class="farm-badge">Industrial</span></div></div>
+                <div class="farm-card"><img src="https://imgur.com/sOvjMva.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:15px;"><h3>Oro</h3><span class="farm-badge">XP Boost</span></div></div>
+                <div class="farm-card"><img src="https://imgur.com/s3F1aKG.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:15px;"><h3>Magma</h3><span class="farm-badge">Nether</span></div></div>
+                <div class="farm-card"><img src="https://imgur.com/nseW5Rd.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:15px;"><h3>Zanahorias</h3><span class="farm-badge">Alimento</span></div></div>
             </div>
         </div>
 
@@ -145,10 +148,10 @@
         </div>
 
         <div id="postulaciones" class="section">
-            <h1>POSTULACIONES AL CLAN</h1>
+            <h1>POSTULACIONES</h1>
             <div style="background: var(--tarjeta); padding: 50px; border-radius: 25px; border: 1px solid var(--rojo-neon); text-align: center;">
-                <h2 style="font-family: 'Syncopate'; font-size: 1rem; color: var(--rojo-neon);">¿Quieres unirte a nuestras filas?</h2>
-                <p style="color: #aaa; margin: 20px 0 40px;">Completa el formulario oficial para ser evaluado por el Alto Mando.</p>
+                <h2 style="font-family: 'Syncopate'; font-size: 1rem; color: var(--rojo-neon);">¿QUIERES UNIRTE?</h2>
+                <p style="color: #aaa; margin: 20px 0 40px;">Buscamos a los mejores guerreros y constructores.</p>
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSczYl9X8G_Y3N2yI6W_NRE2mI1f8O_Z_X_Y3N2yI6W_NRE2mI1/viewform" target="_blank" class="btn-postular">
                     <i class="fas fa-external-link-alt"></i> ABRIR FORMULARIO
                 </a>
@@ -209,13 +212,7 @@
         function cardLider(info) {
             const user = miembrosCache.find(m => (m.username||"").toLowerCase().includes(info.nick.toLowerCase()));
             const img = user ? user.avatar : 'https://cdn.discordapp.com/embed/avatars/0.png';
-            return `
-                <div class="leader-box">
-                    <span class="rank">${info.rango}</span>
-                    <img src="${img}">
-                    <div style="font-weight:900; font-size:0.8rem;">${user ? (user.nickname || user.username) : info.nick}</div>
-                </div>
-            `;
+            return `<div class="leader-box"><span class="rank">${info.rango}</span><img src="${img}"><div style="font-weight:900; font-size:0.8rem;">${user ? (user.nickname || user.username) : info.nick}</div></div>`;
         }
 
         function filtroTotal(rolBusqueda, btn) {
