@@ -9,19 +9,22 @@
     
     <style> 
         :root {
-            --rojo-neon: #ff0022;
-            --naranja-fuego: #ff8c00;
-            --fondo-negro: #020202;
-            --tarjeta: rgba(15, 5, 5, 0.95);
+            /* Nueva Paleta Ultra Profesional */
+            --rojo-core: #e60026;
+            --oro-brillante: #ffcc00;
+            --blanco-puro: #ffffff;
+            --fondo-negro: #050505;
+            --tarjeta: rgba(20, 20, 20, 0.8);
             --sidebar-width: 260px;
+            --gradiente-premium: linear-gradient(135deg, var(--rojo-core), var(--oro-brillante));
         }
 
         * { box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: var(--fondo-negro); color: #fff; margin: 0; display: flex; min-height: 100vh; overflow-x: hidden; }
 
         /* --- FONDO ANIMADO --- */
-        #bg-combat { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at center, #1a0000 0%, #000 100%); overflow: hidden; }
-        .sword { position: absolute; width: 50px; height: 50px; background-size: contain; background-repeat: no-repeat; opacity: 0.15; filter: drop-shadow(0 0 10px var(--rojo-neon)); animation: floatSwords 20s infinite linear; }
+        #bg-combat { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at center, #2a0005 0%, #000 100%); overflow: hidden; }
+        .sword { position: absolute; width: 50px; height: 50px; background-size: contain; background-repeat: no-repeat; opacity: 0.12; filter: drop-shadow(0 0 8px var(--oro-brillante)); animation: floatSwords 20s infinite linear; }
         .s-neth { background-image: url('https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png'); }
         .s-diam { background-image: url('https://minecraft.wiki/images/Diamond_Sword_JE3_BE3.png'); }
         .s-gold { background-image: url('https://minecraft.wiki/images/Golden_Sword_JE2_BE2.png'); }
@@ -30,93 +33,108 @@
         /* --- BOTÓN MENÚ --- */
         .menu-toggle {
             position: fixed; top: 20px; left: 20px; z-index: 1100;
-            background: var(--rojo-neon); border: none; color: white;
-            padding: 12px 15px; border-radius: 8px; cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 0, 34, 0.5);
+            background: var(--gradiente-premium); border: none; color: black;
+            padding: 12px 15px; border-radius: 8px; cursor: pointer; font-weight: bold;
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
         }
 
         /* --- SIDEBAR --- */
         .sidebar { 
-            width: var(--sidebar-width); background: rgba(0, 0, 0, 0.98); 
-            border-right: 2px solid var(--rojo-neon); padding: 0; 
+            width: var(--sidebar-width); background: linear-gradient(180deg, #0a0a0a 0%, #000 100%); 
+            border-right: 1px solid rgba(255, 255, 255, 0.1); padding: 0; 
             position: fixed; height: 100vh; z-index: 1000; 
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 10px 0 30px rgba(255, 0, 34, 0.15);
             display: flex; flex-direction: column;
         }
         .sidebar.hidden { transform: translateX(-100%); }
 
         .sidebar-header {
             margin-top: 80px;
-            background: linear-gradient(90deg, #440000, #1a0000);
-            padding: 20px; text-align: center; border-top: 1px solid var(--rojo-neon); border-bottom: 1px solid var(--rojo-neon);
+            background: rgba(255, 255, 255, 0.03);
+            padding: 25px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);
             margin-bottom: 20px;
         }
         .sidebar h2 { 
-            font-family: 'Syncopate', sans-serif; font-size: 0.8rem; margin: 0;
-            background: linear-gradient(90deg, #fff, var(--naranja-fuego));
+            font-family: 'Syncopate', sans-serif; font-size: 0.75rem; margin: 0;
+            background: linear-gradient(90deg, var(--blanco-puro), var(--oro-brillante));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            letter-spacing: 2px; font-weight: 900;
+            letter-spacing: 3px; font-weight: 900;
         }
 
         .nav-container { padding: 0 15px; }
         .nav-btn { 
-            width: 100%; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); 
-            color: #777; padding: 14px 18px; text-align: left; border-radius: 12px; 
-            cursor: pointer; transition: 0.3s; margin-bottom: 10px; font-weight: 700; 
-            display: flex; align-items: center; gap: 12px; 
+            width: 100%; background: transparent; border: 1px solid transparent; 
+            color: #888; padding: 14px 18px; text-align: left; border-radius: 10px; 
+            cursor: pointer; transition: 0.3s; margin-bottom: 8px; font-weight: 700; 
+            display: flex; align-items: center; gap: 12px; font-size: 0.85rem;
         }
-        .nav-btn:hover, .nav-btn.active { 
-            background: rgba(255, 0, 34, 0.1); color: #fff; 
-            border-color: var(--rojo-neon); box-shadow: inset 0 0 10px rgba(255,0,0,0.1); 
-            transform: translateX(5px); 
+        .nav-btn i { font-size: 1rem; transition: 0.3s; }
+        
+        .nav-btn:hover { color: var(--blanco-puro); background: rgba(255, 255, 255, 0.05); }
+        
+        .nav-btn.active { 
+            background: rgba(230, 0, 38, 0.1); color: var(--blanco-puro); 
+            border: 1px solid var(--rojo-core); box-shadow: 0 0 15px rgba(230, 0, 38, 0.2);
         }
+        .nav-btn.active i { color: var(--oro-brillante); }
 
-        /* --- MAIN --- */
+        /* --- MAIN CONTENT --- */
         .main-content { 
             margin-left: var(--sidebar-width); flex-grow: 1; padding: 60px; 
             z-index: 1; transition: margin 0.4s;
         }
         .main-content.full { margin-left: 0; }
 
-        .section { display: none; animation: slideIn 0.5s ease-out forwards; }
+        .section { display: none; animation: fadeIn 0.6s ease-out; }
         .section.active { display: block; }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        h1 { font-family: 'Syncopate', sans-serif; font-size: 1.5rem; text-shadow: 0 0 10px var(--rojo-neon); border-left: 5px solid var(--rojo-neon); padding-left: 20px; margin-bottom: 40px; }
+        h1 { 
+            font-family: 'Syncopate', sans-serif; font-size: 1.4rem; 
+            background: linear-gradient(90deg, var(--blanco-puro), var(--oro-brillante));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            border-left: 4px solid var(--rojo-core); padding-left: 20px; margin-bottom: 45px; 
+        }
 
-        /* --- JERARQUÍA --- */
+        /* --- JERARQUÍA (ESTILO ELITE) --- */
         .leader-tree { display: flex; flex-direction: column; align-items: center; width: 100%; }
         .leader-box { 
-            background: #080808; padding: 15px; border-radius: 15px; border: 2px solid var(--rojo-neon); 
-            text-align: center; min-width: 160px; position: relative; z-index: 2;
-            box-shadow: 0 0 15px rgba(255, 0, 34, 0.2);
+            background: linear-gradient(145deg, #151515, #0a0a0a); padding: 20px; border-radius: 12px; 
+            border: 1px solid rgba(255, 204, 0, 0.3); text-align: center; min-width: 180px; 
+            position: relative; transition: 0.3s;
         }
-        .leader-box img { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--rojo-neon); margin-bottom: 10px; }
-        .leader-box .rank { color: var(--rojo-neon); font-size: 0.6rem; font-weight: 900; text-transform: uppercase; display: block; margin-bottom: 5px; }
-        .line-v { width: 2px; height: 40px; background: var(--rojo-neon); box-shadow: 0 0 10px var(--rojo-neon); }
-        .leader-row { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; }
+        .leader-box:hover { border-color: var(--oro-brillante); box-shadow: 0 0 20px rgba(255, 204, 0, 0.15); }
+        .leader-box img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--rojo-core); margin-bottom: 12px; padding: 3px; background: #000; }
+        .leader-box .rank { color: var(--oro-brillante); font-size: 0.65rem; font-weight: 900; text-transform: uppercase; display: block; margin-bottom: 8px; letter-spacing: 1px; }
+        .line-v { width: 2px; height: 40px; background: linear-gradient(to bottom, var(--rojo-core), var(--oro-brillante)); }
+        
+        /* --- TARJETAS DE GRANJAS Y MIEMBROS --- */
+        .farm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        .farm-card { background: var(--tarjeta); border-radius: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); transition: 0.4s; backdrop-filter: blur(10px); }
+        .farm-card:hover { transform: translateY(-8px); border-color: var(--oro-brillante); }
+        .farm-card h3 { color: var(--blanco-puro); margin: 0; font-size: 1.1rem; }
+        .farm-badge { display: inline-block; padding: 5px 10px; background: var(--gradiente-premium); color: #000; font-size: 0.65rem; font-weight: 900; border-radius: 4px; margin-top: 10px; text-transform: uppercase; }
 
-        /* --- GRANJAS --- */
-        .farm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
-        .farm-card { background: var(--tarjeta); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; }
-        .farm-card:hover { transform: translateY(-10px); border-color: var(--naranja-fuego); }
-        .farm-badge { display: inline-block; padding: 6px 12px; background: linear-gradient(90deg, #ff8c00, #ff4500); color: #fff; font-size: 0.6rem; font-weight: 900; border-radius: 5px; margin-top: 8px; text-transform: uppercase; }
-
-        /* --- MIEMBROS --- */
-        .roles-nav { display: flex; gap: 10px; flex-wrap: wrap; background: rgba(255,255,255,0.02); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,0,0,0.1); margin-bottom: 30px; }
-        .btn-rol { background: #000; border: 1px solid #333; color: #888; padding: 10px 18px; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 0.75rem; transition: 0.3s; }
-        .btn-rol:hover, .btn-rol.active { background: var(--rojo-neon); color: #fff; border-color: var(--rojo-neon); box-shadow: 0 0 15px var(--rojo-neon); }
+        .roles-nav { display: flex; gap: 10px; flex-wrap: wrap; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; margin-bottom: 35px; border: 1px solid rgba(255,255,255,0.05); }
+        .btn-rol { background: #111; border: 1px solid #222; color: #aaa; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 800; font-size: 0.7rem; transition: 0.3s; text-transform: uppercase; }
+        .btn-rol:hover { border-color: var(--rojo-core); color: #fff; }
+        .btn-rol.active { background: var(--blanco-puro); color: #000; border-color: var(--blanco-puro); box-shadow: 0 0 15px rgba(255,255,255,0.2); }
 
         .member-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
-        .card { background: var(--tarjeta); padding: 25px 15px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.03); }
-        .card img { width: 75px; height: 75px; border-radius: 50%; border: 2px solid var(--rojo-neon); margin-bottom: 15px; }
+        .card { background: rgba(255, 255, 255, 0.03); padding: 25px 15px; border-radius: 15px; text-align: center; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .card:hover { background: rgba(255, 255, 255, 0.06); border-color: var(--rojo-core); }
+        .card img { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--oro-brillante); margin-bottom: 12px; }
 
         .btn-postular {
-            display: inline-block; padding: 15px 30px; background: var(--rojo-neon); color: #fff; 
-            text-decoration: none; border-radius: 12px; font-weight: 900; font-size: 0.9rem;
-            box-shadow: 0 0 20px rgba(255,0,34,0.4); transition: 0.3s;
+            display: inline-block; padding: 18px 40px; background: var(--gradiente-premium); color: #000; 
+            text-decoration: none; border-radius: 10px; font-weight: 900; font-size: 0.9rem;
+            box-shadow: 0 10px 20px rgba(230, 0, 38, 0.2); transition: 0.3s; letter-spacing: 1px;
         }
+        .btn-postular:hover { transform: scale(1.05); box-shadow: 0 15px 25px rgba(255, 204, 0, 0.3); }
+
+        /* Estilo para el contenedor de info inicial */
+        .status-box { background: var(--tarjeta); padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
+        .status-box p { font-size: 1.1rem; font-weight: 600; margin: 15px 0; display: flex; align-items: center; gap: 15px; }
     </style>
 </head>
 <body>
@@ -124,33 +142,34 @@
     <div id="bg-combat"></div>
 
     <button class="menu-toggle" onclick="toggleMenu()">
-        <i class="fas fa-bars"></i>
+        <i class="fas fa-bars"></i> MENU
     </button>
 
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h2>CATEGORÍAS</h2>
+            <h2>DASHBOARD</h2>
         </div>
         <div class="nav-container">
-            <button class="nav-btn active" onclick="switchTab('info', this)"><i class="fas fa-terminal"></i> ESTADO</button>
-            <button class="nav-btn" onclick="switchTab('lideres', this)"><i class="fas fa-sitemap"></i> Jerarquía</button>
-            <button class="nav-btn" onclick="switchTab('granjas', this)"><i class="fas fa-fire"></i> Granjas</button>
-            <button class="nav-btn" onclick="switchTab('miembros', this)"><i class="fas fa-users"></i> Miembros</button>
-            <button class="nav-btn" onclick="switchTab('postulaciones', this)"><i class="fas fa-file-signature"></i> Postularse</button>
+            <button class="nav-btn active" onclick="switchTab('info', this)"><i class="fas fa-satellite-dish"></i> ESTADO</button>
+            <button class="nav-btn" onclick="switchTab('lideres', this)"><i class="fas fa-crown"></i> JERARQUÍA</button>
+            <button class="nav-btn" onclick="switchTab('granjas', this)"><i class="fas fa-hammer"></i> GRANJAS</button>
+            <button class="nav-btn" onclick="switchTab('miembros', this)"><i class="fas fa-user-shield"></i> MIEMBROS</button>
+            <button class="nav-btn" onclick="switchTab('postulaciones', this)"><i class="fas fa-envelope-open-text"></i> UNIRSE</button>
         </div>
     </div>
 
     <div class="main-content" id="main-content">
         <div id="info" class="section active">
-            <h1>SISTEMA ONLINE</h1>
-            <div style="background: var(--tarjeta); padding: 40px; border-radius: 25px; border: 1px solid rgba(255,0,0,0.2)">
-                <p><i class="fas fa-shield-alt" style="color:var(--rojo-neon)"></i> Clan: Colmillos Del Alba</p>
-                <p><i class="fas fa-crosshairs" style="color:var(--naranja-fuego)"></i> Servidor: DiosesMC</p>
+            <h1>SISTEMA OPERATIVO</h1>
+            <div class="status-box">
+                <p><i class="fas fa-shield-alt" style="color:var(--rojo-core)"></i> CLAN: <span style="color: var(--oro-brillante)">COLMILLOS DEL ALBA</span></p>
+                <p><i class="fas fa-server" style="color:var(--oro-brillante)"></i> SERVIDOR: <span style="color: #fff">DIOSESMC</span></p>
+                <p><i class="fas fa-check-circle" style="color: #00ff88"></i> ESTADO: <span style="color: #00ff88">EN LÍNEA</span></p>
             </div>
         </div>
 
         <div id="lideres" class="section">
-            <h1>LIDERES</h1>
+            <h1>COMANDO CENTRAL</h1>
             <div class="leader-tree">
                 <div id="rank-1"></div>
                 <div class="line-v"></div>
@@ -161,35 +180,35 @@
         </div>
 
         <div id="granjas" class="section">
-            <h1>GRANJAS</h1>
+            <h1>INFRAESTRUCTURA</h1>
             <div class="farm-grid">
-                <div class="farm-card"><img src="https://imgur.com/ZawCT1U.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:15px;"><h3>Hierro</h3><span class="farm-badge">Automatica</span></div></div>
-                <div class="farm-card"><img src="https://imgur.com/sOvjMva.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:15px;"><h3>Oro</h3><span class="farm-badge">SemiAutomatica</span></div></div>
-                <div class="farm-card"><img src="https://imgur.com/s3F1aKG.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:15px;"><h3>Magma</h3><span class="farm-badge">SemiAutomatica</span></div></div>
-                <div class="farm-card"><img src="https://imgur.com/nseW5Rd.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:15px;"><h3>Zanahorias</h3><span class="farm-badge">Automatica</span></div></div>
+                <div class="farm-card"><img src="https://imgur.com/ZawCT1U.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:20px;"><h3>Hierro</h3><span class="farm-badge">Automática</span></div></div>
+                <div class="farm-card"><img src="https://imgur.com/sOvjMva.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:20px;"><h3>Oro</h3><span class="farm-badge">Semi-Auto</span></div></div>
+                <div class="farm-card"><img src="https://imgur.com/s3F1aKG.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:20px;"><h3>Magma</h3><span class="farm-badge">Nether Tech</span></div></div>
+                <div class="farm-card"><img src="https://imgur.com/nseW5Rd.png" style="width:100%; height:160px; object-fit:cover;"><div style="padding:20px;"><h3>Zanahorias</h3><span class="farm-badge">Full Auto</span></div></div>
             </div>
         </div>
 
         <div id="miembros" class="section">
-            <h1>REGISTRO DE MIEMBROS</h1>
+            <h1>BASE DE DATOS MIEMBROS</h1>
             <div class="roles-nav">
                 <button class="btn-rol active" onclick="filtroTotal('Todos', this)">Todos</button>
                 <button class="btn-rol" onclick="filtroTotal('𝒑𝒗𝒑', this)">⚔️ PVP</button>
-                <button class="btn-rol" onclick="filtroTotal('𝒃𝒖𝒊𝒍𝒅𝒆𝒓𝒔', this)">⚒️ Builder</button>
-                <button class="btn-rol" onclick="filtroTotal('𝒕𝒆𝒄𝒏𝒊𝒄𝒐𝒔', this)">⚙️ Técnico</button>
-                <button class="btn-rol" onclick="filtroTotal('Farmer', this)">🌱 Farmer</button>
-                <button class="btn-rol" onclick="filtroTotal('Herrero', this)">🔨 Herrero</button>
+                <button class="btn-rol" onclick="filtroTotal('𝒃𝒖𝒊𝒍𝒅𝒆𝒓𝒔', this)">⚒️ Builders</button>
+                <button class="btn-rol" onclick="filtroTotal('𝒕𝒆𝒄𝒏𝒊𝒄𝒐𝒔', this)">⚙️ Técnicos</button>
+                <button class="btn-rol" onclick="filtroTotal('Farmer', this)">🌱 Farmers</button>
+                <button class="btn-rol" onclick="filtroTotal('Herrero', this)">🔨 Herreros</button>
             </div>
             <div class="member-grid" id="lista-usuarios"></div>
         </div>
 
         <div id="postulaciones" class="section">
-            <h1>POSTULACIONES</h1>
-            <div style="background: var(--tarjeta); padding: 50px; border-radius: 25px; border: 1px solid var(--rojo-neon); text-align: center;">
-                <h2 style="font-family: 'Syncopate'; font-size: 1rem; color: var(--rojo-neon);">¿QUIERES UNIRTE?</h2>
-                <p style="color: #aaa; margin: 20px 0 40px;">Buscamos a los mejores guerreros y constructores.</p>
+            <h1>RECLUTAMIENTO</h1>
+            <div style="background: linear-gradient(145deg, #111, #050505); padding: 60px; border-radius: 20px; border: 1px solid rgba(255, 204, 0, 0.2); text-align: center;">
+                <h2 style="font-family: 'Syncopate'; font-size: 1.2rem; color: var(--blanco-puro); margin-bottom: 15px;">¿TIENES LO QUE SE NECESITA?</h2>
+                <p style="color: #888; margin-bottom: 40px; font-weight: 500;">Únete a las filas de la élite en DiosESMC. Procesamos solicitudes cada 24 horas.</p>
                 <a href="https://discord.gg/xw9pzw3kB5" target="_blank" class="btn-postular">
-                    <i class="fas fa-external-link-alt"></i> ABRIR FORMULARIO
+                    <i class="fas fa-paper-plane"></i> ENVIAR SOLICITUD
                 </a>
             </div>
         </div>
@@ -254,7 +273,7 @@
         function cardLider(info) {
             const user = miembrosCache.find(m => (m.username||"").toLowerCase().includes(info.nick.toLowerCase()));
             const img = user ? user.avatar : 'https://cdn.discordapp.com/embed/avatars/0.png';
-            return `<div class="leader-box"><span class="rank">${info.rango}</span><img src="${img}"><div style="font-weight:900; font-size:0.8rem;">${user ? (user.nickname || user.username) : info.nick}</div></div>`;
+            return `<div class="leader-box"><span class="rank">${info.rango}</span><img src="${img}"><div style="font-weight:900; font-size:0.8rem; color: #fff;">${user ? (user.nickname || user.username) : info.nick}</div></div>`;
         }
 
         function filtroTotal(rolBusqueda, btn) {
@@ -270,7 +289,7 @@
             grid.innerHTML = filtrados.map(u => `
                 <div class="card">
                     <img src="${u.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}">
-                    <div style="font-weight:900; font-size:0.85rem;">${u.nickname || u.username}</div>
+                    <div style="font-weight:900; font-size:0.8rem; color: #ddd;">${u.nickname || u.username}</div>
                 </div>
             `).join('');
         }
