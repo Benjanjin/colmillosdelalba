@@ -10,9 +10,10 @@
     <style> 
         :root {
             --rojo-neon: #ff0022;
+            --naranja-fuego: #ff8c00;
             --rojo-glow: rgba(255, 0, 34, 0.4);
-            --fondo-negro: #030303;
-            --tarjeta: rgba(15, 15, 15, 0.8);
+            --fondo-negro: #020202;
+            --tarjeta: rgba(10, 10, 10, 0.85);
             --sidebar-width: 260px;
         }
 
@@ -25,20 +26,39 @@
             margin: 0;
             display: flex;
             min-height: 100vh;
-            /* FONDO MEJORADO: Efecto Niebla Roja */
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(255, 0, 34, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(255, 0, 34, 0.05) 0%, transparent 40%),
-                url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
-            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        /* --- FONDO ANIMADO --- */
+        .bg-animation {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #1a0202 0%, #000 100%);
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--rojo-neon);
+            border-radius: 50%;
+            filter: blur(2px);
+            opacity: 0.3;
+            animation: moveParticles 20s infinite linear;
+        }
+
+        @keyframes moveParticles {
+            0% { transform: translateY(100vh) scale(1); opacity: 0; }
+            50% { opacity: 0.4; }
+            100% { transform: translateY(-10vh) scale(0.5); opacity: 0; }
         }
 
         /* --- SIDEBAR --- */
         .sidebar {
             width: var(--sidebar-width);
-            background: rgba(5, 5, 5, 0.95);
-            border-right: 1px solid rgba(255, 0, 34, 0.2);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.9);
+            border-right: 2px solid var(--rojo-neon);
+            box-shadow: 5px 0 15px rgba(255, 0, 34, 0.1);
+            backdrop-filter: blur(15px);
             display: flex;
             flex-direction: column;
             padding: 40px 20px;
@@ -53,213 +73,257 @@
             text-align: center;
             margin-bottom: 50px;
             letter-spacing: 3px;
-            background: linear-gradient(135deg, #ff0022 0%, #8b0000 100%);
+            background: linear-gradient(90deg, #fff, var(--rojo-neon));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
         }
 
         .menu-label { 
-            font-size: 0.65rem; 
-            color: #555; 
+            font-size: 0.7rem; 
+            color: #666; 
             text-transform: uppercase; 
-            margin: 20px 0 10px 10px; 
+            margin: 25px 0 12px 10px; 
             font-weight: 900;
+            letter-spacing: 2px;
         }
 
         .nav-btn, .nav-link {
             width: 100%;
             background: transparent;
             border: none;
-            color: #888;
-            padding: 14px 18px;
+            color: #999;
+            padding: 15px 20px;
             text-align: left;
-            border-radius: 12px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: 0.3s;
-            margin-bottom: 8px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-bottom: 10px;
             font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
             text-decoration: none;
-            font-size: 0.9rem;
+            border: 1px solid transparent;
         }
 
         .nav-btn:hover, .nav-btn.active, .nav-link:hover {
-            background: rgba(255, 0, 34, 0.08);
-            color: var(--rojo-neon);
-            box-shadow: inset 4px 0 0 var(--rojo-neon);
+            background: rgba(255, 0, 34, 0.1);
+            color: #fff;
+            border-color: var(--rojo-neon);
+            box-shadow: 0 0 15px rgba(255, 0, 34, 0.3);
+            transform: translateX(10px);
         }
 
-        /* --- MAIN --- */
+        /* --- MAIN CONTENT --- */
         .main-content {
             margin-left: var(--sidebar-width);
             flex-grow: 1;
             padding: 60px;
-            position: relative;
+            z-index: 1;
         }
-
-        .section { display: none; animation: slideUp 0.6s ease forwards; }
-        .section.active { display: block; }
 
         h1 { 
             font-family: 'Syncopate', sans-serif; 
-            font-size: 1.6rem; 
-            margin-bottom: 40px; 
-            border-left: 5px solid var(--rojo-neon);
-            padding-left: 20px;
-            text-shadow: 0 0 10px var(--rojo-glow);
+            font-size: 1.8rem; 
+            margin-bottom: 50px; 
+            color: #fff;
+            text-transform: uppercase;
+            position: relative;
         }
 
-        /* --- SECCION GRANJAS (NUEVA) --- */
+        h1::after {
+            content: '';
+            position: absolute;
+            left: 0; bottom: -10px;
+            width: 80px; height: 4px;
+            background: var(--rojo-neon);
+            box-shadow: 0 0 10px var(--rojo-neon);
+        }
+
+        /* --- GRANJAS ESTILO PRO --- */
         .farm-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 35px;
         }
 
         .farm-card {
             background: var(--tarjeta);
-            border-radius: 20px;
+            border-radius: 15px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.4s;
-            position: relative;
+            transition: 0.5s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .farm-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--rojo-neon);
-            box-shadow: 0 10px 30px rgba(255, 0, 34, 0.15);
+            transform: scale(1.03) rotate(1deg);
+            border-color: var(--naranja-fuego);
+            box-shadow: 0 0 25px rgba(255, 140, 0, 0.2);
+        }
+
+        .farm-img-container {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
         }
 
         .farm-card img {
-            width: 100%;
-            height: 180px;
+            width: 100%; height: 100%;
             object-fit: cover;
-            filter: grayscale(30%);
-            transition: 0.4s;
+            transition: 0.8s;
         }
 
-        .farm-card:hover img { filter: grayscale(0%); scale: 1.05; }
+        .farm-card:hover img { transform: scale(1.2); }
 
         .farm-info {
-            padding: 20px;
-            background: linear-gradient(to top, #0a0a0a, transparent);
+            padding: 25px;
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
 
         .farm-info h3 {
             margin: 0;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 1.1rem;
             color: #fff;
+            font-weight: 900;
         }
 
         .farm-badge {
             display: inline-block;
-            padding: 4px 10px;
-            background: rgba(255, 0, 34, 0.1);
-            color: var(--rojo-neon);
-            font-size: 0.6rem;
-            font-weight: 900;
-            border-radius: 5px;
-            margin-top: 8px;
+            padding: 6px 14px;
+            /* DEGRADADO NARANJA MEJORADO */
+            background: linear-gradient(45deg, var(--naranja-fuego), var(--rojo-neon));
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 800;
+            border-radius: 4px;
+            margin-top: 12px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(255, 140, 0, 0.3);
         }
 
-        /* --- ARBOL DE LIDERES --- */
-        .leader-tree { display: flex; flex-direction: column; align-items: center; position: relative; padding-top: 20px; }
-        .leader-tree::after { content: ''; position: absolute; top: 0; width: 2px; height: 85%; background: linear-gradient(to bottom, var(--rojo-neon), transparent); z-index: 1; }
-        .leader-box { background: #111; padding: 20px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center; min-width: 190px; margin-bottom: 50px; position: relative; z-index: 5; transition: 0.3s; }
-        .leader-box img { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 12px; border: 3px solid var(--rojo-neon); background: #000; object-fit: cover; }
-        .rank { font-size: 0.65rem; color: var(--rojo-neon); text-transform: uppercase; font-weight: 900; letter-spacing: 1.5px; margin-bottom: 5px; display: block; }
-        .leader-name { font-weight: 800; font-size: 1rem; color: #fff; }
-        .leader-row { display: flex; gap: 60px; justify-content: center; width: 100%; position: relative; z-index: 5; }
+        /* --- MIEMBROS Y JERARQUIA --- */
+        .leader-box { 
+            background: rgba(20, 20, 20, 0.9); 
+            border: 1px solid var(--rojo-neon); 
+            padding: 25px; border-radius: 15px; 
+            transition: 0.4s;
+        }
 
-        /* --- MIEMBROS GRID --- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 20px; }
-        .card { background: var(--tarjeta); padding: 25px 15px; border-radius: 20px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.03); backdrop-filter: blur(5px); }
-        .card img { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 15px; background: linear-gradient(135deg, #ff0022 0%, #8b0000 100%); padding: 2px; }
+        .card { 
+            background: var(--tarjeta); 
+            border: 1px solid rgba(255,255,255,0.05); 
+            border-radius: 12px; 
+            padding: 20px;
+            transition: 0.3s;
+        }
+        .card:hover { background: rgba(255, 0, 34, 0.05); border-color: var(--rojo-neon); }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* --- SCROLLBAR --- */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--rojo-neon); border-radius: 10px; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
+    <div class="bg-animation" id="particle-container"></div>
+
     <div class="sidebar">
         <h2>COLMILLOS</h2>
-        <span class="menu-label">Principal</span>
-        <button class="nav-btn active" onclick="showSection('info', this)"><i class="fas fa-house"></i> Información</button>
-        <a href="https://discord.gg/xw9pzw3kB5" target="_blank" class="nav-link"><i class="fas fa-user-plus"></i> Reclutaciones</a>
-        <button class="nav-btn" onclick="showSection('lideres', this)"><i class="fas fa-sitemap"></i> Jerarquía</button>
+        <span class="menu-label">Navegación</span>
+        <button class="nav-btn active" onclick="showSection('info', this)"><i class="fas fa-terminal"></i> Terminal</button>
+        <a href="https://discord.gg/xw9pzw3kB5" target="_blank" class="nav-link"><i class="fas fa-id-card"></i> Reclutamientos</a>
+        <button class="nav-btn" onclick="showSection('lideres', this)"><i class="fas fa-crown"></i> Jerarquía</button>
         
-        <span class="menu-label">Recursos</span>
-        <button class="nav-btn" onclick="showSection('granjas', this)"><i class="fas fa-wheat-awn"></i> Granjas</button>
+        <span class="menu-label">Logística</span>
+        <button class="nav-btn" onclick="showSection('granjas', this)"><i class="fas fa-boxes-stacked"></i> Almacén/Granjas</button>
         
-        <span class="menu-label">Comunidad</span>
-        <button class="nav-btn" onclick="showSection('roles', this)"><i class="fas fa-user-group"></i> Miembros</button>
+        <span class="menu-label">Personal</span>
+        <button class="nav-btn" onclick="showSection('roles', this)"><i class="fas fa-users-rays"></i> Miembros</button>
     </div>
 
     <div class="main-content">
         <div id="info" class="section active">
-            <h1>SISTEMA OPERATIVO</h1>
-            <div style="background: var(--tarjeta); padding: 40px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.03); backdrop-filter: blur(10px);">
-                <p><i class="fas fa-shield-halved" style="color:var(--rojo-neon)"></i> <strong> Clan:</strong> Colmillos Del Alba</p>
-                <p><i class="fas fa-crosshairs" style="color:var(--rojo-neon)"></i> <strong> Objetivo:</strong> Dominación DiosesMC</p>
-                <p><i class="fas fa-bolt" style="color:var(--rojo-neon)"></i> <strong> Estado:</strong> En Crecimiento</p>
+            <h1>SISTEMA CENTRAL</h1>
+            <div style="background: var(--tarjeta); padding: 40px; border-radius: 15px; border: 1px solid var(--rojo-neon); position: relative; overflow: hidden;">
+                <div style="position: absolute; top:0; left:0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--rojo-neon), transparent); animation: scanline 4s linear infinite;"></div>
+                <p><i class="fas fa-shield-virus" style="color:var(--rojo-neon)"></i> <strong> Unidad:</strong> Colmillos Del Alba</p>
+                <p><i class="fas fa-crosshairs" style="color:var(--rojo-neon)"></i> <strong> Sector:</strong> DiosesMC</p>
+                <p><i class="fas fa-microchip" style="color:var(--rojo-neon)"></i> <strong> Actividad:</strong> Máxima</p>
             </div>
         </div>
 
         <div id="granjas" class="section">
-            <h1>PLANOS DE GRANJAS</h1>
+            <h1>PLANOS ESTRATÉGICOS</h1>
             <div class="farm-grid">
                 <div class="farm-card">
-                    <img src="https://imgur.com/ZawCT1U.png" alt="Granja Hierro">
+                    <div class="farm-img-container"><img src="https://imgur.com/ZawCT1U.png" alt="Hierro"></div>
                     <div class="farm-info">
                         <h3>Granja de Hierro</h3>
-                        <span class="farm-badge">Producción Automática</span>
+                        <span class="farm-badge">Producción Industrial</span>
                     </div>
                 </div>
                 <div class="farm-card">
-                    <img src="https://imgur.com/s3F1aKG.png" alt="Granja Magma">
+                    <div class="farm-img-container"><img src="https://imgur.com/s3F1aKG.png" alt="Magma"></div>
                     <div class="farm-info">
                         <h3>Granja de Magma</h3>
-                        <span class="farm-badge">Spawners En Gran Cantidad</span>
+                        <span class="farm-badge">Nether Spawner High-Yield</span>
                     </div>
                 </div>
                 <div class="farm-card">
-                    <img src="https://imgur.com/sOvjMva.png" alt="Granja Oro">
+                    <div class="farm-img-container"><img src="https://imgur.com/sOvjMva.png" alt="Oro"></div>
                     <div class="farm-info">
                         <h3>Granja de Oro</h3>
-                        <span class="farm-badge">XP & Lingotes</span>
+                        <span class="farm-badge">Suministro XP & Lingotes</span>
                     </div>
                 </div>
                 <div class="farm-card">
-                    <img src="https://imgur.com/nseW5Rd.png" alt="Mega Granja Zanahorias">
+                    <div class="farm-img-container"><img src="https://imgur.com/nseW5Rd.png" alt="Zanahorias"></div>
                     <div class="farm-info">
-                        <h3>MEGA Granja de Zanahorias</h3>
-                        <span class="farm-badge">Zanahorias Automaticas</span>
+                        <h3>Granja de Zanahorias</h3>
+                        <span class="farm-badge">Bio-Suministro Auto</span>
                     </div>
                 </div>
             </div>
         </div>
 
         <div id="lideres" class="section">
-            <h1>JERARQUÍA DEL ALBA</h1>
+            <h1>COMANDO CENTRAL</h1>
             <div class="leader-tree" id="tree-container">
-                <p>Buscando líderes en la red...</p>
+                <p>Cargando perfiles de combate...</p>
             </div>
         </div>
 
         <div id="roles" class="section">
-            <h1>REGISTRO DE MIEMBROS</h1>
+            <h1>INFANTERÍA REGISTRADA</h1>
             <div class="grid" id="lista-usuarios">
-                <p>Accediendo a la base de datos de DiosesMC...</p>
+                <p>Escaneando red de Discord...</p>
             </div>
         </div>
     </div>
 
     <script>
+        // GENERADOR DE PARTÍCULAS
+        function createParticles() {
+            const container = document.getElementById('particle-container');
+            for(let i = 0; i < 30; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const size = Math.random() * 5 + 2 + 'px';
+                p.style.width = size;
+                p.style.height = size;
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.animationDelay = Math.random() * 20 + 's';
+                p.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                container.appendChild(p);
+            }
+        }
+        createParticles();
+
         const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros";
         let miembrosCache = [];
 
@@ -299,29 +363,27 @@
             container.innerHTML = '';
             JERARQUIA.forEach(item => {
                 if(item.fila) {
-                    let rowHtml = '<div class="leader-row">';
+                    let rowHtml = '<div style="display:flex; gap:30px; justify-content:center; width:100%; margin-bottom:40px;">';
                     item.fila.forEach(l => rowHtml += crearCardLider(l));
                     rowHtml += '</div>';
                     container.innerHTML += rowHtml;
-                } else { container.innerHTML += crearCardLider(item); }
+                } else {
+                    container.innerHTML += `<div style="display:flex; justify-content:center; margin-bottom:40px;">${crearCardLider(item)}</div>`;
+                }
             });
         }
 
         function crearCardLider(info) {
             const user = miembrosCache.find(m => {
-                const buscar = info.nick.toLowerCase().trim();
-                const u = (m.username || "").toLowerCase();
-                const n = (m.nickname || "").toLowerCase();
-                const g = (m.globalName || "").toLowerCase();
-                return u.includes(buscar) || n.includes(buscar) || g.includes(buscar) || buscar.includes(u);
+                const buscar = info.nick.toLowerCase();
+                return (m.username || "").toLowerCase().includes(buscar) || (m.nickname || "").toLowerCase().includes(buscar);
             });
             const foto = user ? user.avatar : 'https://cdn.discordapp.com/embed/avatars/0.png';
-            const nombreFinal = user ? (user.nickname || user.username) : info.nick;
             return `
-                <div class="leader-box">
-                    <span class="rank">${info.icono ? `<i class="fas ${info.icono}"></i> ` : ''}${info.rango}</span>
-                    <img src="${foto}" alt="Lider" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
-                    <div class="leader-name">${nombreFinal}</div>
+                <div class="leader-box" style="text-align:center; min-width:200px;">
+                    <span style="color:var(--rojo-neon); font-size:0.7rem; font-weight:900; display:block; margin-bottom:10px;">${info.rango}</span>
+                    <img src="${foto}" style="width:70px; height:70px; border-radius:50%; border:2px solid var(--rojo-neon); margin-bottom:10px;">
+                    <div style="color:#fff; font-weight:bold;">${user ? (user.nickname || user.username) : info.nick}</div>
                 </div>
             `;
         }
@@ -332,8 +394,8 @@
             lista.forEach(user => {
                 grid.innerHTML += `
                     <div class="card">
-                        <img src="${user.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}" alt="Avatar">
-                        <p style="font-weight:800; margin:0; font-size:0.9rem;">${user.nickname || user.username}</p>
+                        <img src="${user.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}" style="width:60px; height:60px; border-radius:50%; margin-bottom:10px; border:1px solid var(--rojo-neon);">
+                        <p style="font-weight:700; font-size:0.85rem; margin:0; color:#fff;">${user.nickname || user.username}</p>
                     </div>
                 `;
             });
