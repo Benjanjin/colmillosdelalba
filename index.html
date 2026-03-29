@@ -23,7 +23,7 @@
         * { box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: var(--fondo-negro); color: #fff; margin: 0; display: flex; min-height: 100vh; overflow-x: hidden; }
 
-        /* --- FONDO MEJORADO: LISO Y NARANJA FUEGO --- */
+        /* --- FONDO ANIMADO ENCENDIDO (Tono Naranja/Fuego Vivo) --- */
         #bg-combat { 
             position: fixed; 
             top: 0; 
@@ -31,11 +31,21 @@
             width: 100%; 
             height: 100%; 
             z-index: -1; 
-            /* Degradado LISO de arriba hacia abajo (sin círculos) */
-            background: linear-gradient(180deg, #3d1400 0%, #1a0800 50%, #050505 100%); 
+            /* Degradado LINEAL (liso) pero con colores VIVOS y MOVIMIENTO */
+            background: linear-gradient(-45deg, #3d0006, #6b1200, #3d0006, #1a0800);
+            background-size: 400% 400%; /* Tamaño grande para la animación */
+            animation: gradientFire 15s ease infinite; /* Animación lenta y suave */
             overflow: hidden; 
         }
-        .sword { position: absolute; width: 50px; height: 50px; background-size: contain; background-repeat: no-repeat; opacity: 0.12; filter: drop-shadow(0 0 8px var(--oro-brillante)); animation: floatSwords 20s infinite linear; }
+
+        /* Animación para que el degradado se mueva y "encienda" el fondo */
+        @keyframes gradientFire {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .sword { position: absolute; width: 50px; height: 50px; background-size: contain; background-repeat: no-repeat; opacity: 0.15; filter: drop-shadow(0 0 10px var(--oro-brillante)); animation: floatSwords 20s infinite linear; }
         .s-neth { background-image: url('https://minecraft.wiki/images/Netherite_Sword_JE2_BE2.png'); }
         .s-diam { background-image: url('https://minecraft.wiki/images/Diamond_Sword_JE3_BE3.png'); }
         .s-gold { background-image: url('https://minecraft.wiki/images/Golden_Sword_JE2_BE2.png'); }
@@ -107,7 +117,7 @@
             border-left: 4px solid var(--rojo-core); padding-left: 20px; margin-bottom: 45px; 
         }
 
-        /* --- JERARQUÍA --- */
+        /* --- JERARQUÍA (ESTILO ELITE) --- */
         .leader-tree { display: flex; flex-direction: column; align-items: center; width: 100%; }
         .leader-box { 
             background: linear-gradient(145deg, #151515, #0a0a0a); padding: 20px; border-radius: 12px; 
