@@ -112,7 +112,6 @@
         .donor-info { display: flex; align-items: center; gap: 15px; }
         .donor-info img { width: 35px; height: 35px; border-radius: 50%; }
 
-        /* Estilos anteriores */
         .leader-tree { display: flex; flex-direction: column; align-items: center; width: 100%; }
         .leader-box { background: linear-gradient(145deg, #151515, #0a0a0a); padding: 20px; border-radius: 12px; border: 1px solid rgba(255, 204, 0, 0.3); text-align: center; min-width: 180px; position: relative; transition: 0.3s; }
         .leader-box:hover { border-color: var(--oro-brillante); box-shadow: 0 0 20px rgba(255, 204, 0, 0.15); }
@@ -181,9 +180,10 @@
             <h1>TOP 10 DONADORES</h1>
             <div class="top-donors-container">
                 <div class="donor-podium" id="podium-area">
-                    </div>
+                    <p style="text-align:center; color: #888;">Cargando aportaciones...</p>
+                </div>
                 <table class="donor-table" id="donor-list">
-                    </table>
+                </table>
             </div>
         </div>
 
@@ -220,58 +220,71 @@
     </div>
 
     <script>
-        // DATOS DE EJEMPLO (Esto debería venir de tu bot en el futuro)
-        const DONADORES_DEMO = [
-            { name: "guepar_3111", amount: 1500000, avatar: "https://cdn.discordapp.com/embed/avatars/1.png" },
-            { name: "nicol3_espin0za", amount: 1200000, avatar: "https://cdn.discordapp.com/embed/avatars/2.png" },
-            { name: "danielitaxgg18", amount: 900000, avatar: "https://cdn.discordapp.com/embed/avatars/3.png" },
-            { name: "1fsi.", amount: 500000, avatar: "https://cdn.discordapp.com/embed/avatars/4.png" },
-            { name: "postm_alone", amount: 300000, avatar: "https://cdn.discordapp.com/embed/avatars/0.png" }
-        ];
+        const API_BASE = "https://bot-discord-production-e093.up.railway.app";
+        const API_URL = `${API_BASE}/miembros`;
+        const API_DONACIONES = `${API_BASE}/donaciones`; // Nueva ruta para aportaciones reales
+
+        let miembrosCache = [];
 
         function toggleMenu() {
             document.getElementById('sidebar').classList.toggle('hidden');
             document.getElementById('main-content').classList.toggle('full');
         }
 
-        function switchTab(id, btn) {
+        async function switchTab(id, btn) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             btn.classList.add('active');
-            if(id === 'donadores') renderDonadores();
+            
+            if(id === 'donadores') await renderDonadores();
             if(window.innerWidth < 1024) toggleMenu();
         }
 
-        function renderDonadores() {
+        // FUNCIÓN ACTUALIZADA PARA APORTACIONES REALES
+        async function renderDonadores() {
             const podium = document.getElementById('podium-area');
             const list = document.getElementById('donor-list');
             
-            // Render Podio (Top 3)
-            podium.innerHTML = `
-                <div class="podium-item second">
-                    <img src="${DONADORES_DEMO[1].avatar}"><span class="podium-name">${DONADORES_DEMO[1].name}</span><span class="podium-amount">$${DONADORES_DEMO[1].amount.toLocaleString()}</span>
-                </div>
-                <div class="podium-item first">
-                    <i class="fas fa-crown" style="color:var(--oro-brillante)"></i><br>
-                    <img src="${DONADORES_DEMO[0].avatar}"><span class="podium-name">${DONADORES_DEMO[0].name}</span><span class="podium-amount">$${DONADORES_DEMO[0].amount.toLocaleString()}</span>
-                </div>
-                <div class="podium-item third">
-                    <img src="${DONADORES_DEMO[2].avatar}"><span class="podium-name">${DONADORES_DEMO[2].name}</span><span class="podium-amount">$${DONADORES_DEMO[2].amount.toLocaleString()}</span>
-                </div>
-            `;
+            try {
+                // Pedimos los datos reales al bot
+                const res = await fetch(`${API_DONACIONES}?t=${Date.now()}`);
+                const donadoresReales = await res.json();
 
-            // Render Lista completa
-            list.innerHTML = DONADORES_DEMO.map((d, i) => `
-                <tr>
-                    <td class="donor-rank">#${i+1}</td>
-                    <td class="donor-info"><img src="${d.avatar}"> <span>${d.name}</span></td>
-                    <td style="text-align:right; font-weight:bold; color:var(--oro-brillante)">$${d.amount.toLocaleString()}</td>
-                </tr>
-            `).join('');
+                if (!donadoresReales || donadoresReales.length === 0) {
+                    podium.innerHTML = "<p>No hay donaciones registradas aún.</p>";
+                    return;
+                }
+
+                // Render Podio (Top 3)
+                podium.innerHTML = `
+                    <div class="podium-item second">
+                        ${donadoresReales[1] ? `<img src="${donadoresReales[1].avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}"><span class="podium-name">${donadoresReales[1].name}</span><span class="podium-amount">$${donadoresReales[1].amount.toLocaleString()}</span>` : ''}
+                    </div>
+                    <div class="podium-item first">
+                        <i class="fas fa-crown" style="color:var(--oro-brillante)"></i><br>
+                        <img src="${donadoresReales[0].avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}"><span class="podium-name">${donadoresReales[0].name}</span><span class="podium-amount">$${donadoresReales[0].amount.toLocaleString()}</span>
+                    </div>
+                    <div class="podium-item third">
+                        ${donadoresReales[2] ? `<img src="${donadoresReales[2].avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}"><span class="podium-name">${donadoresReales[2].name}</span><span class="podium-amount">$${donadoresReales[2].amount.toLocaleString()}</span>` : ''}
+                    </div>
+                `;
+
+                // Render Lista completa
+                list.innerHTML = donadoresReales.map((d, i) => `
+                    <tr>
+                        <td class="donor-rank">#${i+1}</td>
+                        <td class="donor-info"><img src="${d.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}"> <span>${d.name}</span></td>
+                        <td style="text-align:right; font-weight:bold; color:var(--oro-brillante)">$${d.amount.toLocaleString()}</td>
+                    </tr>
+                `).join('');
+
+            } catch (error) {
+                console.error("Error cargando donaciones:", error);
+                podium.innerHTML = "<p style='color:red;'>Error al conectar con el bot.</p>";
+            }
         }
 
-        // Sistema de espadas flotantes
         function createSwords() {
             const container = document.getElementById('bg-combat');
             const types = ['s-neth', 's-diam', 's-gold'];
@@ -285,9 +298,6 @@
         }
         createSwords();
 
-        // API Y MIEMBROS
-        const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros";
-        let miembrosCache = [];
         const DATA_LIDERES = {
             supremo: { nick: "guepar_3111", rango: "Líder Supremo" },
             colider: { nick: "nicol3_espin0za", rango: "Co-Líder" },
