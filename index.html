@@ -9,7 +9,6 @@
     
     <style> 
         :root {
-            /* Paleta Ultra Profesional */
             --rojo-core: #e60026;
             --oro-brillante: #ffcc00;
             --naranja-fuego: #ff8c00; 
@@ -23,22 +22,12 @@
         * { box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: var(--fondo-negro); color: #fff; margin: 0; display: flex; min-height: 100vh; overflow-x: hidden; }
 
-        /* --- FONDO ANIMADO ENCENDIDO (Tono Naranja/Fuego Vivo) --- */
         #bg-combat { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            z-index: -1; 
-            /* Degradado LINEAL (liso) pero con colores VIVOS y MOVIMIENTO */
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
             background: linear-gradient(-45deg, #3d0006, #6b1200, #3d0006, #1a0800);
-            background-size: 400% 400%; /* Tamaño grande para la animación */
-            animation: gradientFire 15s ease infinite; /* Animación lenta y suave */
-            overflow: hidden; 
+            background-size: 400% 400%; animation: gradientFire 15s ease infinite; overflow: hidden; 
         }
 
-        /* Animación para que el degradado se mueva y "encienda" el fondo */
         @keyframes gradientFire {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -51,7 +40,6 @@
         .s-gold { background-image: url('https://minecraft.wiki/images/Golden_Sword_JE2_BE2.png'); }
         @keyframes floatSwords { 0% { transform: translateY(110vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.2; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
 
-        /* --- BOTÓN MENÚ --- */
         .menu-toggle {
             position: fixed; top: 20px; left: 20px; z-index: 1100;
             background: var(--gradiente-premium); border: none; color: black;
@@ -59,7 +47,6 @@
             box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
         }
 
-        /* --- SIDEBAR --- */
         .sidebar { 
             width: var(--sidebar-width); background: linear-gradient(180deg, #0a0a0a 0%, #000 100%); 
             border-right: 1px solid rgba(255, 255, 255, 0.1); padding: 0; 
@@ -70,8 +57,7 @@
         .sidebar.hidden { transform: translateX(-100%); }
 
         .sidebar-header {
-            margin-top: 80px;
-            background: rgba(255, 255, 255, 0.03);
+            margin-top: 80px; background: rgba(255, 255, 255, 0.03);
             padding: 25px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);
             margin-bottom: 20px;
         }
@@ -90,20 +76,11 @@
             display: flex; align-items: center; gap: 12px; font-size: 0.85rem;
         }
         .nav-btn i { font-size: 1rem; transition: 0.3s; }
-        
         .nav-btn:hover { color: var(--blanco-puro); background: rgba(255, 255, 255, 0.05); }
-        
-        .nav-btn.active { 
-            background: rgba(230, 0, 38, 0.1); color: var(--blanco-puro); 
-            border: 1px solid var(--rojo-core); box-shadow: 0 0 15px rgba(230, 0, 38, 0.2);
-        }
+        .nav-btn.active { background: rgba(230, 0, 38, 0.1); color: var(--blanco-puro); border: 1px solid var(--rojo-core); box-shadow: 0 0 15px rgba(230, 0, 38, 0.2); }
         .nav-btn.active i { color: var(--oro-brillante); }
 
-        /* --- MAIN CONTENT --- */
-        .main-content { 
-            margin-left: var(--sidebar-width); flex-grow: 1; padding: 60px; 
-            z-index: 1; transition: margin 0.4s;
-        }
+        .main-content { margin-left: var(--sidebar-width); flex-grow: 1; padding: 60px; z-index: 1; transition: margin 0.4s; }
         .main-content.full { margin-left: 0; }
 
         .section { display: none; animation: fadeIn 0.6s ease-out; }
@@ -117,54 +94,44 @@
             border-left: 4px solid var(--rojo-core); padding-left: 20px; margin-bottom: 45px; 
         }
 
-        /* --- JERARQUÍA (ESTILO ELITE) --- */
+        /* --- DONACIONES / TOP --- */
+        .top-donors-container { background: var(--tarjeta); border-radius: 20px; padding: 30px; border: 1px solid rgba(255, 204, 0, 0.1); }
+        .donor-podium { display: flex; justify-content: center; align-items: flex-end; gap: 20px; margin-bottom: 50px; padding-top: 40px; }
+        .podium-item { text-align: center; width: 120px; }
+        .podium-item img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #fff; margin-bottom: 10px; }
+        .podium-item.first img { width: 100px; height: 100px; border-color: var(--oro-brillante); box-shadow: 0 0 20px var(--oro-brillante); }
+        .podium-item.second img { border-color: #c0c0c0; }
+        .podium-item.third img { border-color: #cd7f32; }
+        .podium-name { font-weight: 900; font-size: 0.9rem; display: block; }
+        .podium-amount { color: var(--oro-brillante); font-weight: 700; font-size: 0.8rem; }
+
+        .donor-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .donor-table tr { border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .donor-table td { padding: 15px; font-size: 0.9rem; }
+        .donor-rank { font-weight: 900; color: var(--rojo-core); width: 50px; }
+        .donor-info { display: flex; align-items: center; gap: 15px; }
+        .donor-info img { width: 35px; height: 35px; border-radius: 50%; }
+
+        /* Estilos anteriores */
         .leader-tree { display: flex; flex-direction: column; align-items: center; width: 100%; }
-        .leader-box { 
-            background: linear-gradient(145deg, #151515, #0a0a0a); padding: 20px; border-radius: 12px; 
-            border: 1px solid rgba(255, 204, 0, 0.3); text-align: center; min-width: 180px; 
-            position: relative; transition: 0.3s;
-        }
+        .leader-box { background: linear-gradient(145deg, #151515, #0a0a0a); padding: 20px; border-radius: 12px; border: 1px solid rgba(255, 204, 0, 0.3); text-align: center; min-width: 180px; position: relative; transition: 0.3s; }
         .leader-box:hover { border-color: var(--oro-brillante); box-shadow: 0 0 20px rgba(255, 204, 0, 0.15); }
         .leader-box img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--rojo-core); margin-bottom: 12px; padding: 3px; background: #000; }
         .leader-box .rank { color: var(--oro-brillante); font-size: 0.65rem; font-weight: 900; text-transform: uppercase; display: block; margin-bottom: 8px; letter-spacing: 1px; }
         .line-v { width: 2px; height: 40px; background: linear-gradient(to bottom, var(--rojo-core), var(--oro-brillante)); }
-        
-        /* --- TARJETAS --- */
         .farm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
         .farm-card { background: var(--tarjeta); border-radius: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); transition: 0.4s; backdrop-filter: blur(10px); }
         .farm-card:hover { transform: translateY(-8px); border-color: var(--oro-brillante); }
-        .farm-card h3 { color: var(--blanco-puro); margin: 0; font-size: 1.1rem; }
         .farm-badge { display: inline-block; padding: 5px 10px; background: var(--gradiente-premium); color: #000; font-size: 0.65rem; font-weight: 900; border-radius: 4px; margin-top: 10px; text-transform: uppercase; }
-
         .roles-nav { display: flex; gap: 10px; flex-wrap: wrap; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; margin-bottom: 35px; border: 1px solid rgba(255,255,255,0.05); }
         .btn-rol { background: #111; border: 1px solid #222; color: #aaa; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 800; font-size: 0.7rem; transition: 0.3s; text-transform: uppercase; }
-        .btn-rol:hover { border-color: var(--rojo-core); color: #fff; }
-        .btn-rol.active { background: var(--blanco-puro); color: #000; border-color: var(--blanco-puro); box-shadow: 0 0 15px rgba(255,255,255,0.2); }
-
+        .btn-rol.active { background: var(--blanco-puro); color: #000; border-color: var(--blanco-puro); }
         .member-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
         .card { background: rgba(255, 255, 255, 0.03); padding: 25px 15px; border-radius: 15px; text-align: center; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
-        .card:hover { background: rgba(255, 255, 255, 0.06); border-color: var(--rojo-core); }
         .card img { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--oro-brillante); margin-bottom: 12px; }
-
-        .btn-postular {
-            display: inline-block; padding: 18px 40px; background: var(--gradiente-premium); color: #000; 
-            text-decoration: none; border-radius: 10px; font-weight: 900; font-size: 0.9rem;
-            box-shadow: 0 10px 20px rgba(230, 0, 38, 0.2); transition: 0.3s; letter-spacing: 1px;
-        }
-        .btn-postular:hover { transform: scale(1.05); box-shadow: 0 15px 25px rgba(255, 204, 0, 0.3); }
-
+        .btn-postular { display: inline-block; padding: 18px 40px; background: var(--gradiente-premium); color: #000; text-decoration: none; border-radius: 10px; font-weight: 900; font-size: 0.9rem; box-shadow: 0 10px 20px rgba(230, 0, 38, 0.2); transition: 0.3s; }
+        .img-reclutamiento { max-width: 100%; height: auto; border-radius: 15px; margin-bottom: 30px; border: 1px solid rgba(255, 255, 255, 0.1); }
         .status-box { background: var(--tarjeta); padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
-        .status-box p { font-size: 1.1rem; font-weight: 600; margin: 15px 0; display: flex; align-items: center; gap: 15px; }
-        
-        /* Estilo para la imagen de reclutamiento */
-        .img-reclutamiento {
-            max-width: 100%;
-            height: auto;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-        }
     </style>
 </head>
 <body>
@@ -182,6 +149,7 @@
         <div class="nav-container">
             <button class="nav-btn active" onclick="switchTab('info', this)"><i class="fas fa-satellite-dish"></i> ESTADO</button>
             <button class="nav-btn" onclick="switchTab('lideres', this)"><i class="fas fa-crown"></i> JERARQUÍA</button>
+            <button class="nav-btn" onclick="switchTab('donadores', this)"><i class="fas fa-trophy"></i> TOP DONADORES</button>
             <button class="nav-btn" onclick="switchTab('granjas', this)"><i class="fas fa-hammer"></i> GRANJAS</button>
             <button class="nav-btn" onclick="switchTab('miembros', this)"><i class="fas fa-user-shield"></i> MIEMBROS</button>
             <button class="nav-btn" onclick="switchTab('postulaciones', this)"><i class="fas fa-envelope-open-text"></i> UNIRSE</button>
@@ -209,6 +177,16 @@
             </div>
         </div>
 
+        <div id="donadores" class="section">
+            <h1>TOP 10 DONADORES</h1>
+            <div class="top-donors-container">
+                <div class="donor-podium" id="podium-area">
+                    </div>
+                <table class="donor-table" id="donor-list">
+                    </table>
+            </div>
+        </div>
+
         <div id="granjas" class="section">
             <h1>INFRAESTRUCTURA</h1>
             <div class="farm-grid">
@@ -227,7 +205,6 @@
                 <button class="btn-rol" onclick="filtroTotal('𝒃𝒖𝒊𝒍𝒅𝒆𝒓𝒔', this)">⚒️ Builders</button>
                 <button class="btn-rol" onclick="filtroTotal('𝒕𝒆𝒄𝒏𝒊𝒄𝒐𝒔', this)">⚙️ Técnicos</button>
                 <button class="btn-rol" onclick="filtroTotal('Farmer', this)">🌱 Farmers</button>
-                <button class="btn-rol" onclick="filtroTotal('Herrero', this)">🔨 Herreros</button>
             </div>
             <div class="member-grid" id="lista-usuarios"></div>
         </div>
@@ -235,24 +212,66 @@
         <div id="postulaciones" class="section">
             <h1>RECLUTAMIENTO</h1>
             <div style="background: linear-gradient(145deg, #111, #050505); padding: 40px; border-radius: 20px; border: 1px solid rgba(255, 204, 0, 0.2); text-align: center;">
-                
-                <img src="https://imgur.com/uN5c9vT.png" alt="Reclutamiento Colmillos del Alba" class="img-reclutamiento">
-                
+                <img src="https://imgur.com/uN5c9vT.png" class="img-reclutamiento">
                 <h2 style="font-family: 'Syncopate'; font-size: 1.2rem; color: var(--blanco-puro); margin-bottom: 15px;">¿TIENES LO QUE SE NECESITA?</h2>
-                <p style="color: #888; margin-bottom: 40px; font-weight: 500;">Únete a el clan. Procesamos solicitudes cada 24 horas.</p>
-                <a href="https://discord.gg/xw9pzw3kB5" target="_blank" class="btn-postular">
-                    <i class="fas fa-paper-plane"></i> ENVIAR SOLICITUD
-                </a>
+                <a href="https://discord.gg/xw9pzw3kB5" target="_blank" class="btn-postular"><i class="fas fa-paper-plane"></i> ENVIAR SOLICITUD</a>
             </div>
         </div>
     </div>
 
     <script>
+        // DATOS DE EJEMPLO (Esto debería venir de tu bot en el futuro)
+        const DONADORES_DEMO = [
+            { name: "guepar_3111", amount: 1500000, avatar: "https://cdn.discordapp.com/embed/avatars/1.png" },
+            { name: "nicol3_espin0za", amount: 1200000, avatar: "https://cdn.discordapp.com/embed/avatars/2.png" },
+            { name: "danielitaxgg18", amount: 900000, avatar: "https://cdn.discordapp.com/embed/avatars/3.png" },
+            { name: "1fsi.", amount: 500000, avatar: "https://cdn.discordapp.com/embed/avatars/4.png" },
+            { name: "postm_alone", amount: 300000, avatar: "https://cdn.discordapp.com/embed/avatars/0.png" }
+        ];
+
         function toggleMenu() {
             document.getElementById('sidebar').classList.toggle('hidden');
             document.getElementById('main-content').classList.toggle('full');
         }
 
+        function switchTab(id, btn) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            btn.classList.add('active');
+            if(id === 'donadores') renderDonadores();
+            if(window.innerWidth < 1024) toggleMenu();
+        }
+
+        function renderDonadores() {
+            const podium = document.getElementById('podium-area');
+            const list = document.getElementById('donor-list');
+            
+            // Render Podio (Top 3)
+            podium.innerHTML = `
+                <div class="podium-item second">
+                    <img src="${DONADORES_DEMO[1].avatar}"><span class="podium-name">${DONADORES_DEMO[1].name}</span><span class="podium-amount">$${DONADORES_DEMO[1].amount.toLocaleString()}</span>
+                </div>
+                <div class="podium-item first">
+                    <i class="fas fa-crown" style="color:var(--oro-brillante)"></i><br>
+                    <img src="${DONADORES_DEMO[0].avatar}"><span class="podium-name">${DONADORES_DEMO[0].name}</span><span class="podium-amount">$${DONADORES_DEMO[0].amount.toLocaleString()}</span>
+                </div>
+                <div class="podium-item third">
+                    <img src="${DONADORES_DEMO[2].avatar}"><span class="podium-name">${DONADORES_DEMO[2].name}</span><span class="podium-amount">$${DONADORES_DEMO[2].amount.toLocaleString()}</span>
+                </div>
+            `;
+
+            // Render Lista completa
+            list.innerHTML = DONADORES_DEMO.map((d, i) => `
+                <tr>
+                    <td class="donor-rank">#${i+1}</td>
+                    <td class="donor-info"><img src="${d.avatar}"> <span>${d.name}</span></td>
+                    <td style="text-align:right; font-weight:bold; color:var(--oro-brillante)">$${d.amount.toLocaleString()}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Sistema de espadas flotantes
         function createSwords() {
             const container = document.getElementById('bg-combat');
             const types = ['s-neth', 's-diam', 's-gold'];
@@ -266,17 +285,9 @@
         }
         createSwords();
 
-        function switchTab(id, btn) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            btn.classList.add('active');
-            if(window.innerWidth < 1024) toggleMenu();
-        }
-
+        // API Y MIEMBROS
         const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros";
         let miembrosCache = [];
-
         const DATA_LIDERES = {
             supremo: { nick: "guepar_3111", rango: "Líder Supremo" },
             colider: { nick: "nicol3_espin0za", rango: "Co-Líder" },
@@ -284,7 +295,7 @@
                 { nick: "danielitaxgg18", rango: "Líder Técnico" },
                 { nick: "1fsi.", rango: "Líder Farmer" },
                 { nick: "postm_alone", rango: "Líder PVP" },
-                { nick: "teamofurch", rango: "Líder Construcción" }
+                { nick: "__jpmc", rango: "Líder Construcción" }
             ]
         };
 
@@ -315,10 +326,7 @@
                 btn.classList.add('active');
             }
             const grid = document.getElementById('lista-usuarios');
-            const filtrados = rolBusqueda === 'Todos' 
-                ? miembrosCache 
-                : miembrosCache.filter(u => u.roles && u.roles.some(r => r.includes(rolBusqueda) || r.toLowerCase().includes(rolBusqueda.toLowerCase())));
-
+            const filtrados = rolBusqueda === 'Todos' ? miembrosCache : miembrosCache.filter(u => u.roles && u.roles.some(r => r.includes(rolBusqueda)));
             grid.innerHTML = filtrados.map(u => `
                 <div class="card">
                     <img src="${u.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}">
