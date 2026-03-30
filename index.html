@@ -181,6 +181,24 @@
         .other-donors { background: rgba(255,255,255,0.03); border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); margin-top: 20px; }
         .donor-row { display: flex; justify-content: space-between; padding: 18px 30px; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center; }
         .donor-row:last-child { border: none; }
+        /* --- AJUSTE PARA QUE LA JERARQUÍA NO SE AMONTONE --- */
+        .leader-tree { width: 100%; display: flex; flex-direction: column; align-items: center; }
+        
+        #rank-3 { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 20px; 
+            width: 100%; 
+            max-width: 1100px; 
+            margin-top: 30px; 
+            justify-content: center;
+        }
+
+        .leader-box { 
+            width: 100% !important; 
+            max-width: 220px; 
+            margin: 0 auto; 
+        }
     </style>
 </head>
 <body>
@@ -215,14 +233,14 @@
             </div>
         </div>
 
-        <div id="lideres" class="section">
+         <div id="lideres" class="section">
             <h1>COMANDO CENTRAL</h1>
             <div class="leader-tree">
-                <div id="rank-1"></div>
-                <div class="line-v"></div>
-                <div id="rank-2"></div>
-                <div class="line-v"></div>
-                <div class="leader-row" id="rank-3"></div>
+                <div id="rank-1"></div> <div class="line-v"></div>
+                <div id="rank-2"></div> <div class="line-v"></div>
+                
+                <div id="rank-3" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; width: 100%; max-width: 1100px; justify-items: center;">
+                </div>
             </div>
         </div>
 
@@ -303,13 +321,17 @@
         let miembrosCache = [];
 
         const DATA_LIDERES = {
-            supremo: { nick: "guepar_3111", rango: "Líder Supremo" },
-            colider: { nick: "nicol3_espin0za", rango: "Co-Líder" },
+            supremo: { nick: "guepar_3111", rango: "👑 Líder Principal" },
+            colider: { nick: "nicol3_espin0za", rango: "🥈 Colíder General" },
             divisiones: [
-                { nick: "danielitaxgg18", rango: "Líder Técnico" },
-                { nick: "1fsi.", rango: "Líder Farmer" },
-                { nick: "postm_alone", rango: "Líder PVP" },
-                { nick: "teamofurch", rango: "Líder Construcción" }
+                { nick: "teamofurch", rango: "⚒️ Líder Construcción" },
+                { nick: "Jowy19", rango: "📐 Colíder Construcción" },
+                { nick: "postm_alone", rango: "⚔️ Líder PvP" },
+                { nick: "Machiwebs3640", rango: "🛡️ Colíder PvP" },
+                { nick: "danielitaxgg18", rango: "⚙️ Líder Técnico" },
+                { nick: "1fsi.", rango: "🔧 Lider Farmer" },
+                { nick: "Jus.7", rango: "📜 Staff" },
+                { nick: "Hell_8", rango: "📜 Staff" }
             ]
         };
 
