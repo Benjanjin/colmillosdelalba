@@ -3,7 +3,7 @@
 <head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colmillos Del Alba | Dashboard Elite</title>
+    <title>Colmillos Del Alba | Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
  
@@ -23,7 +23,7 @@
         * { box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: var(--fondo-negro); color: #fff; margin: 0; display: flex; min-height: 100vh; overflow-x: hidden; }
  
-        /* --- FONDO ANIMADO ENCENDIDO (Tono Naranja/Fuego Vivo) --- */
+        /* --- fondo --- */
         #bg-combat { 
             position: fixed; 
             top: 0; 
@@ -31,14 +31,14 @@
             width: 100%; 
             height: 100%; 
             z-index: -1; 
-            /* Degradado LINEAL (liso) pero con colores VIVOS y MOVIMIENTO */
+            /* degradado del fondo */
             background: linear-gradient(-45deg, #3d0006, #6b1200, #3d0006, #1a0800);
             background-size: 400% 400%; /* Tamaño grande para la animación */
             animation: gradientFire 15s ease infinite; /* Animación lenta y suave */
             overflow: hidden; 
         }
  
-        /* Animación para que el degradado se mueva y "encienda" el fondo */
+        /* animacion para el fondo degradado */
         @keyframes gradientFire {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -51,7 +51,7 @@
         .s-gold { background-image: url('https://minecraft.wiki/images/Golden_Sword_JE2_BE2.png'); }
         @keyframes floatSwords { 0% { transform: translateY(110vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.2; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
  
-        /* --- BOTÓN MENÚ --- */
+        /* --- boton menu --- */
         .menu-toggle {
             position: fixed; top: 20px; left: 20px; z-index: 1100;
             background: var(--gradiente-premium); border: none; color: black;
@@ -59,7 +59,7 @@
             box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
         }
  
-        /* --- SIDEBAR --- */
+        /* --- sidebar --- */
         .sidebar { 
             width: var(--sidebar-width); background: linear-gradient(180deg, #0a0a0a 0%, #000 100%); 
             border-right: 1px solid rgba(255, 255, 255, 0.1); padding: 0; 
@@ -99,7 +99,7 @@
         }
         .nav-btn.active i { color: var(--oro-brillante); }
  
-        /* --- MAIN CONTENT --- */
+        /* --- menu contenido --- */
         .main-content { 
             margin-left: var(--sidebar-width); flex-grow: 1; padding: 60px; 
             z-index: 1; transition: margin 0.4s;
@@ -117,7 +117,7 @@
             border-left: 4px solid var(--rojo-core); padding-left: 20px; margin-bottom: 45px; 
         }
  
-        /* --- JERARQUÍA (ESTILO ELITE) --- */
+        /* --- lideres --- */
         .leader-tree { display: flex; flex-direction: column; align-items: center; width: 100%; }
         .leader-box { 
             background: linear-gradient(145deg, #151515, #0a0a0a); padding: 20px; border-radius: 12px; 
@@ -129,7 +129,7 @@
         .leader-box .rank { color: var(--oro-brillante); font-size: 0.65rem; font-weight: 900; text-transform: uppercase; display: block; margin-bottom: 8px; letter-spacing: 1px; }
         .line-v { width: 2px; height: 40px; background: linear-gradient(to bottom, var(--rojo-core), var(--oro-brillante)); }
  
-        /* --- TARJETAS --- */
+        /* --- tarjetas --- */
         .farm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
         .farm-card { background: var(--tarjeta); border-radius: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); transition: 0.4s; backdrop-filter: blur(10px); }
         .farm-card:hover { transform: translateY(-8px); border-color: var(--oro-brillante); }
@@ -156,7 +156,7 @@
         .status-box { background: var(--tarjeta); padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
         .status-box p { font-size: 1.1rem; font-weight: 600; margin: 15px 0; display: flex; align-items: center; gap: 15px; }
  
-        /* Estilo para la imagen de reclutamiento */
+        /* imagen reclutamiento */
         .img-reclutamiento {
             max-width: 100%;
             height: auto;
@@ -165,7 +165,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
         }
-        /* --- ESTILOS TOP DONADORES --- */
+        /* --- estilos top donadores --- */
         .donors-container { max-width: 900px; margin: 0 auto; }
         .refresh-tag { text-align: right; font-size: 0.75rem; color: #666; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
         #timer { color: var(--oro-brillante); font-weight: bold; }
@@ -181,7 +181,7 @@
         .other-donors { background: rgba(255,255,255,0.03); border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); margin-top: 20px; }
         .donor-row { display: flex; justify-content: space-between; padding: 18px 30px; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center; }
         .donor-row:last-child { border: none; }
-        /* --- AJUSTE PARA QUE LA JERARQUÍA NO SE AMONTONE --- */
+        /* --- posiciones lideres --- */
         .leader-tree { width: 100%; display: flex; flex-direction: column; align-items: center; }
  
         #rank-3 { 
