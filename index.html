@@ -244,7 +244,6 @@
             const podium = document.getElementById('podium-area');
             const list = document.getElementById('donor-list');
             
-            // Filtramos solo los que tengan aportes y ordenamos
             const donadores = [...miembrosCache]
                 .filter(m => m.aportes > 0)
                 .sort((a, b) => b.aportes - a.aportes)
@@ -256,7 +255,6 @@
                 return;
             }
 
-            // Podio
             podium.innerHTML = `
                 <div class="podium-item second">
                     ${donadores[1] ? `<img src="${donadores[1].avatar}"><span class="podium-name">${donadores[1].username}</span><span class="podium-amount">$${donadores[1].aportes.toLocaleString()}</span>` : ''}
@@ -270,7 +268,6 @@
                 </div>
             `;
 
-            // Lista inferior
             list.innerHTML = donadores.map((d, i) => `
                 <tr>
                     <td class="donor-rank">#${i+1}</td>
@@ -292,15 +289,33 @@
         };
 
         async function inicializar() {
-            try {
-                const res = await fetch(`${API_URL}?t=${Date.now()}`);
-                miembrosCache = await res.json();
-                renderJerarquia();
-                filtroTotal('Todos');
-            } catch(e) { 
-                console.error("Error cargando API:", e);
-                document.getElementById('podium-area').innerHTML = "<p style='color:red;'>Error al conectar con el servidor.</p>";
-            }
+            const cargarDatos = async () => {
+                try {
+                    const res = await fetch(`${API_URL}?t=${Date.now()}`);
+                    const data = await res.json();
+                    
+                    if (data && Array.isArray(data)) {
+                        miembrosCache = data;
+                        renderJerarquia();
+                        renderDonadores();
+                        
+                        // Mantiene el filtro actual si el usuario está viendo miembros
+                        const btnActivo = document.querySelector('.btn-rol.active');
+                        if (btnActivo) {
+                            const filtro = btnActivo.innerText.replace(/[^a-zA-Z]/g, '') || 'Todos';
+                            filtroTotal(filtro);
+                        }
+                    }
+                } catch(e) { 
+                    console.error("Error al sincronizar datos:", e);
+                }
+            };
+
+            // Primera carga
+            await cargarDatos();
+
+            // Auto-actualización cada 30 segundos
+            setInterval(cargarDatos, 30000);
         }
 
         function renderJerarquia() {
@@ -310,9 +325,17 @@
         }
 
         function cardLider(info) {
-            const user = miembrosCache.find(m => (m.username||"").toLowerCase().includes(info.nick.toLowerCase()));
+            const lista = miembrosCache || [];
+            const user = lista.find(m => (m.username||"").toLowerCase().includes(info.nick.toLowerCase()));
             const img = user ? user.avatar : 'https://cdn.discordapp.com/embed/avatars/0.png';
-            return `<div class="leader-box"><span class="rank">${info.rango}</span><img src="${img}"><div style="font-weight:900; font-size:0.8rem; color: #fff;">${user ? user.username : info.nick}</div></div>`;
+            const nombre = user ? user.username : info.nick;
+
+            return `
+                <div class="leader-box">
+                    <span class="rank">${info.rango}</span>
+                    <img src="${img}">
+                    <div style="font-weight:900; font-size:0.8rem; color: #fff;">${nombre}</div>
+                </div>`;
         }
 
         function filtroTotal(rolBusqueda, btn) {
