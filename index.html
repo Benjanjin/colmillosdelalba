@@ -165,6 +165,22 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
         }
+        /* --- ESTILOS TOP DONADORES --- */
+        .donors-container { max-width: 900px; margin: 0 auto; }
+        .refresh-tag { text-align: right; font-size: 0.75rem; color: #666; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        #timer { color: var(--oro-brillante); font-weight: bold; }
+        .podium { display: flex; justify-content: center; align-items: flex-end; gap: 15px; margin: 60px 0 40px 0; height: 260px; }
+        .podium-item { background: var(--tarjeta); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 25px 15px; text-align: center; position: relative; flex: 1; transition: 0.4s; backdrop-filter: blur(10px); }
+        .podium-item img { width: 70px; height: 70px; border-radius: 50%; border: 3px solid var(--rojo-core); margin-bottom: 10px; background: #000; }
+        .rank-1 { height: 110%; border-color: var(--oro-brillante); box-shadow: 0 0 30px rgba(255,204,0,0.15); transform: scale(1.15); z-index: 2; }
+        .rank-1 img { border-color: var(--oro-brillante); width: 90px; height: 90px; }
+        .rank-2 { height: 90%; }
+        .rank-3 { height: 80%; }
+        .crown { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-size: 2rem; filter: drop-shadow(0 0 10px var(--oro-brillante)); }
+        .money { display: block; color: #00ff88; font-weight: 900; font-size: 1.4rem; margin-top: 8px; }
+        .other-donors { background: rgba(255,255,255,0.03); border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); margin-top: 20px; }
+        .donor-row { display: flex; justify-content: space-between; padding: 18px 30px; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center; }
+        .donor-row:last-child { border: none; }
     </style>
 </head>
 <body>
@@ -185,6 +201,7 @@
             <button class="nav-btn" onclick="switchTab('granjas', this)"><i class="fas fa-hammer"></i> GRANJAS</button>
             <button class="nav-btn" onclick="switchTab('miembros', this)"><i class="fas fa-user-shield"></i> MIEMBROS</button>
             <button class="nav-btn" onclick="switchTab('postulaciones', this)"><i class="fas fa-envelope-open-text"></i> UNIRSE</button>
+            <button class="nav-btn" onclick="switchTab('top-donadores', this)"><i class="fas fa-trophy"></i> TOP DONADORES</button>
         </div>
     </div>
 
@@ -243,6 +260,14 @@
                 <a href="https://discord.gg/xw9pzw3kB5" target="_blank" class="btn-postular">
                     <i class="fas fa-paper-plane"></i> ENVIAR SOLICITUD
                 </a>
+            </div>
+        </div>
+        <div id="top-donadores" class="section">
+            <h1>RANKING DE CONTRIBUYENTES</h1>
+            <div class="donors-container">
+                <div class="refresh-tag">Sincronización en: <span id="timer">05:00</span></div>
+                <div id="podium-area" class="podium"></div>
+                <div id="list-area" class="other-donors"></div>
             </div>
         </div>
     </div>
@@ -326,8 +351,47 @@
                 </div>
             `).join('');
         }
+        let tiempoRestante = 300; 
+        const API_DONACIONES = "https://bot-discord-production-e093.up.railway.app/donaciones";
+
+        function iniciarContador() {
+            setInterval(() => {
+                tiempoRestante--;
+                if (tiempoRestante <= 0) {
+                    tiempoRestante = 300;
+                    cargarDonaciones();
+                }
+                let m = Math.floor(tiempoRestante / 60);
+                let s = tiempoRestante % 60;
+                document.getElementById('timer').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+            }, 1000);
+        }
+
+        async function cargarDonaciones() {
+            try {
+                const respuesta = await fetch(`${API_DONACIONES}?t=${Date.now()}`);
+                const lista = await respuesta.json();
+                dibujarDonadores(lista);
+            } catch (e) { console.log("Error al obtener donaciones."); }
+        }
+
+        function dibujarDonadores(datos) {
+            const podio = document.getElementById('podium-area');
+            const tabla = document.getElementById('list-area');
+            podio.innerHTML = ''; tabla.innerHTML = '';
+            datos.forEach((user, i) => {
+                if(i < 3) {
+                    const iconos = ['👑', '🥈', '🥉'];
+                    podio.innerHTML += `<div class="podium-item rank-${i+1}"><div class="crown">${iconos[i]}</div><img src="${user.avatar}"><div style="font-weight:900">${user.username}</div><span class="money">$${user.cantidad.toLocaleString()}</span></div>`;
+                } else {
+                    tabla.innerHTML += `<div class="donor-row"><span>#${i+1} <b>${user.username}</b></span><span style="color:#00ff88; font-weight:bold">$${user.cantidad.toLocaleString()}</span></div>`;
+                }
+            });
+        }
 
         inicializar();
+        iniciarContador();
+        cargarDonaciones();
     </script>
 </body>
 </html>
