@@ -94,7 +94,6 @@
             border-left: 4px solid var(--rojo-core); padding-left: 20px; margin-bottom: 45px; 
         }
 
-        /* --- DONACIONES / TOP --- */
         .top-donors-container { background: var(--tarjeta); border-radius: 20px; padding: 30px; border: 1px solid rgba(255, 204, 0, 0.1); }
         .donor-podium { display: flex; justify-content: center; align-items: flex-end; gap: 20px; margin-bottom: 50px; padding-top: 40px; }
         .podium-item { text-align: center; width: 120px; }
@@ -114,20 +113,24 @@
 
         .leader-tree { display: flex; flex-direction: column; align-items: center; width: 100%; }
         .leader-box { background: linear-gradient(145deg, #151515, #0a0a0a); padding: 20px; border-radius: 12px; border: 1px solid rgba(255, 204, 0, 0.3); text-align: center; min-width: 180px; position: relative; transition: 0.3s; }
-        .leader-box:hover { border-color: var(--oro-brillante); box-shadow: 0 0 20px rgba(255, 204, 0, 0.15); }
         .leader-box img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--rojo-core); margin-bottom: 12px; padding: 3px; background: #000; }
         .leader-box .rank { color: var(--oro-brillante); font-size: 0.65rem; font-weight: 900; text-transform: uppercase; display: block; margin-bottom: 8px; letter-spacing: 1px; }
         .line-v { width: 2px; height: 40px; background: linear-gradient(to bottom, var(--rojo-core), var(--oro-brillante)); }
+        .leader-row { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+
         .farm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
         .farm-card { background: var(--tarjeta); border-radius: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); transition: 0.4s; backdrop-filter: blur(10px); }
         .farm-card:hover { transform: translateY(-8px); border-color: var(--oro-brillante); }
         .farm-badge { display: inline-block; padding: 5px 10px; background: var(--gradiente-premium); color: #000; font-size: 0.65rem; font-weight: 900; border-radius: 4px; margin-top: 10px; text-transform: uppercase; }
+        
         .roles-nav { display: flex; gap: 10px; flex-wrap: wrap; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; margin-bottom: 35px; border: 1px solid rgba(255,255,255,0.05); }
         .btn-rol { background: #111; border: 1px solid #222; color: #aaa; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 800; font-size: 0.7rem; transition: 0.3s; text-transform: uppercase; }
         .btn-rol.active { background: var(--blanco-puro); color: #000; border-color: var(--blanco-puro); }
+        
         .member-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
         .card { background: rgba(255, 255, 255, 0.03); padding: 25px 15px; border-radius: 15px; text-align: center; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
         .card img { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--oro-brillante); margin-bottom: 12px; }
+        
         .btn-postular { display: inline-block; padding: 18px 40px; background: var(--gradiente-premium); color: #000; text-decoration: none; border-radius: 10px; font-weight: 900; font-size: 0.9rem; box-shadow: 0 10px 20px rgba(230, 0, 38, 0.2); transition: 0.3s; }
         .img-reclutamiento { max-width: 100%; height: auto; border-radius: 15px; margin-bottom: 30px; border: 1px solid rgba(255, 255, 255, 0.1); }
         .status-box { background: var(--tarjeta); padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
@@ -177,13 +180,12 @@
         </div>
 
         <div id="donadores" class="section">
-            <h1>TOP 10 DONADORES</h1>
+            <h1>TOP DONADORES</h1>
             <div class="top-donors-container">
                 <div class="donor-podium" id="podium-area">
-                    <p style="text-align:center; color: #888;">Cargando aportaciones...</p>
+                    <p style="text-align:center; color: #888;">Analizando aportes...</p>
                 </div>
-                <table class="donor-table" id="donor-list">
-                </table>
+                <table class="donor-table" id="donor-list"></table>
             </div>
         </div>
 
@@ -201,10 +203,10 @@
             <h1>BASE DE DATOS MIEMBROS</h1>
             <div class="roles-nav">
                 <button class="btn-rol active" onclick="filtroTotal('Todos', this)">Todos</button>
-                <button class="btn-rol" onclick="filtroTotal('𝒑𝒗𝒑', this)">⚔️ PVP</button>
-                <button class="btn-rol" onclick="filtroTotal('𝒃𝒖𝒊𝒍𝒅𝒆𝒓𝒔', this)">⚒️ Builders</button>
-                <button class="btn-rol" onclick="filtroTotal('𝒕𝒆𝒄𝒏𝒊𝒄𝒐𝒔', this)">⚙️ Técnicos</button>
-                <button class="btn-rol" onclick="filtroTotal('𝑯𝒂𝒃𝒊𝒕𝒂𝒏𝒕𝒆𝒔 𝒅𝒆𝒍 𝑨𝒍𝒃𝒂', this)">🌱 Farmers</button>
+                <button class="btn-rol" onclick="filtroTotal('PVP', this)">⚔️ PVP</button>
+                <button class="btn-rol" onclick="filtroTotal('BUILDER', this)">⚒️ Builders</button>
+                <button class="btn-rol" onclick="filtroTotal('TECNICO', this)">⚙️ Técnicos</button>
+                <button class="btn-rol" onclick="filtroTotal('HABITANTE', this)">🌱 Farmers</button>
             </div>
             <div class="member-grid" id="lista-usuarios"></div>
         </div>
@@ -220,10 +222,7 @@
     </div>
 
     <script>
-        const API_BASE = "https://bot-discord-production-e093.up.railway.app";
-        const API_URL = `${API_BASE}/miembros`;
-        const API_DONACIONES = `${API_BASE}/donaciones`; // Nueva ruta para aportaciones reales
-
+        const API_URL = "https://bot-discord-production-e093.up.railway.app/miembros";
         let miembrosCache = [];
 
         function toggleMenu() {
@@ -237,66 +236,49 @@
             document.getElementById(id).classList.add('active');
             btn.classList.add('active');
             
-            if(id === 'donadores') await renderDonadores();
+            if(id === 'donadores') renderDonadores();
             if(window.innerWidth < 1024) toggleMenu();
         }
 
-        // FUNCIÓN ACTUALIZADA PARA APORTACIONES REALES
-        async function renderDonadores() {
+        function renderDonadores() {
             const podium = document.getElementById('podium-area');
             const list = document.getElementById('donor-list');
             
-            try {
-                // Pedimos los datos reales al bot
-                const res = await fetch(`${API_DONACIONES}?t=${Date.now()}`);
-                const donadoresReales = await res.json();
+            // Filtramos solo los que tengan aportes y ordenamos
+            const donadores = [...miembrosCache]
+                .filter(m => m.aportes > 0)
+                .sort((a, b) => b.aportes - a.aportes)
+                .slice(0, 10);
 
-                if (!donadoresReales || donadoresReales.length === 0) {
-                    podium.innerHTML = "<p>No hay donaciones registradas aún.</p>";
-                    return;
-                }
-
-                // Render Podio (Top 3)
-                podium.innerHTML = `
-                    <div class="podium-item second">
-                        ${donadoresReales[1] ? `<img src="${donadoresReales[1].avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}"><span class="podium-name">${donadoresReales[1].name}</span><span class="podium-amount">$${donadoresReales[1].amount.toLocaleString()}</span>` : ''}
-                    </div>
-                    <div class="podium-item first">
-                        <i class="fas fa-crown" style="color:var(--oro-brillante)"></i><br>
-                        <img src="${donadoresReales[0].avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}"><span class="podium-name">${donadoresReales[0].name}</span><span class="podium-amount">$${donadoresReales[0].amount.toLocaleString()}</span>
-                    </div>
-                    <div class="podium-item third">
-                        ${donadoresReales[2] ? `<img src="${donadoresReales[2].avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}"><span class="podium-name">${donadoresReales[2].name}</span><span class="podium-amount">$${donadoresReales[2].amount.toLocaleString()}</span>` : ''}
-                    </div>
-                `;
-
-                // Render Lista completa
-                list.innerHTML = donadoresReales.map((d, i) => `
-                    <tr>
-                        <td class="donor-rank">#${i+1}</td>
-                        <td class="donor-info"><img src="${d.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}"> <span>${d.name}</span></td>
-                        <td style="text-align:right; font-weight:bold; color:var(--oro-brillante)">$${d.amount.toLocaleString()}</td>
-                    </tr>
-                `).join('');
-
-            } catch (error) {
-                console.error("Error cargando donaciones:", error);
-                podium.innerHTML = "<p style='color:red;'>Error al conectar con el bot.</p>";
+            if (donadores.length === 0) {
+                podium.innerHTML = "<p style='color:#888;'>No hay donaciones registradas aún.</p>";
+                list.innerHTML = "";
+                return;
             }
-        }
 
-        function createSwords() {
-            const container = document.getElementById('bg-combat');
-            const types = ['s-neth', 's-diam', 's-gold'];
-            for(let i=0; i<15; i++) {
-                const s = document.createElement('div');
-                s.className = `sword ${types[Math.floor(Math.random()*3)]}`;
-                s.style.left = Math.random()*100 + 'vw';
-                s.style.animationDelay = Math.random()*15 + 's';
-                container.appendChild(s);
-            }
+            // Podio
+            podium.innerHTML = `
+                <div class="podium-item second">
+                    ${donadores[1] ? `<img src="${donadores[1].avatar}"><span class="podium-name">${donadores[1].username}</span><span class="podium-amount">$${donadores[1].aportes.toLocaleString()}</span>` : ''}
+                </div>
+                <div class="podium-item first">
+                    <i class="fas fa-crown" style="color:var(--oro-brillante)"></i><br>
+                    <img src="${donadores[0].avatar}"><span class="podium-name">${donadores[0].username}</span><span class="podium-amount">$${donadores[0].aportes.toLocaleString()}</span>
+                </div>
+                <div class="podium-item third">
+                    ${donadores[2] ? `<img src="${donadores[2].avatar}"><span class="podium-name">${donadores[2].username}</span><span class="podium-amount">$${donadores[2].aportes.toLocaleString()}</span>` : ''}
+                </div>
+            `;
+
+            // Lista inferior
+            list.innerHTML = donadores.map((d, i) => `
+                <tr>
+                    <td class="donor-rank">#${i+1}</td>
+                    <td class="donor-info"><img src="${d.avatar}"> <span>${d.username}</span></td>
+                    <td style="text-align:right; font-weight:bold; color:var(--oro-brillante)">$${d.aportes.toLocaleString()}</td>
+                </tr>
+            `).join('');
         }
-        createSwords();
 
         const DATA_LIDERES = {
             supremo: { nick: "guepar_3111", rango: "Líder Supremo" },
@@ -315,7 +297,10 @@
                 miembrosCache = await res.json();
                 renderJerarquia();
                 filtroTotal('Todos');
-            } catch(e) { console.error(e); }
+            } catch(e) { 
+                console.error("Error cargando API:", e);
+                document.getElementById('podium-area').innerHTML = "<p style='color:red;'>Error al conectar con el servidor.</p>";
+            }
         }
 
         function renderJerarquia() {
@@ -327,7 +312,7 @@
         function cardLider(info) {
             const user = miembrosCache.find(m => (m.username||"").toLowerCase().includes(info.nick.toLowerCase()));
             const img = user ? user.avatar : 'https://cdn.discordapp.com/embed/avatars/0.png';
-            return `<div class="leader-box"><span class="rank">${info.rango}</span><img src="${img}"><div style="font-weight:900; font-size:0.8rem; color: #fff;">${user ? (user.nickname || user.username) : info.nick}</div></div>`;
+            return `<div class="leader-box"><span class="rank">${info.rango}</span><img src="${img}"><div style="font-weight:900; font-size:0.8rem; color: #fff;">${user ? user.username : info.nick}</div></div>`;
         }
 
         function filtroTotal(rolBusqueda, btn) {
@@ -336,15 +321,29 @@
                 btn.classList.add('active');
             }
             const grid = document.getElementById('lista-usuarios');
-            const filtrados = rolBusqueda === 'Todos' ? miembrosCache : miembrosCache.filter(u => u.roles && u.roles.some(r => r.includes(rolBusqueda)));
+            const filtrados = rolBusqueda === 'Todos' ? miembrosCache : miembrosCache.filter(u => u.roles && u.roles.some(r => r.toUpperCase().includes(rolBusqueda.toUpperCase())));
+            
             grid.innerHTML = filtrados.map(u => `
                 <div class="card">
                     <img src="${u.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}">
-                    <div style="font-weight:900; font-size:0.8rem; color: #ddd;">${u.nickname || u.username}</div>
+                    <div style="font-weight:900; font-size:0.8rem; color: #ddd;">${u.username}</div>
                 </div>
             `).join('');
         }
 
+        function createSwords() {
+            const container = document.getElementById('bg-combat');
+            const types = ['s-neth', 's-diam', 's-gold'];
+            for(let i=0; i<15; i++) {
+                const s = document.createElement('div');
+                s.className = `sword ${types[Math.floor(Math.random()*3)]}`;
+                s.style.left = Math.random()*100 + 'vw';
+                s.style.animationDelay = Math.random()*15 + 's';
+                container.appendChild(s);
+            }
+        }
+
+        createSwords();
         inicializar();
     </script>
 </body>
