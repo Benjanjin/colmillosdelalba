@@ -203,10 +203,11 @@
             <h1>BASE DE DATOS MIEMBROS</h1>
             <div class="roles-nav">
                 <button class="btn-rol active" onclick="filtroTotal('Todos', this)">Todos</button>
-                <button class="btn-rol" onclick="filtroTotal('𝑪𝒂𝒛𝒂𝒅𝒐𝒓𝒆𝒔 𝒅𝒆𝒍 𝑨𝒍𝒃𝒂', this)">⚔️ PVP</button>
-                <button class="btn-rol" onclick="filtroTotal('𝑨𝒓𝒒𝒖𝒊𝒕𝒆𝒄𝒕𝒐𝒔 𝒅𝒆𝒍 𝒂𝒍𝒃𝒂', this)">⚒️ Builders</button>
-                <button class="btn-rol" onclick="filtroTotal('𝑵𝒖𝒄𝒍𝒆𝒐 𝒅𝒆 𝑨𝒍𝒃𝒂', this)">⚙️ Técnicos</button>
-                <button class="btn-rol" onclick="filtroTotal('𝑯𝒂𝒃𝒊𝒕𝒂𝒏𝒕𝒆𝒔 𝒅𝒆𝒍 𝑨𝒍𝒃𝒂', this)">🌱 Farmers</button>
+                <button class="btn-rol" onclick="filtroTotal('𝒑𝒗𝒑', this)">⚔️ PVP</button>
+                <button class="btn-rol" onclick="filtroTotal('𝒃𝒖𝒊𝒍𝒅𝒆𝒓𝒔', this)">⚒️ Builders</button>
+                <button class="btn-rol" onclick="filtroTotal('𝒕𝒆𝒄𝒏𝒊𝒄𝒐𝒔', this)">⚙️ Técnicos</button>
+                <button class="btn-rol" onclick="filtroTotal('Farmer', this)">🌱 Farmers</button>
+                <button class="btn-rol" onclick="filtroTotal('Herrero', this)">🔨 Herreros</button>
             </div>
             <div class="member-grid" id="lista-usuarios"></div>
         </div>
@@ -288,34 +289,34 @@
             ]
         };
 
-        async function inicializar() {
-            const cargarDatos = async () => {
-                try {
-                    const res = await fetch(`${API_URL}?t=${Date.now()}`);
-                    const data = await res.json();
+        // Función corregida para cargar datos sin trabar la web
+        async function cargarDatosBot() {
+            try {
+                const res = await fetch(`${API_URL}?t=${Date.now()}`);
+                const data = await res.json();
+                
+                if (data && Array.isArray(data)) {
+                    miembrosCache = data;
+                    renderJerarquia();
+                    renderDonadores();
                     
-                    if (data && Array.isArray(data)) {
-                        miembrosCache = data;
-                        renderJerarquia();
-                        renderDonadores();
-                        
-                        // Mantiene el filtro actual si el usuario está viendo miembros
-                        const btnActivo = document.querySelector('.btn-rol.active');
-                        if (btnActivo) {
-                            const filtro = btnActivo.innerText.replace(/[^a-zA-Z]/g, '') || 'Todos';
-                            filtroTotal(filtro);
-                        }
-                    }
-                } catch(e) { 
-                    console.error("Error al sincronizar datos:", e);
+                    // Actualiza la lista de miembros según el filtro activo
+                    const btnActivo = document.querySelector('.btn-rol.active');
+                    const textoFiltro = btnActivo ? btnActivo.getAttribute('onclick').match(/'([^']+)'/)[1] : 'Todos';
+                    filtroTotal(textoFiltro);
                 }
-            };
+            } catch(e) { 
+                console.error("Error al sincronizar con el bot:", e);
+            }
+        }
 
-            // Primera carga
-            await cargarDatos();
-
-            // Auto-actualización cada 30 segundos
-            setInterval(cargarDatos, 30000);
+        async function inicializar() {
+            // Renderizamos jerarquía vacía o previa para que no esté en blanco
+            renderJerarquia();
+            // Primera carga de datos
+            await cargarDatosBot();
+            // Intervalo de auto-refresco cada 30 seg
+            setInterval(cargarDatosBot, 30000);
         }
 
         function renderJerarquia() {
@@ -325,17 +326,10 @@
         }
 
         function cardLider(info) {
-            const lista = miembrosCache || [];
-            const user = lista.find(m => (m.username||"").toLowerCase().includes(info.nick.toLowerCase()));
+            const user = miembrosCache.find(m => (m.username||"").toLowerCase().includes(info.nick.toLowerCase()));
             const img = user ? user.avatar : 'https://cdn.discordapp.com/embed/avatars/0.png';
             const nombre = user ? user.username : info.nick;
-
-            return `
-                <div class="leader-box">
-                    <span class="rank">${info.rango}</span>
-                    <img src="${img}">
-                    <div style="font-weight:900; font-size:0.8rem; color: #fff;">${nombre}</div>
-                </div>`;
+            return `<div class="leader-box"><span class="rank">${info.rango}</span><img src="${img}"><div style="font-weight:900; font-size:0.8rem; color: #fff;">${nombre}</div></div>`;
         }
 
         function filtroTotal(rolBusqueda, btn) {
@@ -344,7 +338,16 @@
                 btn.classList.add('active');
             }
             const grid = document.getElementById('lista-usuarios');
-            const filtrados = rolBusqueda === 'Todos' ? miembrosCache : miembrosCache.filter(u => u.roles && u.roles.some(r => r.toUpperCase().includes(rolBusqueda.toUpperCase())));
+            
+            // Lógica de búsqueda flexible para los emojis/letras raras
+            const filtrados = rolBusqueda === 'Todos' ? miembrosCache : miembrosCache.filter(u => {
+                if(!u.roles) return false;
+                return u.roles.some(r => {
+                    const rolBase = r.toLowerCase();
+                    const buscaBase = rolBusqueda.toLowerCase();
+                    return rolBase.includes(buscaBase) || buscaBase.includes(rolBase);
+                });
+            });
             
             grid.innerHTML = filtrados.map(u => `
                 <div class="card">
