@@ -47,22 +47,27 @@
  
 /* fondos dragon, del clan xD */
 .sword { 
-    position: absolute; 
-    width: 130px;               /* Tamaño mucho más grande (era 50px) */
-    height: 130px;              /* Tamaño mucho más grande (era 50px) */
-    background-size: contain; 
-    background-repeat: no-repeat; 
-    opacity: 0.95;              /* Casi sin transparencia (era 0.6) */
-    filter: drop-shadow(0 0 15px var(--oro-brillante)); /* Brillo más fuerte */
-    animation: floatSwords 20s infinite linear; 
-}       .s-neth { background-image: url('https://imgur.com/2hdd6Vm.png'); }
-        .s-diam { background-image: url('https://imgur.com/2hdd6Vm.png'); }
-        .s-gold { background-image: url('https://imgur.com/2hdd6Vm.png'); }
+    position: absolute; 
+    width: 130px; 
+    height: 130px; 
+    background-size: contain; 
+    background-repeat: no-repeat; 
+    opacity: 0; /* Empiezan invisibles y aparecen con la animación */
+    filter: drop-shadow(0 0 15px var(--oro-brillante)); 
+    animation: floatSwords 20s infinite linear; 
+    z-index: 0;
+}
+
+/* Estas tres líneas son las que cargan la imagen, asegúrate de que estén así: */
+.s-neth { background-image: url('https://imgur.com/2hdd6Vm.png'); }
+.s-diam { background-image: url('https://imgur.com/2hdd6Vm.png'); }
+.s-gold { background-image: url('https://imgur.com/2hdd6Vm.png'); }
+
 @keyframes floatSwords { 
-    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; } 
-    10% { opacity: 0.95; }      /* Opacidad alta al inicio (era 0.8) */
-    90% { opacity: 0.95; }      /* Mantiene opacidad alta (era 0.8) */
-    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; } 
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; } 
+    10% { opacity: 0.95; } 
+    90% { opacity: 0.95; } 
+    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; } 
 }
         /* --- boton menu --- */
         .menu-toggle {
